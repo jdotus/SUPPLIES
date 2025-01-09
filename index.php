@@ -8,8 +8,7 @@ include('dbcon.php');
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BARCODE SUPPLIES</title>
-    <link rel="stylesheet" href="Error.css">
+    <title>Supplies</title>
     <link rel="stylesheet" href="style.css">
 
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
@@ -26,18 +25,20 @@ include('dbcon.php');
 
 <body>
 
-    <form>
-        <select name="supplies" id="supplies" require>
-            <option value="">SELECT</option>
-            <option value="toner">Toner</option>
-            <option value="drum">Drum</option>
-            <option value="fillament">Fillament</option>
-        </select>
+    <div class="search_container">
+        <form>
+                <label for="supplies">Select Supply</label>
+                <select name="supplies" id="supplies" require>
+                    <option value="">SELECT</option>
+                    <option value="toner">Toner</option>
+                    <option value="drum">Drum</option>
+                    <option value="fillament">Fillament</option>
+                </select>
+                <input type="text" id="barcode" require onkeypress="return (event.charCode != 13);" autocomplete="off"> 
+        </form>
+    </div>
 
-        <input type="text" id="barcode" require disab>
-    </form>
-
-    <div id="scanbarcode"></div>
+    <div id="scanbarcode" class="result_container"></div>
 
     <script>
         $(document).ready(function() {
@@ -46,15 +47,13 @@ include('dbcon.php');
 
             $('#supplies').on('change', function() {
                 $('#barcode').attr('disabled', false);
-                
             });
 
             $('#barcode').keyup(function() {
                 var val = $('#supplies').val();
                 var barcode = $('#barcode').val();
-                // alert(barcode);
 
-                if (val != "") {
+                if (val != "" || barcode != "") {
                     $.ajax({
                         type: "POST",
                         url: "barcode_scanner.php",
@@ -72,7 +71,7 @@ include('dbcon.php');
                 } else {
                     $('#scanbarcode').css("display", "none");
                 }
-            })
+            });
         });
 
 
