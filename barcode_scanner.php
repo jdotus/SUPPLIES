@@ -32,6 +32,8 @@ if(isset($_POST['input']) && isset($_POST['barcode'])){
 
         }
         
+    }else {
+        echo('NO RECORD');
     }
 }   
 ?>
