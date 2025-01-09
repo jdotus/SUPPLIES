@@ -47,10 +47,12 @@ include('dbcon.php');
             $('#supplies').on('change', function() {
                 $('#barcode').attr('disabled', false);
                 
-                
-                var val = $(this).val();
+            });
+
+            $('#barcode').keyup(function() {
+                var val = $('#supplies').val();
                 var barcode = $('#barcode').val();
-                alert(barcode);
+                // alert(barcode);
 
                 if (val != "") {
                     $.ajax({
@@ -66,12 +68,14 @@ include('dbcon.php');
                         }
                     });
 
-                    alert(barcode);
+                    // alert(barcode);
                 } else {
                     $('#scanbarcode').css("display", "none");
                 }
-            });
+            })
         });
+
+        
     </script>
 </body>
 
