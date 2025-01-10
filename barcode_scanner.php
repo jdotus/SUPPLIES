@@ -6,14 +6,16 @@ include ('dbcon.php');
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <meta name="viewport" content="width=device-width, initial-scale=3.0">
+    <title>Supplies</title>
+
+    <link rel="stylesheet" href="style.css">
     
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.2.3.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
 
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.7.3.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
 
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.33.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
     
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js" integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy" crossorigin="anonymous"></script>
     
@@ -44,11 +46,11 @@ if(isset($_POST['input']) && isset($_POST['barcode'])){
                   <table class="table mb-0">
                     <thead>
                       <tr>
-                        <th scope="col">MODEL</th>
-                        <th scope="col">DESCRIPTION</th>
-                        <th scope="col">CODE</th>
-                        <th scope="col">QUANTITY</th>
-                        <th scope="col">ACTIONS</th>
+                        <th class="h3 fw-bold" scope="col">MODEL</th>
+                        <th class="h3 fw-bold" scope="col">DESCRIPTION</th>
+                        <th class="h3 fw-bold" scope="col">CODE</th>
+                        <th class="h3 fw-bold" scope="col">QUANTITY</th>
+                        <th class="h3 fw-bold" scope="col">ACTIONS</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -59,7 +61,7 @@ if(isset($_POST['input']) && isset($_POST['barcode'])){
                         $model = $row['MODEL'];
                         $description =$row['DESCRIPTION'];
                         $code = $row['CODE'];
-                        // echo($code);
+                      
                         ?>
 
                         <tr>
@@ -67,17 +69,17 @@ if(isset($_POST['input']) && isset($_POST['barcode'])){
                           <td><?php echo $model ?></td>
                           <td><?php echo $description ?></td>
                           <td><?php echo $code ?></td>
-                          <td><input type="number" name="qunatity" id="quantity"></td>
-                          <td></td>
+                          <td><input type="number" name="qunatity" id="quantity" class="quantity-input"></td>
+                          <td><button class="in" id="in">IN</button><button class="out" id="out">OUT</button></td>
                         </tr>
                         </tbody>
                         <?php
                       }
-                      ?>  
-                      </table>
-                      </div>
+                ?>  
+                </table>
+                </div>
 
-                      <?php
+                <?php
         
     }else {
         echo('NO RECORD');
