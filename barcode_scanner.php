@@ -23,12 +23,6 @@ include ('dbcon.php');
     <body>
     <?php
 if(isset($_POST['input']) && isset($_POST['barcode'])){
-    // $selectedSupply = $_POST['input'];
-    // $scanCode = $_POST['barcode'];
-
-    // $query = "SELECT * FROM '{$selectedSupply}' WHERE CODE LIKE '{$scanCode}%'";
-
-    // $result = mysqli_query($con, $query);
 
     // 2. Get user input (Sanitize input to prevent XSS)
     $selectedSupply = htmlspecialchars($_POST['input']); 
@@ -44,44 +38,52 @@ if(isset($_POST['input']) && isset($_POST['barcode'])){
     $result = $stmt->get_result();
 
 
-    if(mysqli_num_rows($result)) {
+    if(mysqli_num_rows($result)) {?>
         
-        while($row = $result->fetch_assoc()) {
+        <div class="table-responsive bg-white">
+                  <table class="table mb-0">
+                    <thead>
+                      <tr>
+                        <th scope="col">MODEL</th>
+                        <th scope="col">DESCRIPTION</th>
+                        <th scope="col">CODE</th>
+                        <th scope="col">QUANTITY</th>
+                        <th scope="col">ACTIONS</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                    
+                    <?php
+                      while($row = mysqli_fetch_assoc($result)) {
+              
+                        $model = $row['MODEL'];
+                        $description =$row['DESCRIPTION'];
+                        $code = $row['CODE'];
+                        // echo($code);
+                        ?>
 
-            $description =$row['DESCRIPTION'];
-            $model = $row['MODEL'];
-            echo('MODEL : ' . $model . 'DESCRIPTION : ' . $description);
+                        <tr>
+                          
+                          <td><?php echo $model ?></td>
+                          <td><?php echo $description ?></td>
+                          <td><?php echo $code ?></td>
+                          <td><input type="number" name="qunatity" id="quantity"></td>
+                          <td></td>
+                        </tr>
+                        </tbody>
+                        <?php
+                      }
+                      ?>  
+                      </table>
+                      </div>
 
-        }
+                      <?php
         
     }else {
         echo('NO RECORD');
     }
 }   
 ?>
-    <div class="table-responsive bg-white">
-              <table class="table mb-0">
-                <thead>
-                  <tr>
-                    <th scope="col">MODEL</th>
-                    <th scope="col">DESCRIPTION</th>
-                    <th scope="col">CODE</th>
-                    <th scope="col">QUANTITY</th>
-                    <th scope="col">ACTIONS</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <th scope="row" style="color: #666666;">Tiger Nixon</th>
-                    <td>System Architect</td>
-                    <td>tnixon12@example.com</td>
-                    <td>61</td>
-                    <td>Edinburgh</td>
-                 
-                  </tr>
-                </tbody>
-              </table>
-            </div>
     </body>
 </html>
 
