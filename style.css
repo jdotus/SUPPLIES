@@ -60,7 +60,7 @@ select option {
     border-radius: 5px;
 }
 
-td {
+td, input[type="text"]{
     vertical-align: middle;
     font-size: 20px;
 }
