@@ -82,7 +82,7 @@ if(isset($_POST['input']) && isset($_POST['barcode'])){
                 <?php
         
     }else {
-        echo('NO RECORD');
+        echo('<p class="no-record">NO RECORD</p>');
     }
 }   
 ?>
