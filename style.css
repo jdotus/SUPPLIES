@@ -13,7 +13,7 @@
 
 form {
     margin: 0 auto;
-    width: 500px;
+    /* width: 500px; */
     text-align: center;
 }
 
@@ -112,4 +112,64 @@ td, input[type="text"]{
     font-size: 22px;
     font-weight: 500;
     color: red;
+}
+
+
+/* Ensure form elements wrap properly */
+.form_modal {
+    display: flex;
+    flex-wrap: nowrap; /* Allow wrapping to the next line */
+    gap: 2rem;       /* Add space between elements */
+    max-width: 800px; /* Optional: Limit the total width of the form */
+    margin: 0 auto;   /* Center the form */
+}
+
+/* Ensure each form group takes a specific width */
+.form-group {
+    width: calc(50% - 1rem); /* Adjust width for two columns */
+    margin-bottom: 1rem;     /* Space between rows */
+}
+
+/* Full-width inputs for smaller screens */
+@media (max-width: 600px) {
+    .form-group {
+        width: 100%; /* Each input takes full width on small screens */
+    }
+}
+
+/* Optional: Style the label for better readability */
+label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+}
+
+/* Adjust the input field styling */
+.form-control {
+    width: 100%; /* Ensure the input stretches within its container */
+    padding: 0.5rem;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.form-group select,
+.form-group input {
+    width: 120%; /* Adjust the width of inputs and selects */
+    max-width: 350px; /* Limit the maximum width */
+    height: 50px; /* Increase height */
+    padding: 10px; /* Add spacing inside the input */
+    font-size: 16px; /* Make text more readable */
+}
+
+@media (max-width: 600px) {
+    .form-group {
+        width: 100%; /* Inputs take full width */
+    }
+
+    .form-group input,
+    .form-group select {
+        max-width: 100%; /* Remove max-width limitation */
+        height: 45px; /* Slightly smaller height for smaller screens */
+    }
 }

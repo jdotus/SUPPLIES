@@ -26,8 +26,8 @@ include('dbcon.php');
 <body>
 
     <div class="search_container">
-        <form>
-                <label for="supplies">Select Supply</label>
+        <form class="search">
+                <label for="supplies">Select Supply</label><br>
                 <select name="supplies" id="supplies" require>
                     <option value="">SELECT</option>
                     <option value="toner">Toner</option>
@@ -40,40 +40,57 @@ include('dbcon.php');
 
         <!-- Button trigger modal -->
         <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
-        Launch static backdrop modal
+        Add Supplies
         </button>
 
         <!-- Modal -->
         <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-        <div class="modal-dialog">
+        <div class="modal-dialog modal-xl">
             <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="staticBackdropLabel">Add Supplies</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                .....
-                <form>
+                <form class="form_modal">
                     <div class="form-group">
                         <label> Supply</label>
-                        <input type="text" name="supply" class="form-control">
+                        <select name="addsupply" id="addsupply" require>
+                            <option value="addtoner">Toner</option>
+                            <option value="adddrum">Drum</option>
+                            <option value="addfilament">Filament</option>
+                        </select>
+                    </div>
+                    <div class="form-group ">
+                        <label> Model</label>
+                        <input type="text" name="Model" class="form-control custom-input" placeholder="Model">
                     </div>
                     <div class="form-group">
-                        <label> Supply</label>
-                        <input type="text" name="supply" class="form-control">
+                        <label> Description</label>
+                        <input type="text" name="Description" class="form-control custom-input" placeholder="Description">
+                    </div>
+                    <div class="form-group">
+                        <label> Owner</label>
+                        <input type="text" name="Owner" class="form-control custom-input" placeholder="Owner">
+                    </div>
+                    <div class="form-group">
+                        <label> Code</label>
+                        <input type="text" name="Code" class="form-control custom-input" placeholder="Code">
+                    </div>
+                    <div class="form-group">
+                        <label> Quantity</label>
+                        <input type="text" name="Code" class="form-control custom-input" placeholder="Quantity">
                     </div>
                 </form>
 
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Understood</button>
+                <button type="button" class="btn btn-primary">Add Supplies</button>
             </div>
             </div>
         </div>
         </div>
-
-
 
     <div id="scanbarcode" class="result_container"></div>
 
