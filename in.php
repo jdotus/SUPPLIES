@@ -19,8 +19,7 @@
                 $code = htmlspecialchars($_POST['code']);
                 $owner = htmlspecialchars($_POST['owner']);
 
-
-                $sql = "SELECT BEGINNING_INVENTORY FROM toner WHERE CODE = ?"; 
+                $sql = "SELECT TOTAL_QUANTITY FROM toner WHERE CODE = ?"; 
 
                 $stmnt2 = $con->prepare($sql);
                 $stmnt2->bind_param("s", $code);
@@ -38,7 +37,7 @@
 
                 $stmnt2->close();
 
-                $sql1 = "UPDATE toner SET BEGINNING_INVENTORY = ? WHERE CODE = ?";
+                $sql1 = "UPDATE toner SET TOTAL_QUANTITY = ? WHERE CODE = ?";
                 $stmnt = $con->prepare($sql1);
                 $stmnt->bind_param("is", $totalResult, $code); // Assuming $totalResult is an integer
                 $stmnt->execute();
