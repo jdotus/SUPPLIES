@@ -41,17 +41,18 @@ if(isset($_POST['input']) && isset($_POST['barcode'])){
 
     if(mysqli_num_rows($result) && $scanCode != "") {?>
         <div id="in-result"></div>
+        <div id="out-result"></div>
         <div class="table-responsive bg-white">
                   <table class="table table-hover table-responsive-md mb-0">
                     <thead>
                       <tr>
-                        <th class="h3 fw-bold" scope="col">MODEL</th>
-                        <th class="h3 fw-bold" scope="col">DESCRIPTION</th>
-                        <th class="h3 fw-bold" scope="col">CODE</th>
-                        <th class="h3 fw-bold" scope="col">OWNER</th>
-                        <th class="h3 fw-bold" scope="col">DATE OF DELIEVER</th>
-                        <th class="h3 fw-bold" scope="col">QUANTITY</th>
-                        <th class="h3 fw-bold" scope="col">ACTIONS</th>
+                        <th class="h6 fw-bold" scope="col">MODEL</th>
+                        <th class="h6 fw-bold" scope="col">DESCRIPTION</th>
+                        <th class="h6 fw-bold" scope="col">CODE</th>
+                        <th class="h6 fw-bold" scope="col">OWNER</th>
+                        <th class="h6 fw-bold" scope="col">DATE OF DELIVER</th>
+                        <th class="h6 fw-bold" scope="col">QUANTITY</th>
+                        <th class="h6 fw-bold" scope="col">ACTIONS</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -92,7 +93,7 @@ if(isset($_POST['input']) && isset($_POST['barcode'])){
 
   <script>
     $(document).ready(function() {
-
+      // IN
       $('#in').on('click',function() {
         var quantity = $('#quantity').val();
         var code = $('#code').text();
@@ -118,6 +119,26 @@ if(isset($_POST['input']) && isset($_POST['barcode'])){
         }
       });  
 
+      // OUT
+      $('#out').on('click', function() {
+        var quantity = $('#quantity').val();
+        var code = $('#code').text();
+        var owner = $('#owner').text();
+        var isTrue = confirm("Are you sure about that?");
+
+        if(isTrue) {
+          $.ajax({
+            type: "method",
+            url: "url",
+            data: "data",
+            dataType: "dataType",
+            success: function (response) {
+              
+            }
+          });
+        }
+        
+      });
     });
 
   </script>
