@@ -99,8 +99,7 @@ if(isset($_POST['input']) && isset($_POST['barcode'])){
         var owner = $('#owner').text();
         var isTrue = confirm("Are you sure about that?");
 
-        alert(isTrue);
-        alert(quantity);
+      
         if(isTrue) {
           
           $.ajax({
