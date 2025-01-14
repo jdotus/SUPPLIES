@@ -22,7 +22,7 @@ include ('dbcon.php');
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 
 </head>
-    <body>
+<body>
     <?php
 if(isset($_POST['input']) && isset($_POST['barcode'])){
 
@@ -39,9 +39,8 @@ if(isset($_POST['input']) && isset($_POST['barcode'])){
     $stmt->execute();
     $result = $stmt->get_result();
 
-
-    if(mysqli_num_rows($result)) {?>
-        <div class="in-result"></div>
+    if(mysqli_num_rows($result) && $scanCode != "") {?>
+        <div id="in-result"></div>
         <div class="table-responsive bg-white">
                   <table class="table table-hover table-responsive-md mb-0">
                     <thead>
@@ -68,10 +67,10 @@ if(isset($_POST['input']) && isset($_POST['barcode'])){
                         ?>
 
                         <tr>
-                          <td id="model"><?php echo $model; ?></td>
-                          <td id="description"><?php echo $description; ?></td>
-                          <td id="code"><?php echo $code; ?></td>
-                          <td id="owner"><?php echo $owner;?> </td>
+                          <td id="model" class="model"><?php echo $model; ?></td>
+                          <td id="description" class="description"><?php echo $description; ?></td>
+                          <td id="code" class="code"><?php echo $code; ?></td>
+                          <td id="owner" class="owner"><?php echo $owner;?> </td>
                           <td></td>
                           <td><input type="number" name="qunatity" id="quantity" class="quantity-input"></td>
                           <td><button class="in" id="in">IN</button><button class="out" id="out">OUT</button></td>
@@ -100,6 +99,8 @@ if(isset($_POST['input']) && isset($_POST['barcode'])){
         var owner = $('#owner').text();
         var isTrue = confirm("Are you sure about that?");
 
+        alert(isTrue);
+        alert(quantity);
         if(isTrue) {
           
           $.ajax({
@@ -110,8 +111,8 @@ if(isset($_POST['input']) && isset($_POST['barcode'])){
               code: code,
               owner: owner
             },
-            dataType: "dataType",
-            success: function (response) {
+            // dataType: "dataType",
+            success: function (value) {
               $('#in-result').html(value);
             }
           });

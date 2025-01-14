@@ -49,9 +49,14 @@ select option {
     margin: 0 0 15px 0;
 }
 
-.result_container {
+.result_container, .add_supplies {
     width: 90%;
-    margin: 150px auto 100px auto;
+    margin: 25px auto 10px auto;
+}
+
+.add_supplies {
+    display: flex;
+    justify-content: end;
 }
 
 .quantity-input {
@@ -105,6 +110,10 @@ td, input[type="text"]{
    
 .out:active {
     transform: translate(0em, 0.2em);
+}
+
+.model, .description, .code, .owner {
+    text-transform: uppercase;
 }
 
 .no-record {
