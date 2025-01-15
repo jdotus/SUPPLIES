@@ -51,6 +51,7 @@ if(isset($_POST['input']) && isset($_POST['barcode'])){
                         <th class="h6 fw-bold" scope="col">CODE</th>
                         <th class="h6 fw-bold" scope="col">OWNER</th>
                         <th class="h6 fw-bold" scope="col">DATE OF DELIVER</th>
+                        <th class="h6 fw-bold" scope="col">TOTAL QUANTITY</th>
                         <th class="h6 fw-bold" scope="col">QUANTITY</th>
                         <th class="h6 fw-bold" scope="col">ACTIONS</th>
                       </tr>
@@ -62,19 +63,20 @@ if(isset($_POST['input']) && isset($_POST['barcode'])){
                         $model = $row['MODEL'];
                         $description =$row['DESCRIPTION'];
                         $code = $row['CODE'];
-                        $owner = $row['OWNER']
-                      
+                        $owner = $row['OWNER'];
+                        $total_quantity = $row['TOTAL_QUANTITY'];
                         ?>
 
                         <tr>
                           <td id="model" class="model"><?php echo $model; ?></td>
                           <td id="description" class="description"><?php echo $description; ?></td>
                           <td id="code" class="code"><?php echo $code; ?></td>
-                          <td id="owner" class="owner"><?php echo $owner;?> </td>
+                          <td id="owner" class="owner"><?php echo $owner;?></td>
                           <td><input type="date" id="date_of_delivery" name="date_of_delivery" 
                                     value="<?php echo date('Y-m-d'); ?>" 
                                     max="<?php echo date('Y-m-d'); ?>" 
                                     required></td>
+                          <td id="total_quantity" class="total_quantity"><?php echo $total_quantity;?></td>
                           <td><input type="number" name="qunatity" id="quantity" class="quantity-input"></td>
                           <td><button class="in" id="in">IN</button><button class="out" id="out">OUT</button></td>
                         </tr>
@@ -132,16 +134,26 @@ if(isset($_POST['input']) && isset($_POST['barcode'])){
         var quantity = $('#quantity').val();
         var code = $('#code').text();
         var owner = $('#owner').text();
+        var model = $('#model').text();
+        var description = $('#description').text();
+        var date_of_delivery = $('#date_of_delivery').val();
         var isTrue = confirm("Are you sure about that?");
 
         if(isTrue) {
           $.ajax({
-            type: "method",
-            url: "url",
-            data: "data",
-            dataType: "dataType",
-            success: function (response) {
-              
+            type: "POST",
+            url: "out.php",
+            data: {
+              quantity: quantity,
+              code: code,
+              owner: owner,
+              model: model,
+              description: description,
+              date_of_delivery: date_of_delivery
+            },
+            // dataType: "dataType",
+            success: function (value) {
+              $('#out-result').html(value);
             }
           });
         }
