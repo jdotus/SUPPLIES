@@ -59,7 +59,6 @@ if(isset($_POST['input']) && isset($_POST['barcode'])){
                     
                     <?php
                       while($row = mysqli_fetch_assoc($result)) {
-              
                         $model = $row['MODEL'];
                         $description =$row['DESCRIPTION'];
                         $code = $row['CODE'];
@@ -72,7 +71,7 @@ if(isset($_POST['input']) && isset($_POST['barcode'])){
                           <td id="description" class="description"><?php echo $description; ?></td>
                           <td id="code" class="code"><?php echo $code; ?></td>
                           <td id="owner" class="owner"><?php echo $owner;?> </td>
-                          <td><input type="date" id="date" name="date" 
+                          <td><input type="date" id="date_of_delivery" name="date_of_delivery" 
                                     value="<?php echo date('Y-m-d'); ?>" 
                                     max="<?php echo date('Y-m-d'); ?>" 
                                     required></td>
@@ -101,9 +100,12 @@ if(isset($_POST['input']) && isset($_POST['barcode'])){
         var quantity = $('#quantity').val();
         var code = $('#code').text();
         var owner = $('#owner').text();
+        var model = $('#model').text();
+        var description = $('#description').text();
+        var date_of_delivery = $('#date_of_delivery').val();
         var isTrue = confirm("Are you sure about that?");
 
-      
+        
         if(isTrue) {
           
           $.ajax({
@@ -112,7 +114,10 @@ if(isset($_POST['input']) && isset($_POST['barcode'])){
             data: {
               quantity: quantity,
               code: code,
-              owner: owner
+              owner: owner,
+              model: model,
+              description: description,
+              date_of_delivery: date_of_delivery
             },
             // dataType: "dataType",
             success: function (value) {

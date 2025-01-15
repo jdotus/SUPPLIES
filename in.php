@@ -28,7 +28,9 @@
                 $quantity = htmlspecialchars($_POST['quantity']);
                 $code = htmlspecialchars($_POST['code']);
                 $owner = htmlspecialchars($_POST['owner']);
-            
+                $model = htmlspecialchars($_POST['model']);
+                $description = htmlspecialchars($_POST['description']);
+                $date_of_delivery = date("m-d-Y", strtotime($_POST['date_of_delivery']));
 
                 if($quantity != "" && $quantity != null && $quantity > 0) {
 
@@ -54,16 +56,21 @@
                     $stmnt1 = $con->prepare($sql1);
                     $stmnt1->bind_param("is", $totalResult, $code); // Assuming $totalResult is an integer
                     $stmnt1->execute();
-    
+                    
                     if ($stmnt1->affected_rows > 0) {?>
                         <div class="alert alert-success alert-dismissible fade show" role="alert">
                             <strong>Success!</strong> Data Inserted
                             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                         </div>
-                    <?php
+                        <?php
 
-                        $sql2 = "INSERT INTO delivery_in (date, model, description, code, date_of_delivery, quantity) VALUES ";
-                       
+                        $currentDate = date("m-d-Y");
+                        $sql2 = "INSERT INTO delivery_in (date, model, description, code, date_of_delivery, quantity) VALUES (?, ?, ?, ?, ?, ?)";
+                        $stmnt3 = $con->prepare($sql2);
+                        $stmnt3->bind_param("ssssss",  $currentDate, $model, $description, $code, $date_of_delivery, $quantity);
+                        $stmnt3->execute();
+                        $stmnt3->close();
+                        
                     } else { ?>
                     <div class="alert alert-warning alert-dismissible fade show" role="alert">
                         <strong>Ohhh no!</strong> NO RECORD FOUND
@@ -71,7 +78,7 @@
                     </div>  
                     <?php
                     }
-    
+                    
                     $stmnt1->close();
                 } else { ?>
                     <div class="alert alert-warning alert-dismissible fade show" role="alert">
