@@ -30,7 +30,7 @@
                 $owner = htmlspecialchars($_POST['owner']);
             
 
-                if($quantity != "" && $quantity != null && $quantity != 0) {
+                if($quantity != "" && $quantity != null && $quantity > 0) {
 
                     $sql = "SELECT TOTAL_QUANTITY FROM toner WHERE CODE = ?"; 
     
@@ -51,19 +51,18 @@
                     $stmnt2->close();
     
                     $sql1 = "UPDATE toner SET TOTAL_QUANTITY = ? WHERE CODE = ?";
-                    $stmnt = $con->prepare($sql1);
-                    $stmnt->bind_param("is", $totalResult, $code); // Assuming $totalResult is an integer
-                    $stmnt->execute();
+                    $stmnt1 = $con->prepare($sql1);
+                    $stmnt1->bind_param("is", $totalResult, $code); // Assuming $totalResult is an integer
+                    $stmnt1->execute();
     
-                    if ($stmnt->affected_rows > 0) {?>
-                    
-                    <div class="alert alert-success alert-dismissible fade show" role="alert">
-                        <strong>Success!</strong> Data Inserted
-                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                    </div>  
-                    
-    
+                    if ($stmnt1->affected_rows > 0) {?>
+                        <div class="alert alert-success alert-dismissible fade show" role="alert">
+                            <strong>Success!</strong> Data Inserted
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
                     <?php
+
+                        $sql2 = "INSERT INTO delivery_in (date, model, description, code, date_of_delivery, quantity) VALUES ";
                        
                     } else { ?>
                     <div class="alert alert-warning alert-dismissible fade show" role="alert">
@@ -73,7 +72,7 @@
                     <?php
                     }
     
-                    $stmnt->close();
+                    $stmnt1->close();
                 } else { ?>
                     <div class="alert alert-warning alert-dismissible fade show" role="alert">
                         <strong>Ohhh no!</strong> Invalid Data, Try again.

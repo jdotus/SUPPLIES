@@ -72,7 +72,10 @@ if(isset($_POST['input']) && isset($_POST['barcode'])){
                           <td id="description" class="description"><?php echo $description; ?></td>
                           <td id="code" class="code"><?php echo $code; ?></td>
                           <td id="owner" class="owner"><?php echo $owner;?> </td>
-                          <td></td>
+                          <td><input type="date" id="date" name="date" 
+                                    value="<?php echo date('Y-m-d'); ?>" 
+                                    max="<?php echo date('Y-m-d'); ?>" 
+                                    required></td>
                           <td><input type="number" name="qunatity" id="quantity" class="quantity-input"></td>
                           <td><button class="in" id="in">IN</button><button class="out" id="out">OUT</button></td>
                         </tr>
