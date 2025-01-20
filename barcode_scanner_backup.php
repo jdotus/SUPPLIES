@@ -68,20 +68,18 @@ if(isset($_POST['input']) && isset($_POST['barcode'])){
                         ?>
 
                         <tr>
-                          <td id="model" class="model"><?php echo $model; ?></td>
-                          <td id="description" class="description"><?php echo $description; ?></td>
-                          <td id="code" class="code"><?php echo $code; ?></td>
-                          <td id="owner" class="owner"><?php echo $owner;?></td>
-                          <td><input type="date" id="date_of_delivery" name="date_of_delivery" 
-                                    value="<?php echo date('Y-m-d'); ?>" 
-                                    max="<?php echo date('Y-m-d'); ?>" 
-                                    required></td>
-                          <td id="total_quantity" class="total_quantity"><?php echo $total_quantity;?></td>
-                          <td><input type="number" name="qunatity" id="quantity" class="quantity-input"></td>
-                          <td>
-                              <button class="in" id="in">IN</button>
-                              <button class="out" id="out">OUT</button>
-                          </td>
+                            <td id="model" class="model"><?php echo $model; ?></td>
+                            <td id="description" class="description"><?php echo $description; ?></td>
+                            <td id="code" class="code"><?php echo $code; ?></td>
+                            <td id="owner" class="owner"><?php echo $owner;?></td>
+                            <td><input type="date" id="date_of_delivery" name="date_of_delivery" 
+                                        value="<?php echo date('Y-m-d'); ?>" 
+                                        max="<?php echo date('Y-m-d'); ?>" 
+                                        required>
+                            </td>
+                            <td id="total_quantity" class="total_quantity"><?php echo $total_quantity;?></td>
+                            <td><input type="number" name="qunatity" id="quantity" class="quantity-input"></td>
+                            <td><button class="in" id="in">IN</button><button class="out" id="out">OUT</button></td>
                         </tr>
                         </tbody>
                         <?php
@@ -100,75 +98,37 @@ if(isset($_POST['input']) && isset($_POST['barcode'])){
 
   <script>
     $(document).ready(function() {
-
-    // Update the quantity dynamically
-    $('#in').on('click', function() {
-        var quantity = $(this).val();
-        var code = $(this).closest('tr').find('.code').text();  // Get code from the same row
-        var owner = $(this).closest('tr').find('.owner').text();
-        var model = $(this).closest('tr').find('.model').text();
-        var description = $(this).closest('tr').find('.description').text();
-        var date_of_delivery = $(this).closest('tr').find('#date_of_delivery').val();
-        var isTrue = confirm("Are you sure about that?");  
-
-
-        // Make sure the quantity is valid before updating
-        if (isTrue == true && quantity > 0) {
-            $.ajax({
-                type: "POST",
-                url: "in.php", // New PHP file to handle the update
-                data: {
-                    quantity: quantity,
-                    code: code,
-                    owner: owner,
-                    model: model,
-                    description: description,
-                    date_of_delivery: date_of_delivery
-                },
-                success: function(response) {
-                    // Optionally, display success message or update the page
-                    alert("Quantity updated successfully!");
-                    $('#in-result').html(value);
-                },
-                error: function() {
-                    alert("There was an error updating the quantity.");
-                }
-            });
-        }
-    });
-
-
-      // // IN
-      // $('#in').on('click',function() {
-      //   var quantity = $('#quantity').val();
-      //   var code = $('#code').text();
-      //   var owner = $('#owner').text();
-      //   var model = $('#model').text();
-      //   var description = $('#description').text();
-      //   var date_of_delivery = $('#date_of_delivery').val();
-      //   var isTrue = confirm("Are you sure about that?");
+      // IN
+      $('#in').on('click',function() {
+        var quantity = $('#quantity').val();
+        var code = $('#code').text();
+        var owner = $('#owner').text();
+        var model = $('#model').text();
+        var description = $('#description').text();
+        var date_of_delivery = $('#date_of_delivery').val();
+        var isTrue = confirm("Are you sure about that?");
 
         
-      //   if(isTrue) {
+        if(isTrue) {
           
-      //     $.ajax({
-      //       type: "POST",
-      //       url: "in.php",
-      //       data: {
-      //         quantity: quantity,
-      //         code: code,
-      //         owner: owner,
-      //         model: model,
-      //         description: description,
-      //         date_of_delivery: date_of_delivery
-      //       },
-      //       // dataType: "dataType",
-      //       success: function (value) {
-      //         $('#in-result').html(value);
-      //       }
-      //     });
-      //   }
-      // });  
+          $.ajax({
+            type: "POST",
+            url: "in.php",
+            data: {
+              quantity: quantity,
+              code: code,
+              owner: owner,
+              model: model,
+              description: description,
+              date_of_delivery: date_of_delivery
+            },
+            // dataType: "dataType",
+            success: function (value) {
+              $('#in-result').html(value);
+            }
+          });
+        }
+      });  
 
       // OUT
       $('#out').on('click', function() {
