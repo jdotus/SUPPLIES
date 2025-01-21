@@ -59,7 +59,7 @@
                     
                     if ($stmnt1->affected_rows > 0) {?>
                         <div class="alert alert-success alert-dismissible fade show" role="alert">
-                            <strong>Success!</strong> Data Inserted
+                            <strong>Success!</strong> Data Updated
                             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                         </div>
                         <?php
@@ -89,5 +89,6 @@
                 }                
             }
         ?>
+        </script>
     </body>
 </html>
