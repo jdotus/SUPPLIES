@@ -24,6 +24,13 @@
 </head>
     <body>
         <?php 
+
+            function showAlert($type, $message) {
+                echo "<div class='alert alert-$type alert-dismissible fade show' role='alert'>
+                        <strong>$type:</strong> $message
+                        <button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button>
+                        </div>";
+            }
             if(isset($_POST["quantity"]) && isset($_POST["code"]) && isset($_POST["owner"])){
 
                 $quantity = htmlspecialchars($_POST['quantity']);
@@ -44,13 +51,12 @@
     
                     // Check if a row was found
                     if ($stmnt2->fetch()) { 
-
-                        if($currentQuantity > $quantity){
-                            $totalResult = $currentQuantity - $quantity; 
-                        }else if($quantity > $currentQuantity) {
-                            $totalResult = $quantity - $currentQuantity; 
+                        $totalResult = $currentQuantity - $quantity; 
+                        if ($totalResult < 0) {
+                            showAlert("danger", "Quantity exceeds available stock. Current stock: " . htmlspecialchars($currentQuantity));
+                            $stmnt2->close();
+                            exit;
                         }
-
                     } else {
                         // Handle the case where no row is found 
                         // (e.g., set $totalResult to a default value)

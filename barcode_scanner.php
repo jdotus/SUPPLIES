@@ -129,6 +129,7 @@
         $('.out').on('click', function() {
             var $row = $(this).closest('tr'); // Get the closest row
             var quantity = $row.find('.quantity-input').val(); 
+            var total_quantity = $row.find('.total_quantity').text();
             var code = $row.find('.code').text(); 
             var owner = $row.find('.owner').text(); 
             var model = $row.find('.model').text(); 
@@ -136,7 +137,7 @@
             var date_of_delivery = $row.find('.date_of_delivery').val(); 
             
             // Validation
-            if (quantity > 0) {
+            if (quantity > 0 && quantity ) {
                 var isTrue = confirm("Are you sure about that?");
                 if (isTrue) {
                     $.ajax({
@@ -154,10 +155,13 @@
                             alert("Quantity updated successfully!");
                             $('#out-result').html(response);
                             
-                            // Update the quantity column for this row
-                            var newTotalQuantity = parseInt($row.find('.total_quantity').text()) - parseInt(quantity);
-                            $row.find('.total_quantity').text(newTotalQuantity); // Update the quantity column
-                            $row.find('.quantity-input').val('');
+
+                            if(total_quantity >= quantity) {
+                                // Update the quantity column for this row
+                                var newTotalQuantity = parseInt($row.find('.total_quantity').text()) - parseInt(quantity);
+                                $row.find('.total_quantity').text(newTotalQuantity); // Update the quantity column
+                                $row.find('.quantity-input').val('');
+                            }
 
                         },
                         error: function() {
