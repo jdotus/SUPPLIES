@@ -21,9 +21,9 @@
         $scanCode = htmlspecialchars($_POST['barcode']); 
         
         // Prepare the SQL statement
-        $stmt = $con->prepare("SELECT * FROM `{$selectedSupply}` WHERE CODE LIKE ?");
-        $scanCodeWithWildcard = $scanCode . "%";
-        $stmt->bind_param("s", $scanCodeWithWildcard); 
+        $stmt = $con->prepare("SELECT * FROM `{$selectedSupply}` WHERE CODE LIKE '{$scanCode}%' OR MODEL LIKE '{$scanCode}%' ");
+        // $scanCodeWithWildcard = $scanCode . "%";
+        // $stmt->bind_param("s", $scanCodeWithWildcard); 
         $stmt->execute();
         $result = $stmt->get_result();
 

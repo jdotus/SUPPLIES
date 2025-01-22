@@ -89,6 +89,8 @@ include('dbcon.php');
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                 <button type="button" class="btn btn-primary">Add Supplies</button>
+                <button type="button" class="btn btn-primary">IN Transactiont History</button>
+                <button type="button" class="btn btn-primary">OUT Transactiont History</button>
             </div>
             </div>
         </div>
