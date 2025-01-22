@@ -23,24 +23,23 @@
 </head>
     <body>
         <?php
-            if(isset($_POST["quantity"]) && isset($_POST["code"]) && isset($_POST["owner"])){
-
+            if(isset($_POST["quantity"]) && isset($_POST["code"]) && isset($_POST["owner"]) && isset($_POST["selectedSupply"])){
+                $selectedSupply = htmlspecialchars($_POST['selectedSupply']);
                 $quantity = htmlspecialchars($_POST['quantity']);
                 $code = htmlspecialchars($_POST['code']);
                 $owner = htmlspecialchars($_POST['owner']);
                 $model = htmlspecialchars($_POST['model']);
                 $description = htmlspecialchars($_POST['description']);
                 $date_of_delivery = date("m-d-Y", strtotime($_POST['date_of_delivery']));
-
+                echo($selectedSupply);
                 if($quantity != "" && $quantity != null && $quantity > 0) {
 
-                    $sql = "SELECT TOTAL_QUANTITY FROM toner WHERE CODE = ?"; 
-    
+                    $sql = "SELECT TOTAL_QUANTITY FROM `{$selectedSupply}` WHERE CODE = ?"; 
                     $stmnt2 = $con->prepare($sql);
-                    $stmnt2->bind_param("s", $code);
-                    $stmnt2->execute();
-                    $stmnt2->bind_result($currentQuantity);
-    
+                    $stmnt2->bind_param("s",  $code); 
+                    $stmnt2->execute(); 
+                    $stmnt2->bind_result($currentQuantity); 
+                    
                     // Check if a row was found
                     if ($stmnt2->fetch()) { 
                         $totalResult = $currentQuantity + $quantity; 
@@ -52,7 +51,7 @@
     
                     $stmnt2->close();
     
-                    $sql1 = "UPDATE toner SET TOTAL_QUANTITY = ? WHERE CODE = ?";
+                    $sql1 = "UPDATE `{$selectedSupply}` SET TOTAL_QUANTITY = ? WHERE CODE = ?";
                     $stmnt1 = $con->prepare($sql1);
                     $stmnt1->bind_param("is", $totalResult, $code); // Assuming $totalResult is an integer
                     $stmnt1->execute();

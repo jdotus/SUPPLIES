@@ -30,8 +30,6 @@ form {
     border: 2px black solid;
 }
 
-
-
 .search_container input {
     width: 300PX;
     margin: 0 10px 0 10px ;
@@ -74,6 +72,10 @@ input[type="date"] {
     justify-content: end;
 }
 
+.add_supplies button {
+    margin: 0 6px;
+}
+
 .quantity-input {
     width: 100px;
     padding: 5px 15px 5px 15px;
@@ -98,7 +100,7 @@ td, input[type="text"]{
 }
    
 .in:hover {
-    background: rgb(2,0,36);
+    /* background: rgb(2,0,36); */
     background: linear-gradient(90deg, rgba(30,144,255,1) 0%, rgba(0,212,255,1) 100%);
 }
    

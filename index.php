@@ -38,12 +38,14 @@ include('dbcon.php');
         </form>
     </div>
 
-    <div class="add_supplies">
-        <!-- Button trigger modal -->
-        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
-        Add Supplies
-        </button>
-    </div>
+        <div class="add_supplies">
+            <!-- Button trigger modal -->
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+                Add Supplies
+            </button>
+            <button type="button" class="btn btn-primary">View History</button>
+        </div>
+
 
         <!-- Modal -->
         <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
@@ -89,8 +91,6 @@ include('dbcon.php');
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                 <button type="button" class="btn btn-primary">Add Supplies</button>
-                <button type="button" class="btn btn-primary">IN Transactiont History</button>
-                <button type="button" class="btn btn-primary">OUT Transactiont History</button>
             </div>
             </div>
         </div>
