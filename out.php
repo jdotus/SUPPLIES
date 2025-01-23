@@ -31,8 +31,9 @@
                         <button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button>
                         </div>";
             }
-            if(isset($_POST["quantity"]) && isset($_POST["code"]) && isset($_POST["owner"])){
-
+            if(isset($_POST["quantity"]) && isset($_POST["code"]) && isset($_POST["owner"]) && isset($_POST["selectedSupply"]) && isset($_POST["total_quantity"])){
+                $selectedSupply = htmlspecialchars(($_POST['selectedSupply']));
+                $total_quantity = htmlspecialchars(($_POST['total_quantity']));
                 $quantity = htmlspecialchars($_POST['quantity']);
                 $code = htmlspecialchars($_POST['code']);
                 $owner = htmlspecialchars($_POST['owner']);
@@ -40,9 +41,9 @@
                 $description = htmlspecialchars($_POST['description']);
                 $date_of_delivery = date("m-d-Y", strtotime($_POST['date_of_delivery']));
 
-                if($quantity != "" && $quantity != null && $quantity > 0) {
+                if($quantity != "" && $quantity != null && $quantity > 0 && $total_quantity >= $quantity) {
 
-                    $sql = "SELECT TOTAL_QUANTITY FROM toner WHERE CODE = ?"; 
+                    $sql = "SELECT TOTAL_QUANTITY FROM `{$selectedSupply}` WHERE CODE = ?"; 
     
                     $stmnt2 = $con->prepare($sql);
                     $stmnt2->bind_param("s", $code);
@@ -65,7 +66,7 @@
     
                     $stmnt2->close();
     
-                    $sql1 = "UPDATE toner SET TOTAL_QUANTITY = ? WHERE CODE = ?";
+                    $sql1 = "UPDATE `{$selectedSupply}` SET TOTAL_QUANTITY = ? WHERE CODE = ?";
                     $stmnt = $con->prepare($sql1);
                     $stmnt->bind_param("is", $totalResult, $code); // Assuming $totalResult is an integer
                     $stmnt->execute();

@@ -121,7 +121,7 @@ td, input[type="text"]{
 }
    
 .out:hover {
-    background: rgb(36, 0, 0);
+    /* background: rgb(36, 0, 0); */
     background: linear-gradient(90deg, rgb(255, 30, 30) 0%, rgb(255, 79, 79) 100%);
 }
    

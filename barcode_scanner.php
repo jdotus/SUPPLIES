@@ -63,21 +63,20 @@
 
                             <td>
                                 <button class="in" data-bs-toggle="modal" data-bs-target="#staticBackdrop_in" data-id="<?php echo $id; ?>">IN</button>
-                                <button class="out">OUT</button>
+                                <button class="out" data-bs-toggle="modal" data-bs-target="#staticBackdrop_out" data-id="<?php echo $id; ?>">OUT</button>
                             </td>
                         </tr>
 
-                        <!-- Modal -->
-                        <div class="modal fade" id="staticBackdrop_in" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                        <!-- Modal IN -->
+                        <div class="modal fade" id="staticBackdrop_in" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel_in" aria-hidden="true">
                             <div class="modal-dialog modal-xl">
                                 <div class="modal-content">
                                     <div class="modal-header">
-                                        <h5 class="modal-title" id="staticBackdropLabel">Add Supplies</h5>
+                                        <h5 class="modal-title" id="staticBackdropLabel_in">Add Supplies</h5>
                                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                     </div>
                                     <div class="modal-body">
                                         <div id="in-result"></div>
-                                        <div id="out-result"></div>
                                         <form class="form_modal">
                                             <div class="form-group">
                                                 <label> Model</label>
@@ -97,7 +96,7 @@
                                             </div>
                                             <div class="form-group">
                                                 <label> Delivery Date</label><br>
-                                                <input type="date" class="date_of_delivery form-control" value="<?php echo date('Y-m-d'); ?>" max="<?php echo date('Y-m-d'); ?>" required>
+                                                <input type="date" class="date_of_delivery fsorm-control" value="<?php echo date('Y-m-d'); ?>" max="<?php echo date('Y-m-d'); ?>" required>
                                             </div>
                                             <div class="form-group">
                                                 <label> Quantity</label>
@@ -112,6 +111,52 @@
                                 </div>
                             </div>
                         </div>
+
+                        <!-- Modal OUT -->
+                        <div class="modal fade" id="staticBackdrop_out" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel_out" aria-hidden="true">
+                            <div class="modal-dialog modal-xl">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="staticBackdropLabel_out">Remove Supplies</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <!-- Result Div for OUT (success/error message) -->
+                                        <div id="out-result"></div>
+                                        <form class="form_modal">
+                                            <div class="form-group">
+                                                <label>Model</label>
+                                                <input type="text" name="Model" id="model_out" class="form-control custom-input" disabled>
+                                            </div>
+                                            <div class="form-group">
+                                                <label>Description</label>
+                                                <input type="text" name="Description" id="description_out" class="form-control custom-input" disabled>
+                                            </div>
+                                            <div class="form-group">
+                                                <label>Owner</label>
+                                                <input type="text" name="Owner" id="owner_out" class="form-control custom-input" disabled>
+                                            </div>
+                                            <div class="form-group">
+                                                <label>Code</label>
+                                                <input type="text" name="Code" id="code_out" class="form-control custom-input" disabled>
+                                            </div>
+                                            <div class="form-group">
+                                                <label>Delivery Date</label><br>
+                                                <input type="date" class="date_of_delivery_out form-control" value="<?php echo date('Y-m-d'); ?>" max="<?php echo date('Y-m-d'); ?>" required>
+                                            </div>
+                                            <div class="form-group">
+                                                <label>Quantity</label>
+                                                <input type="number" name="Quantity" id="quantity_out" class="quantity form-control custom-input" required>
+                                            </div> 
+                                        </form>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                        <button type="button" class="btn btn-danger btn_out">Remove Supplies</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     <?php } ?>  
                     </tbody>
                 </table>
@@ -122,16 +167,16 @@
         }
     }
     ?>
-  
-    <script>
+
+    <script>  
         
         $(document).ready(function() {
-           
-        const input = document.getElementById("quantity");
-
-        input.addEventListener("input", function () {  
+            
+            const input = document.getElementById("quantity");
+            
+            input.addEventListener("input", function () {  
                 this.value = this.value.replace(/[^0-9.-]/g, '');
-        });
+            });
 
         // When the "IN" button is clicked
         $('button.in').click(function() {
@@ -143,12 +188,29 @@
             $('#description').val(row.find('.description').text());
             $('#owner').val(row.find('.owner').text());
             $('#code').val(row.find('.code').text());
-
+            
             // Save the ID in a hidden variable for later use
             $('#staticBackdrop_in').data('id', id);
         });
 
+        // When the "OUT" button is clicked
+        $('button.out').click(function() {
+            var id = $(this).data('id'); // Get the data-id attribute
+            var row = $(this).closest('tr'); // Get the row containing the clicked button
+            
+            // Populate the modal with the current values of the row
+            $('#model_out').val(row.find('.model').text());
+            $('#description_out').val(row.find('.description').text());
+            $('#owner_out').val(row.find('.owner').text());
+            $('#code_out').val(row.find('.code').text());
+
+            // Save the ID in a hidden variable for later use
+            $('#staticBackdrop_out').data('id', id);
+        });
+        
+        // IN ADD SUPPLIES
         $('.btn_in').click(function() {
+        
         // Get the item ID stored in the modal's data-id
         var id = $('#staticBackdrop_in').data('id');
         var quantity = $('#quantity').val();  // Get the entered quantity
@@ -160,9 +222,7 @@
         var code = $('#code').val();
         var owner = $('#owner').val();
         var selectedSupply = '<?php echo $selectedSupply; ?>'; 
-        
        
-        
         // Validation to check if quantity is a valid number greater than 0
         if (quantity > 0) {
             var isTrue = confirm("Are you sure about that?");
@@ -205,46 +265,57 @@
         } else {
             alert("Please enter a valid quantity.");
         }
-    });
+        });
         
-        // OUT Button Click Handler
-        $('.out').on('click', function() {
-            var $row = $(this).closest('tr'); // Get the closest row
-            var quantity = $row.find('.quantity-input').val(); 
-            var total_quantity = $row.find('.total_quantity').text();
-            var code = $row.find('.code').text(); 
-            var owner = $row.find('.owner').text(); 
-            var model = $row.find('.model').text(); 
-            var description = $row.find('.description').text();
-            var date_of_delivery = $row.find('.date_of_delivery').val(); 
+         
+        // OUT REMOVE SUPPLIES
+        $('.btn_out').click(function() {
+            var id = $('#staticBackdrop_out').data('id'); // Get the item ID stored in the modal's data-id
+            var quantity = $('#quantity_out').val(); // Get the entered quantity
+            var deliveryDate = $('.date_of_delivery_out').val(); // Get the delivery date
             
-            // Validation
-            if (quantity > 0 && quantity ) {
-                var isTrue = confirm("Are you sure about that?");
+            // Get other item details from the modal (for example, the model, description, etc.)
+            var model = $('#model_out').val();
+            var description = $('#description_out').val();
+            var code = $('#code_out').val();
+            var owner = $('#owner_out').val();
+            var selectedSupply = '<?php echo $selectedSupply; ?>'; 
+            var $row = $('tr[data-id="' + id + '"]');
+            var total_quantity = $row.find('.total_quantity').text(); // Get the total quantity from the table
+
+
+            // Validation to check if quantity is a valid number greater than 0
+            if (quantity > 0) {
+                var isTrue = confirm("Are you sure you want to remove this quantity?");
                 if (isTrue) {
+                    // AJAX request to update the database
                     $.ajax({
                         type: "POST",
-                        url: "out.php", // Handle the request with this file
+                        url: "out.php",  // PHP file to handle the request
                         data: {
+                            id: id,  // Pass the item ID
                             quantity: quantity,
+                            selectedSupply: selectedSupply,
+                            total_quantity: total_quantity,
                             code: code,
                             owner: owner,
                             model: model,
                             description: description,
-                            date_of_delivery: date_of_delivery
+                            date_of_delivery: deliveryDate
                         },
                         success: function(response) {
-                            alert("Quantity updated successfully!");
+                            // Display the server's response in the 'out-result' div
                             $('#out-result').html(response);
-                            
-
-                            if(total_quantity >= quantity) {
-                                // Update the quantity column for this row
+    
+                            // Check if the total quantity is greater than or equal to the quantity to be removed
+                            if (total_quantity >= quantity) {
+                                // Calculate the new total quantity after removal
                                 var newTotalQuantity = parseInt($row.find('.total_quantity').text()) - parseInt(quantity);
-                                $row.find('.total_quantity').text(newTotalQuantity); // Update the quantity column
-                                $row.find('.quantity-input').val('');
-                            }
+                                $row.find('.total_quantity').text(newTotalQuantity); // Update the quantity column in the table
 
+                                // Clear the input field in the modal after successful removal
+                                $('#quantity_out').val('');
+                            } 
                         },
                         error: function() {
                             alert("There was an error updating the quantity.");
