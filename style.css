@@ -140,6 +140,10 @@ td, input[type="text"]{
     color: red;
 }
 
+/* .modal-content {
+    width: 1800px !important;
+} */
+
 
 /* Ensure form elements wrap properly */
 .form_modal {

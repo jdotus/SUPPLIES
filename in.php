@@ -23,15 +23,16 @@
 </head>
     <body>
         <?php
-            if(isset($_POST["quantity"]) && isset($_POST["code"]) && isset($_POST["owner"]) && isset($_POST["selectedSupply"])){
+            if(isset($_POST["quantity"]) && isset($_POST["code"]) && isset($_POST["owner"]) && isset($_POST["selectedSupply"]) && isset($_POST["invoice"])){
                 $selectedSupply = htmlspecialchars($_POST['selectedSupply']);
+                $invoice = htmlspecialchars($_POST['invoice']);
                 $quantity = htmlspecialchars($_POST['quantity']);
                 $code = htmlspecialchars($_POST['code']);
                 $owner = htmlspecialchars($_POST['owner']);
                 $model = htmlspecialchars($_POST['model']);
                 $description = htmlspecialchars($_POST['description']);
                 $date_of_delivery = date("m-d-Y", strtotime($_POST['date_of_delivery']));
-                echo($selectedSupply);
+               
                 if($quantity != "" && $quantity != null && $quantity > 0) {
 
                     $sql = "SELECT TOTAL_QUANTITY FROM `{$selectedSupply}` WHERE CODE = ?"; 
@@ -64,9 +65,9 @@
                         <?php
 
                         $currentDate = date("m-d-Y");
-                        $sql2 = "INSERT INTO delivery_in (date, model, description, code, date_of_delivery, quantity) VALUES (?, ?, ?, ?, ?, ?)";
+                        $sql2 = "INSERT INTO delivery_in (date, model, description, code, invoice, date_of_delivery, quantity) VALUES (?, ?, ?, ?, ?, ?, ?)";
                         $stmnt3 = $con->prepare($sql2);
-                        $stmnt3->bind_param("ssssss",  $currentDate, $model, $description, $code, $date_of_delivery, $quantity);
+                        $stmnt3->bind_param("sssssss",  $currentDate, $model, $description, $code, $invoice, $date_of_delivery, $quantity);
                         $stmnt3->execute();
                         $stmnt3->close();
                         

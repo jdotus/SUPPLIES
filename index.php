@@ -32,7 +32,7 @@ include('dbcon.php');
                     <option value="">SELECT</option>
                     <option value="toner">Toner</option>
                     <option value="drum">Drum</option>
-                    <option value="fillament">Fillament</option>
+                    <!-- <option value="fillament">Fillament</option> -->
                 </select>
                 <input type="text" id="barcode" require onkeypress="return (event.charCode != 13);" autocomplete="off"> 
         </form>
@@ -62,7 +62,7 @@ include('dbcon.php');
                         <select name="addsupply" id="addsupply" require>
                             <option value="addtoner">Toner</option>
                             <option value="adddrum">Drum</option>
-                            <option value="addfilament">Filament</option>
+                            <!-- <option value="addfilament">Filament</option> -->
                         </select>
                     </div>
                     <div class="form-group ">

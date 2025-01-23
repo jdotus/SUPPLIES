@@ -69,93 +69,147 @@
 
                         <!-- Modal IN -->
                         <div class="modal fade" id="staticBackdrop_in" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel_in" aria-hidden="true">
-                            <div class="modal-dialog modal-xl">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h5 class="modal-title" id="staticBackdropLabel_in">Add Supplies</h5>
-                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                    </div>
-                                    <div class="modal-body">
-                                        <div id="in-result"></div>
-                                        <form class="form_modal">
-                                            <div class="form-group">
-                                                <label> Model</label>
-                                                <input type="text" name="Model" id="model" class="form-control custom-input" disabled>
-                                            </div>
-                                            <div class="form-group">
-                                                <label> Description</label>
-                                                <input type="text" name="Description" id="description" class="form-control custom-input" disabled>
-                                            </div>
-                                            <div class="form-group">
-                                                <label> Owner</label>
-                                                <input type="text" name="Owner" id="owner" class="form-control custom-input" disabled>
-                                            </div>
-                                            <div class="form-group">
-                                                <label> Code</label>
-                                                <input type="text" name="Code" id="code" class="form-control custom-input" disabled>
-                                            </div>
-                                            <div class="form-group">
-                                                <label> Delivery Date</label><br>
-                                                <input type="date" class="date_of_delivery fsorm-control" value="<?php echo date('Y-m-d'); ?>" max="<?php echo date('Y-m-d'); ?>" required>
-                                            </div>
-                                            <div class="form-group">
-                                                <label> Quantity</label>
-                                                <input type="number" name="Quantity" id="quantity" class="quantity form-control custom-input" required>
-                                            </div> 
-                                        </form>
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                        <button type="button" class="btn btn-primary btn_in">Add Supplies</button>
-                                    </div>
-                                </div>
+                        <div class="modal-dialog modal-xl">
+                            <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="staticBackdropLabel_in">Add Supplies</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
+                            <div class="modal-body">
+                                <div id="in-result"></div>
+                                <form class="form_modal">
+                                <div class="row"> 
+                                    <div class="col-md-5">
+                                    <div class="form-group">
+                                        <label> Model</label>
+                                        <input type="text" name="Model" id="model" class="form-control custom-input" disabled>
+                                    </div>
+                                    </div>
+                                    <div class="col-md-5">
+                                    <div class="form-group">
+                                        <label> Delivery Date</label><br>
+                                        <input type="date" class="date_of_delivery fsorm-control" value="<?php echo date('Y-m-d'); ?>" max="<?php echo date('Y-m-d'); ?>" required>
+                                    </div>
+                                    </div>
+                                    <div class="col-md-5">
+                                    <div class="form-group">
+                                        <label> Description</label>
+                                        <input type="text" name="Description" id="description" class="form-control custom-input" disabled>
+                                    </div>
+                                    </div>
+                                    <div class="col-md-5">
+                                    <div class="form-group">
+                                        <label> Quantity</label>
+                                        <input type="number" name="Quantity" id="quantity" class="quantity form-control custom-input" required>
+                                    </div>
+                                    </div>
+                                    
+                                </div>
+                                <div class="row"> 
+                                    <div class="col-md-5">
+                                    <div class="form-group">
+                                        <label> Code</label>
+                                        <input type="text" name="Code" id="code" class="form-control custom-input" disabled>
+                                    </div>
+                                    </div>
+                                    <div class="col-md-5">
+                                    <div class="form-group">
+                                        <label> Invoice</label>
+                                        <input type="text" name="Code" id="invoice" class="form-control custom-input" required>
+                                    </div>
+                                    </div>
+                                    
+                                </div>
+                                <div class="row"> 
+                                    <div class="col-md-5">
+                                    <div class="form-group">
+                                        <label> Owner</label>
+                                        <input type="text" name="Owner" id="owner" class="form-control custom-input" disabled>
+                                    </div>
+                                    </div>
+                                </div> 
+                                </form>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                <button type="button" class="btn btn-primary btn_in">Add Supplies</button>
+                            </div>
+                            </div>
+                        </div>
                         </div>
 
                         <!-- Modal OUT -->
                         <div class="modal fade" id="staticBackdrop_out" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel_out" aria-hidden="true">
-                            <div class="modal-dialog modal-xl">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h5 class="modal-title" id="staticBackdropLabel_out">Remove Supplies</h5>
-                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        <div class="modal-dialog modal-xl">
+                            <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="staticBackdropLabel_out">Remove Supplies</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <div id="out-result"></div>
+                                <form class="form_modal">
+                                <div class="row"> 
+                                    <div class="col-md-5">
+                                        <div class="form-group">
+                                            <label> Model</label>
+                                            <input type="text" name="Model" id="model_out" class="form-control custom-input" disabled>
+                                        </div>
                                     </div>
-                                    <div class="modal-body">
-                                        <!-- Result Div for OUT (success/error message) -->
-                                        <div id="out-result"></div>
-                                        <form class="form_modal">
-                                            <div class="form-group">
-                                                <label>Model</label>
-                                                <input type="text" name="Model" id="model_out" class="form-control custom-input" disabled>
-                                            </div>
-                                            <div class="form-group">
-                                                <label>Description</label>
-                                                <input type="text" name="Description" id="description_out" class="form-control custom-input" disabled>
-                                            </div>
-                                            <div class="form-group">
-                                                <label>Owner</label>
-                                                <input type="text" name="Owner" id="owner_out" class="form-control custom-input" disabled>
-                                            </div>
-                                            <div class="form-group">
-                                                <label>Code</label>
-                                                <input type="text" name="Code" id="code_out" class="form-control custom-input" disabled>
-                                            </div>
-                                            <div class="form-group">
-                                                <label>Delivery Date</label><br>
-                                                <input type="date" class="date_of_delivery_out form-control" value="<?php echo date('Y-m-d'); ?>" max="<?php echo date('Y-m-d'); ?>" required>
-                                            </div>
-                                            <div class="form-group">
-                                                <label>Quantity</label>
-                                                <input type="number" name="Quantity" id="quantity_out" class="quantity form-control custom-input" required>
-                                            </div> 
-                                        </form>
+                                    <div class="col-md-5">
+                                        <div class="form-group">
+                                            <label> Delivery Date</label><br>
+                                            <input type="date" class="date_of_delivery_out form-control" value="<?php echo date('Y-m-d'); ?>" max="<?php echo date('Y-m-d'); ?>" required>
+                                        </div>
                                     </div>
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                        <button type="button" class="btn btn-danger btn_out">Remove Supplies</button>
+                                    <div class="col-md-5">
+                                        <div class="form-group">
+                                            <label> Code</label>
+                                            <input type="text" name="Code" id="code_out" class="form-control custom-input" disabled>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-5"> 
+                                        <div class="form-group">
+                                            <label> Client</label>
+                                            <input type="text" name="client" id="client_out" class="form-control custom-input" required>
+                                        </div>
                                     </div>
                                 </div>
+                                <div class="row"> 
+                                    <div class="col-md-5">
+                                        <div class="form-group">
+                                            <label> Description</label>
+                                            <input type="text" name="Description" id="description_out" class="form-control custom-input" disabled>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-5">
+                                        <div class="form-group">
+                                            <label> Quantity</label>
+                                            <input type="number" name="Quantity" id="quantity_out" class="quantity form-control custom-input" required>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-5">
+                                        <div class="form-group">
+                                            <label> Owner</label>
+                                            <input type="text" name="Owner" id="owner_out" class="form-control custom-input" disabled>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-5">
+                                        <div class="form-group">
+                                            <label> Stock Transfer No.</label>
+                                            <input type="text" name="Stock_Transfer" id="stock_transfer" class="form-control custom-input" require>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                </form>
                             </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                <button type="button" class="btn btn-danger btn_out">Remove Supplies</button>
+                            </div>
+                            </div>
+                        </div>
                         </div>
                     <?php } ?>  
                     </tbody>
@@ -171,12 +225,17 @@
     <script>  
         
         $(document).ready(function() {
-            
-            const input = document.getElementById("quantity");
-            
-            input.addEventListener("input", function () {  
-                this.value = this.value.replace(/[^0-9.-]/g, '');
-            });
+            const inputQuantity = document.getElementById("quantity");
+            const inputInvoice = document.getElementById("invoice");
+
+            const numberOnlyRegex = /[^0-9.-]/g; 
+
+            const handleInput = (event) => {
+            event.target.value = event.target.value.replace(numberOnlyRegex, '');
+            };
+
+            inputQuantity.addEventListener("input", handleInput);
+            inputInvoice.addEventListener("input", handleInput);
 
         // When the "IN" button is clicked
         $('button.in').click(function() {
@@ -221,10 +280,11 @@
         var description = $('#description').val();
         var code = $('#code').val();
         var owner = $('#owner').val();
+        var invoice = $('#invoice').val();
         var selectedSupply = '<?php echo $selectedSupply; ?>'; 
        
         // Validation to check if quantity is a valid number greater than 0
-        if (quantity > 0) {
+        if (quantity > 0 && invoice > 0) {
             var isTrue = confirm("Are you sure about that?");
             if (isTrue) {
                 // AJAX request to update the database
@@ -235,6 +295,7 @@
                         id: id,  // Pass the item ID
                         quantity: quantity,
                         selectedSupply: selectedSupply,
+                        invoice: invoice,
                         code: code,
                         owner: owner,
                         model: model,
@@ -255,7 +316,7 @@
 
                         // Optionally, you can reset or clear input fields here if needed
                         $('#quantity').val('');  // Clear the quantity input in the modal
-
+                        $('#invoice').val('');
                     },
                     error: function() {
                         alert("There was an error updating the quantity.");
@@ -263,7 +324,7 @@
                 });
             }
         } else {
-            alert("Please enter a valid quantity.");
+            alert("Please enter a valid data.");
         }
         });
         
@@ -315,6 +376,7 @@
 
                                 // Clear the input field in the modal after successful removal
                                 $('#quantity_out').val('');
+                                $('#client_out').val('');
                             } 
                         },
                         error: function() {
