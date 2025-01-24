@@ -17,6 +17,11 @@ form {
     text-align: center;
 }
 
+#client_out, #machine_model_out, #machine_serial_out,  #tech_name_out{
+    text-transform: uppercase;
+}
+
+
 .search_container {
     width: 90%;
     margin: 150px auto 100px auto;
@@ -93,7 +98,7 @@ td, input[type="text"]{
     padding: 0.5em 1em;
     margin: 0 5px 0 0;
     border: transparent;
-    box-shadow: 2px 2px 4px rgba(0,0,0,0.4);
+    /* box-shadow: 2px 2px 4px rgba(0,0,0,0.4); */
     background: dodgerblue;
     color: white;
     border-radius: 4px;
@@ -114,7 +119,7 @@ td, input[type="text"]{
     padding: 0.5em 0.8em;
     margin: 0 0 0 5px;
     border: transparent;
-    box-shadow: 2px 2px 4px rgba(0,0,0,0.4);
+    /* box-shadow: 2px 2px 4px rgba(0,0,0,0.4); */
     background: rgb(255, 30, 30);
     color: white;
     border-radius: 4px;
@@ -156,8 +161,13 @@ td, input[type="text"]{
 
 /* Ensure each form group takes a specific width */
 .form-group {
-    width: calc(50% - 1rem); /* Adjust width for two columns */
+    width: calc(84% - 1rem); /* Adjust width for two columns */
     margin-bottom: 1rem;     /* Space between rows */
+}
+
+textarea.form-control {
+    min-width: 100%;
+    width: 120%;
 }
 
 /* Full-width inputs for smaller screens */
@@ -184,7 +194,7 @@ label {
 }
 
 .form-group select,
-.form-group input {
+.form-group input{
     width: 120%; /* Adjust the width of inputs and selects */
     max-width: 350px; /* Limit the maximum width */
     height: 50px; /* Increase height */

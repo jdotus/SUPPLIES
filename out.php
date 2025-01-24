@@ -41,6 +41,13 @@
                 $description = htmlspecialchars($_POST['description']);
                 $date_of_delivery = date("m-d-Y", strtotime($_POST['date_of_delivery']));
 
+                $barCode = htmlspecialchars($_POST['barcode']);
+                $stockTransfer =htmlspecialchars($_POST['stockTransfer']);
+                $machineModel = htmlspecialchars($_POST['machineModel']);
+                $machineSerial = htmlspecialchars($_POST['machineSerial']);
+                $techName = htmlspecialchars($_POST['techName']);
+                $client = (htmlspecialchars($_POST['client']));
+
                 if($quantity != "" && $quantity != null && $quantity > 0 && $total_quantity >= $quantity) {
 
                     $sql = "SELECT TOTAL_QUANTITY FROM `{$selectedSupply}` WHERE CODE = ?"; 
@@ -78,10 +85,28 @@
                         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                     </div>  
                     <?php
-                        $currentDate = date("m-d-Y");
-                        $sql2 = "INSERT INTO delivery_out (date, model, description, code, date_of_delivery, quantity) VALUES (?, ?, ?, ?, ?, ?)";
+                        $currentDate = date("Y-m-d"); // Use the SQL date format (YYYY-MM-DD)
+                        $sql2 = "INSERT INTO delivery_out 
+                            (date, model, description, code, date_of_delivery, barcode, quantity, client, machine_model, machine_serial, tech_name, stock_transfer) 
+                            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
                         $stmnt3 = $con->prepare($sql2);
-                        $stmnt3->bind_param("ssssss",  $currentDate, $model, $description, $code, $date_of_delivery, $quantity);
+                        
+                        // Corrected data types and variables
+                        $stmnt3->bind_param(
+                            "ssssssssssss",  // s = string, i = integer
+                            $currentDate, 
+                            $model, 
+                            $description, 
+                            $code, 
+                            $date_of_delivery, 
+                            $barCode,  // Assuming barcode is a string; adjust if necessary
+                            $quantity,  // Assuming quantity is an integer
+                            $client, 
+                            $machineModel, 
+                            $machineSerial, 
+                            $techName, 
+                            $stockTransfer
+                        );
                         $stmnt3->execute();
                         $stmnt3->close();
 
