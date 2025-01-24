@@ -11,7 +11,7 @@
     outline: 1px solid red;
 }
 
-form {
+form, .align_center{
     margin: 0 auto;
     /* width: 500px; */
     text-align: center;
@@ -67,7 +67,7 @@ input[type="date"] {
     margin: 0 0 15px 0;
 }
 
-.result_container, .add_supplies {
+.result_container, .add_supplies, .records {
     width: 90%;
     margin: 25px auto 10px auto;
 }

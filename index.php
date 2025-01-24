@@ -29,7 +29,7 @@ include('dbcon.php');
         <form class="search">
                 <label for="supplies">Select Supply</label><br>
                 <select name="supplies" id="supplies" require>
-                    <option value="">SELECT</option>
+                    <option value="default">SELECT</option>
                     <option value="toner">Toner</option>
                     <option value="drum">Drum</option>
                     <!-- <option value="fillament">Fillament</option> -->
@@ -43,7 +43,9 @@ include('dbcon.php');
             <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
                 Add Supplies
             </button>
-            <button type="button" class="btn btn-primary">View History</button>
+            <a href="record.php" target="_blank">
+                <button type="button" class="btn btn-primary">View History</button>
+            </a>
         </div>
 
 
@@ -104,7 +106,14 @@ include('dbcon.php');
             $('#barcode').prop('disabled', true);
 
             $('#supplies').on('change', function() {
-                $('#barcode').attr('disabled', false);
+                var selectedSupply = $(this).val();
+
+                if(selectedSupply == 'default'){
+                    $('#barcode').prop('disabled', true);
+                }else{
+
+                    $('#barcode').prop('disabled', false);
+                }
             });
 
             $('#barcode').keyup(function() {
