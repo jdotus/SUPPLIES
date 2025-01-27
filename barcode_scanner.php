@@ -12,6 +12,9 @@
 
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
 
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+    </head>
+
     <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
 
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
@@ -23,10 +26,10 @@
 </head>
 <body>
     <?php
-    if(isset($_POST['input']) && isset($_POST['barcode'])) {
+    if(isset($_POST['input']) && isset($_POST['barcode']) ) {
         $selectedSupply = htmlspecialchars($_POST['input']); 
         $scanCode = htmlspecialchars($_POST['barcode']); 
-        
+
         // Prepare the SQL statement
         $stmt = $con->prepare("SELECT * FROM `{$selectedSupply}` WHERE CODE LIKE '{$scanCode}%' OR MODEL LIKE '{$scanCode}%' ");
         $stmt->execute();
@@ -198,7 +201,7 @@
                                     <div class="col-md-3"> 
                                         <div class="form-group">
                                             <label> Client</label>
-                                            <input type="text" name="Client" id="client_out" class="form-control custom-input" required>
+                                            <input type="text" name="Client_Name" id="searchInput" class="quantity form-control placeholder="Search for names..." />
                                         </div>
                                     </div>
                                     <div class="col-md-3">
@@ -282,6 +285,62 @@
             inputQuantity.addEventListener("input", handleInput);
             inputInvoice.addEventListener("input", handleInput);
             // stockTransferOut.addEventListener("input", handleInput);
+
+            $("#searchInput").on("keyup", function () {
+    var searchTerm = $(this).val().toLowerCase();
+
+    // AJAX call to fetch matching client names
+    $.ajax({
+        url: "getClientNames.php", // Replace with the actual PHP script
+        type: "POST",
+        data: { searchTerm: searchTerm },
+        success: function (result) {
+            // Clear any previous suggestions
+            $("#suggestions").remove();
+
+            // Parse the JSON response
+            var names = JSON.parse(result);
+
+            // Create a dropdown list for suggestions
+            if (names.length > 0) {
+                var suggestionBox = $("<ul id='suggestions'></ul>").css({
+                    border: "1px solid #ccc",
+                    position: "absolute",
+                    zIndex: "500",
+                    maxHeight: "150px", // Set a maximum height for the dropdown
+                    overflowY: "auto", // Enable vertical scrolling
+                    backgroundColor: "#fff",
+                    width: $("#searchInput").outerWidth(),
+                    listStyleType: "none",
+                    margin: "0",
+                    padding: "0",
+                });
+
+                // Append suggestions to the dropdown
+                names.forEach(function (name) {
+                    var suggestionItem = $("<li></li>")
+                        .text(name)
+                        .css({
+                            padding: "8px",
+                            cursor: "pointer",
+                        })
+                        .on("click", function () {
+                            $("#searchInput").val(name); // Set the selected name
+                            $("#suggestions").remove(); // Remove the suggestions
+                        });
+                    suggestionBox.append(suggestionItem);
+                });
+
+                // Append the suggestion box to the DOM
+                $("#searchInput").after(suggestionBox);
+            }
+        },
+        error: function () {
+            console.error("Error fetching client names.");
+        },
+    });
+});
+
 
         // When the "IN" button is clicked
         $('button.in').click(function() {
