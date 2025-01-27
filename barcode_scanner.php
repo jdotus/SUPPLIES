@@ -178,8 +178,10 @@
                                             <input type="text" name="Current Quantity" id="current_quantity_out" class="form-control custom-input" disabled>
                                         </div>
                                     </div>
+                                </div> 
+                                <div class="space">
+                                    
                                 </div>
-
                                 <div class="row"> 
                                     <div class="col-md-3">
                                         <div class="form-group">
