@@ -13,29 +13,36 @@ if (isset($_POST["addsupply"]) && isset($_POST["addModel"]) && isset($_POST["add
     $code = $_POST["addCode"];
     $quantity = $_POST["addQuantity"];
 
-    // Initialize SQL query
-    $sql = "";
-
-    // Determine table based on supply type
+    // Initialize SQL query for insertion and validation
+    $table = "";
     switch ($supply) {
         case "toner":
-            $sql = "INSERT INTO toner (model, description, owner, code, total_quantity) 
-                    VALUES ('$model', '$description', '$owner', '$code', '$quantity')";
+            $table = "toner";
             break;
         case "drum":
-            $sql = "INSERT INTO drum (model, description, owner, code, total_quantity) 
-                    VALUES ('$model', '$description', '$owner', '$code', '$quantity')";
+            $table = "drum";
             break;
         default:
             echo "Invalid supply type.";
             exit;
     }
 
-    // Execute query
-    if ($con->query($sql) === TRUE) {
-        echo "New supply added successfully!";
+    // Check if data already exists
+    $checkSql = "SELECT * FROM $table WHERE model = '$model' AND code = '$code'";
+    $result = $con->query($checkSql);
+
+    if ($result->num_rows > 0) {
+        // Data already exists
+        echo "Error: Supply with the same model and code already exists.";
     } else {
-        echo "Error: " . $con->error;
+        // Insert new data
+        $insertSql = "INSERT INTO $table (model, description, owner, code, total_quantity) 
+                      VALUES ('$model', '$description', '$owner', '$code', '$quantity')";
+        if ($con->query($insertSql) === TRUE) {
+            echo "New supply added successfully!";
+        } else {
+            echo "Error: " . $con->error;
+        }
     }
 
     // Close connection
