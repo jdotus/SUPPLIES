@@ -70,6 +70,7 @@
     </form>
 </div>
                 <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" id="importexcel">Import Excel File</button>
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                     <button type="button" class="btn btn-primary" id="addSupplyBtn">Add Supplies</button>
                 </div>
@@ -171,9 +172,12 @@ $('#staticBackdrop').on('hidden.bs.modal', function () {
     $('#addSupplyBtn').focus(); // Return focus to the triggering button
 });
 
-
-
         });
+
+        document.getElementById("importexcel").addEventListener("click", function() {
+            window.open("/supplies/excel/excel.php", "_blank"); 
+        });
+
     </script>
 </body>
 </html>
