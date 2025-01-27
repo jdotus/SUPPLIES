@@ -149,12 +149,15 @@
         success: function (response) {
             alert(response); // Display success/error message from the server
 
-            // Reset the form and hide the modal
-            $('#addSupplyForm')[0].reset();
-            $('#staticBackdrop').modal('hide');
+            // Only reset the form and hide the modal if the response indicates success
+            if (response.includes("successfully")) {
+                $('#addSupplyForm')[0].reset(); // Reset the form
+                $('#staticBackdrop').modal('hide'); // Hide modal on success
+            }
+            // For errors, the modal remains open
         },
         error: function () {
-            alert('An error occurred while adding the supply.'); // Better: Display this message in the modal
+            alert('An error occurred while adding the supply.');
         },
         complete: function () {
             // Re-enable the button after the request completes
@@ -167,6 +170,7 @@
 $('#staticBackdrop').on('hidden.bs.modal', function () {
     $('#addSupplyBtn').focus(); // Return focus to the triggering button
 });
+
 
 
         });
