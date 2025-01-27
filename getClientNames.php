@@ -1,32 +1,25 @@
 <?php
     include('dbcon.php');
-    
-    if(isset($_POST['searchTerm'])){
 
-        $searchTerm = htmlspecialchars($_POST['searchTerm']);
-
-        // Prepare the query
-        $stmntClientName = $con->prepare("SELECT client_name FROM client_names WHERE client_name LIKE ?");
-        
-        // Bind the parameter with a wildcard for partial matches
-        $searchTermWithWildcard = $searchTerm . '%';
-        $stmntClientName->bind_param("s", $searchTermWithWildcard);
+    if (isset($_GET['searchTerm'])) {
+        $searchTerm = htmlspecialchars($_GET['searchTerm']);
+        error_log("Search term received: " . $searchTerm);
     
-        // Execute the query
-        $stmntClientName->execute();
+        $sql = "SELECT client_name FROM client_names WHERE client_name LIKE ?";
+        $stmt = $con->prepare($sql);
     
-        // Fetch results
-        $result = $stmntClientName->get_result();
-        $names = array();
+        $searchTermWithWildcard = '%' . $searchTerm . '%';
+        $stmt->bind_param("s", $searchTermWithWildcard);
     
-        if ($result->num_rows > 0) {
-            while ($row = $result->fetch_assoc()) {
-                $names[] = $row["client_name"];
-            }
+        $stmt->execute();
+        $result = $stmt->get_result();
+    
+        $names = [];
+        while ($row = $result->fetch_assoc()) {
+            $names[] = $row["client_name"];
         }
     
-        // Return the names as JSON
+        error_log("Fetched Names: " . print_r($names, true));
         echo json_encode($names);
     }
-
 ?>
