@@ -2,93 +2,61 @@
     include('dbcon.php');
 ?>
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Supplies</title>
-
-    <link rel="stylesheet" href="style.css">
-
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
-
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
-    
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js" integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy" crossorigin="anonymous"></script>
-    
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-</head>
-    <body>
         <?php
-            if(isset($_POST["quantity"]) && isset($_POST["code"]) && isset($_POST["owner"]) && isset($_POST["selectedSupply"]) && isset($_POST["invoice"])){
-                $selectedSupply = htmlspecialchars($_POST['selectedSupply']);
-                $invoice = htmlspecialchars($_POST['invoice']);
-                $quantity = htmlspecialchars($_POST['quantity']);
+            if (
+                isset($_POST["id"], $_POST["quantity"], $_POST["code"], $_POST["owner"], 
+                $_POST["selectedSupply"], $_POST["invoice"], $_POST["date_of_delivery"])
+            ) {
+                $id = htmlspecialchars($_POST['id']);
+                $quantity = intval($_POST['quantity']);
                 $code = htmlspecialchars($_POST['code']);
                 $owner = htmlspecialchars($_POST['owner']);
+                $selectedSupply = htmlspecialchars($_POST['selectedSupply']);
+                $invoice = intval($_POST['invoice']);
+                $date_of_delivery = date("m-d-Y", strtotime($_POST['date_of_delivery']));
                 $model = htmlspecialchars($_POST['model']);
                 $description = htmlspecialchars($_POST['description']);
-                $date_of_delivery = date("m-d-Y", strtotime($_POST['date_of_delivery']));
-               
-                if($quantity != "" && $quantity != null && $quantity > 0) {
-
-                    $sql = "SELECT TOTAL_QUANTITY FROM `{$selectedSupply}` WHERE CODE = ?"; 
+            
+                // Validate input
+                if ($quantity > 0 && $invoice > 0) {
+                    $sql = "SELECT TOTAL_QUANTITY FROM `{$selectedSupply}` WHERE CODE = ?";
                     $stmnt2 = $con->prepare($sql);
-                    $stmnt2->bind_param("s",  $code); 
-                    $stmnt2->execute(); 
-                    $stmnt2->bind_result($currentQuantity); 
-                    
-                    // Check if a row was found
-                    if ($stmnt2->fetch()) { 
-                        $totalResult = $currentQuantity + $quantity; 
+                    $stmnt2->bind_param("s", $code);
+                    $stmnt2->execute();
+                    $stmnt2->bind_result($currentQuantity);
+            
+                    if ($stmnt2->fetch()) {
+                        $totalResult = $currentQuantity + $quantity;
                     } else {
-                        // Handle the case where no row is found 
-                        // (e.g., set $totalResult to a default value)
-                        $totalResult = 0 + $quantity; 
+                        $totalResult = $quantity;
                     }
-    
                     $stmnt2->close();
-    
+            
+                    // Update total quantity
                     $sql1 = "UPDATE `{$selectedSupply}` SET TOTAL_QUANTITY = ? WHERE CODE = ?";
                     $stmnt1 = $con->prepare($sql1);
-                    $stmnt1->bind_param("is", $totalResult, $code); // Assuming $totalResult is an integer
+                    $stmnt1->bind_param("is", $totalResult, $code);
                     $stmnt1->execute();
-                    
-                    if ($stmnt1->affected_rows > 0) {?>
-                        <div class="alert alert-success alert-dismissible fade show" role="alert">
-                            <strong>Success!</strong> Data Updated
-                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                        </div>
-                        <?php
-
+            
+                    if ($stmnt1->affected_rows > 0) {
+                        // Record the delivery
                         $currentDate = date("m-d-Y");
-                        $sql2 = "INSERT INTO delivery_in (date, model, description, code, invoice, date_of_delivery, quantity) VALUES (?, ?, ?, ?, ?, ?, ?)";
+                        $sql2 = "INSERT INTO delivery_in (date, model, description, code, invoice, date_of_delivery, quantity) 
+                                 VALUES (?, ?, ?, ?, ?, ?, ?)";
                         $stmnt3 = $con->prepare($sql2);
-                        $stmnt3->bind_param("sssssss",  $currentDate, $model, $description, $code, $invoice, $date_of_delivery, $quantity);
+                        $stmnt3->bind_param("sssssss", $currentDate, $model, $description, $code, $invoice, $date_of_delivery, $quantity);
                         $stmnt3->execute();
                         $stmnt3->close();
-                        
-                    } else { ?>
-                    <div class="alert alert-warning alert-dismissible fade show" role="alert">
-                        <strong>Ohhh no!</strong> NO RECORD FOUND
-                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                    </div>  
-                    <?php
+            
+                        echo "success";
+                    } else {
+                        echo "Failed to update quantity.";
                     }
-                    
                     $stmnt1->close();
-                } else { ?>
-                    <div class="alert alert-warning alert-dismissible fade show" role="alert">
-                        <strong>Ohhh no!</strong> Invalid Data, Try again.
-                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                    </div>  
-                    <?php
-                }                
+                } else {
+                    echo "Invalid data. Quantity and invoice must be greater than 0.";
+                }
+            } else {
+                echo "Required fields are missing.";
             }
         ?>
-        </script>
-    </body>
-</html>

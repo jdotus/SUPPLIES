@@ -129,7 +129,7 @@
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                    <button type="button" class="btn btn-primary btn_in">Add Supplies</button>
+                                    <button type="button" class="btn btn-primary btn_in" >Add Supplies</button>
                                 </div>
                                 </div>
                             </div>
@@ -374,9 +374,7 @@
         });
         
         // IN ADD SUPPLIES
-        $('.btn_in').click(function() {
-        
-        // Get the item ID stored in the modal's data-id
+        $('.btn_in').click(function () {
         var id = $('#staticBackdrop_in').data('id');
         var quantity = $('#quantity').val();  // Get the entered quantity
         var deliveryDate = $('.date_of_delivery').val();  // Get the delivery date
@@ -388,17 +386,45 @@
         var owner = $('#owner').val();
         var invoice = $('#invoice').val();
         var selectedSupply = '<?php echo $selectedSupply; ?>'; 
-       
-        // Validation to check if quantity is a valid number greater than 0
-        if (quantity > 0 && invoice > 0) {
+
+            // Perform client-side validation
+            var errors = [];
+
+            if (!quantity || isNaN(quantity) || parseInt(quantity) <= 0) {
+                errors.push("Please enter a valid quantity greater than 0.");
+            }
+            if (!invoice || isNaN(invoice) || parseInt(invoice) <= 0) {
+                errors.push("Please enter a valid invoice number greater than 0.");
+            }
+            if (!deliveryDate) {
+                errors.push("Please select a delivery date.");
+            }
+            if (!model) {
+                errors.push("Model field cannot be empty.");
+            }
+            if (!description) {
+                errors.push("Description field cannot be empty.");
+            }
+
+            if (errors.length > 0) {
+                
+                $('#in-result').html(
+                '<div class="alert alert-warning alert-dismissible fade show" role="alert">' +
+                '<strong>Ohhh no!</strong> ' + errors.join("\n") +
+                '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>' +
+                '</div>' 
+                );
+                return;
+            }
+
             var isTrue = confirm("Are you sure about that?");
             if (isTrue) {
-                // AJAX request to update the database
+                // AJAX request
                 $.ajax({
                     type: "POST",
-                    url: "in.php",  // PHP file to handle the request
+                    url: "in.php",
                     data: {
-                        id: id,  // Pass the item ID
+                        id: id,
                         quantity: quantity,
                         selectedSupply: selectedSupply,
                         invoice: invoice,
@@ -406,35 +432,39 @@
                         owner: owner,
                         model: model,
                         description: description,
-                        date_of_delivery: deliveryDate
+                        date_of_delivery: deliveryDate,
                     },
-                    success: function(response) {
+                    success: function (response) {
+                        if (response.trim() === "success") {
 
-                        // If you want to display the server's response in an element with id "in-result"
-                        $('#in-result').html(response); // Display the server's response
-                        // Find the row corresponding to the clicked item by its ID
-                        var $row = $('tr[data-id="' + id + '"]');
+                            // Update quantity in the table
+                            var $row = $('tr[data-id="' + id + '"]');
+                            var currentQuantity = parseInt($row.find('.total_quantity').text());
+                            var newTotalQuantity = currentQuantity + parseInt(quantity);
+                            $row.find('.total_quantity').text(newTotalQuantity);
 
-                        // Update the quantity in the row
-                        var currentQuantity = parseInt($row.find('.total_quantity').text());
-                        var newTotalQuantity = currentQuantity + parseInt(quantity);
-                        $row.find('.total_quantity').text(newTotalQuantity);  // Update the quantity column
+                            // Clear input fields
+                            $('#quantity').val('');
+                            $('#invoice').val('');
 
-                        // Optionally, you can reset or clear input fields here if needed
-                        $('#quantity').val('');  // Clear the quantity input in the modal
-                        $('#invoice').val('');
+                            $('#in-result').html(
+                            '<div class="alert alert-success alert-dismissible fade show" role="alert">' +
+                            '<strong>Success!</strong> Data Inserted,    Quantity: ' + quantity + ' Invoice: ' + invoice +
+                            '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>' +
+                            '</div>' 
+                            );
+                        } else {
+                            alert("Error: " + response.trim());
+                        }
                     },
-                    error: function() {
-                        alert("There was an error updating the quantity.");
-                    }
+                    error: function () {
+                        alert("There was an error processing the request.");
+                    },
                 });
             }
-        } else {
-            alert("Please enter a valid data.");
-        }
         });
-        
-         
+
+
 
         $('.btn_out').click(function () {
             var id = $('#staticBackdrop_out').data('id'); // Get the item ID stored in the modal's data-id
@@ -515,8 +545,6 @@
                 alert("Please enter a valid quantity.");
             }
         });
-
-
     });
     </script>
 </body>
