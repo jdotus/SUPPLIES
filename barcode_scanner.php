@@ -288,7 +288,6 @@
             $(".client_out").on("keyup", function () {
                 var searchTerm = $(this).val().toLowerCase();
 
-                // Debug search term
                 console.log("Search Term: " + searchTerm);
 
                 $.ajax({
@@ -296,43 +295,43 @@
                     type: "GET",
                     data: { searchTerm: searchTerm },
                     success: function (result) {
-                        // Clear any previous suggestions
                         $("#suggestions").remove();
 
-                        try {
-                            var names = JSON.parse(result);
-                            console.log("Result:", result);
-                            console.log("Parsed Names:", names);
+                        console.log("Server Response:", result);
 
-                            if (names.length > 0) {
-                                var suggestionBox = $("<ul id='suggestions'></ul>").css({
-                                    border: "1px solid #ccc",
-                                    position: "absolute",
-                                    zIndex: "500",
-                                    maxHeight: "150px",
-                                    overflowY: "auto",
-                                    backgroundColor: "#fff",
-                                    width: $(".client_out").outerWidth(),
-                                    listStyleType: "none",
-                                    margin: "0",
-                                    padding: "0",
-                                });
+                        var names = JSON.parse(result);
 
-                                names.forEach(function (name) {
-                                    var suggestionItem = $("<li></li>")
-                                        .text(name)
-                                        .css({ padding: "8px", cursor: "pointer" })
-                                        .on("click", function () {
-                                            $(".client_out").val(name);
-                                            $("#suggestions").remove();
-                                        });
-                                    suggestionBox.append(suggestionItem);
-                                });
+                        if (names.length > 0) {
+                            var suggestionBox = $("<ul id='suggestions'></ul>").css({
+                                border: "1px solid #ccc",
+                                position: "absolute",
+                                zIndex: "500",
+                                maxHeight: "150px",
+                                overflowY: "auto",
+                                backgroundColor: "#fff",
+                                width: $(".client_out").outerWidth(),
+                                listStyleType: "none",
+                                margin: "0",
+                                padding: "0",
+                            });
 
-                                $(".client_out").after(suggestionBox);
-                            }
-                        } catch (error) {
-                            console.error("Error parsing JSON:", error);
+                            names.forEach(function (name) {
+                                var suggestionItem = $("<li></li>")
+                                    .text(name.trim())
+                                    .css({ padding: "8px", cursor: "pointer" })
+                                    .on("click", function (e) {
+                                        e.stopPropagation();
+                                        $(".client_out").val(name.trim());
+                                        $("#suggestions").remove();
+                                    });
+                                suggestionBox.append(suggestionItem);
+                            });
+
+                            $(".client_out").after(suggestionBox);
+
+                            $(document).on("click", function () {
+                                $("#suggestions").remove();
+                            });
                         }
                     },
                     error: function (xhr, status, error) {
@@ -372,7 +371,7 @@
             // Save the ID in a hidden variable for later use
             $('#staticBackdrop_out').data('id', id);
         });
-        
+       
         // IN ADD SUPPLIES
         $('.btn_in').click(function () {
         var id = $('#staticBackdrop_in').data('id');
@@ -410,7 +409,7 @@
                 
                 $('#in-result').html(
                 '<div class="alert alert-warning alert-dismissible fade show" role="alert">' +
-                '<strong>Ohhh no!</strong> ' + errors.join("\n") +
+                '<strong>Ohhh no!</strong> ' + errors.join("<br>") +
                 '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>' +
                 '</div>' 
                 );
@@ -464,8 +463,6 @@
             }
         });
 
-
-
         $('.btn_out').click(function () {
             var id = $('#staticBackdrop_out').data('id'); // Get the item ID stored in the modal's data-id
             var quantity = $('#quantity_out').val(); // Get the entered quantity
@@ -488,8 +485,54 @@
             var $row = $('tr[data-id="' + id + '"]'); // Select the specific row
             var total_quantity = parseInt($row.find('.total_quantity').text()); // Get the total quantity from the table
 
+            // Perform client-side validation
+            var errors = [];
+            alert(client);
+            alert(total_quantity);
+            if (!quantity || isNaN(quantity) || parseInt(quantity) <= 0) {
+                errors.push("Please enter a valid quantity greater than 0.");
+            }
+            if (!barcode || isNaN(barcode) || parseInt(barcode) <= 0) {
+                errors.push("Please enter a valid barcode number greater than 0.");
+            }
+            if (!techName || isNaN(techName) || techName == "") {
+                errors.push("Please enter a valid Technician Name ");
+            }
+            if (!machineSerial || isNaN(machineSerial) || machineSerial == "") {
+                errors.push("Please enter a valid Machine Serial number greater than 0.");
+            }
+            if (!machineModel || isNaN(machineModel) || machineModel == "") {
+                errors.push("Please enter a valid Machine Model.");
+            }
+            if (client == "") {
+                errors.push("Please enter a valid Client Name.");
+            }
+            if (!stockTransfer || isNaN(stockTransfer) || stockTransfer == "") {
+                errors.push("Please enter a valid Stock Transfer.");
+            }
+            if (!deliveryDate) {
+                errors.push("Please select a delivery date.");
+            }
+            if (!model) {
+                errors.push("Model field cannot be empty.");
+            }
+            if (!description) {
+                errors.push("Description field cannot be empty.");
+            }
+
+            if (errors.length > 0) {
+                
+                $('#out-result').html(
+                '<div class="alert alert-warning alert-dismissible fade show" role="alert">' +
+                '<strong>Ohhh no!</strong> ' + errors.join("<br>") +
+                '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>' +
+                '</div>' 
+                );
+                return;
+            }
+
             // Validation to check if quantity is a valid number greater than 0
-            if (quantity > 0 && quantity <= total_quantity) {
+            
                 var isTrue = confirm("Are you sure you want to remove this quantity?");
                 if (isTrue) {
                     // AJAX request to update the database
@@ -514,14 +557,28 @@
                             date_of_delivery: deliveryDate,
                         },
                         success: function (response) {
-                            // Assuming the server returns the updated total_quantity as plain text
-                            var newTotalQuantity = parseInt(response.trim());
-                            $('#out-result').html(response);
-                            if (!isNaN(newTotalQuantity)) {
-                                // Update the total quantity in the table
-                                $row.find('.total_quantity').text(newTotalQuantity);
 
-                                // Clear and reset modal fields
+                            var result = JSON.parse(response);
+                            if (result.status === "success") {
+                                $('#out-result').html(
+                                    '<div class="alert alert-success alert-dismissible fade show" role="alert">' +
+                                    '<strong>Success!</strong> ' + result.message +
+                                    '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>' +
+                                    '</div>'
+                                );
+
+                                // Save the ID in a hidden variable for later use
+                                $('#staticBackdrop_out').data('id', id);
+                                
+                                var $row = $('tr[data-id="' + id + '"]');
+                                var currentQuantity = parseInt($row.find('.total_quantity').text());
+                                var newTotalQuantity = currentQuantity - parseInt(quantity);
+                                $row.find('.total_quantity').text(newTotalQuantity);
+                                
+                                // Populate the modal with the current values of the row
+                                $('#current_quantity_out').val(newTotalQuantity).text();
+                                
+                                 // Clear and reset modal fields
                                 $('#quantity_out').val('');
                                 $('#client_out').val('');
                                 $('#stock_transfer_out').val('');
@@ -529,11 +586,14 @@
                                 $('#machine_serial_out').val('');
                                 $('#barcode_out').val('');
                                 $('#tech_name_out').val('');
-
-                                // Close the modal
-                                $('#staticBackdrop_out').modal('hide');
+                                
                             } else {
-                                alert("Invalid server response. Please try again.");
+                                $('#out-result').html(
+                                    '<div class="alert alert-danger alert-dismissible fade show" role="alert">' +
+                                    '<strong>Error:</strong> ' + result.message +
+                                    '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>' +
+                                    '</div>'
+                                );
                             }
                         },
                         error: function () {
@@ -541,9 +601,6 @@
                         },
                     });
                 }
-            } else {
-                alert("Please enter a valid quantity.");
-            }
         });
     });
     </script>
