@@ -23,111 +23,180 @@
 
 </head>
     <body>
-        <?php 
+    <?php
+        include("dbcon.php");
 
-            function showAlert($type, $message) {
-                echo "<div class='alert alert-$type alert-dismissible fade show' role='alert'>
-                        <strong>$type:</strong> $message
-                        <button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button>
-                        </div>";
-            }
-            if(isset($_POST["quantity"]) && isset($_POST["code"]) && isset($_POST["owner"]) && isset($_POST["selectedSupply"]) && isset($_POST["total_quantity"])){
-                $selectedSupply = htmlspecialchars(($_POST['selectedSupply']));
-                $total_quantity = htmlspecialchars(($_POST['total_quantity']));
-                $quantity = htmlspecialchars($_POST['quantity']);
-                $code = htmlspecialchars($_POST['code']);
-                $owner = htmlspecialchars($_POST['owner']);
-                $model = htmlspecialchars($_POST['model']);
-                $description = htmlspecialchars($_POST['description']);
-                $date_of_delivery = date("m-d-Y", strtotime($_POST['date_of_delivery']));
+        function showAlert($type, $message) {
+            echo "<div class='alert alert-$type alert-dismissible fade show' role='alert'>
+                    <strong>$type:</strong> $message
+                    <button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button>
+                </div>";
+        }
 
-                $barCode = htmlspecialchars($_POST['barcode']);
-                $stockTransfer =htmlspecialchars($_POST['stockTransfer']);
-                $machineModel = htmlspecialchars($_POST['machineModel']);
-                $machineSerial = htmlspecialchars($_POST['machineSerial']);
-                $techName = htmlspecialchars($_POST['techName']);
-                $client = (htmlspecialchars($_POST['client']));
+        // Initialize variables for form inputs
+        $selectedSupply = htmlspecialchars($_POST['selectedSupply']);
+        $total_quantity = htmlspecialchars($_POST['total_quantity']);
+        $quantity = htmlspecialchars($_POST['quantity']);
+        $code = htmlspecialchars($_POST['code']);
+        $owner = htmlspecialchars($_POST['owner']);
+        $model = htmlspecialchars($_POST['model']);
+        $description = htmlspecialchars($_POST['description']);
+        $date_of_delivery = htmlspecialchars($_POST['date_of_delivery']);
+        $barCode = htmlspecialchars($_POST['barcode']);
+        $stockTransfer = htmlspecialchars($_POST['stockTransfer']);
+        $machineModel = htmlspecialchars($_POST['machineModel']);
+        $machineSerial = htmlspecialchars($_POST['machineSerial']);
+        $techName = htmlspecialchars($_POST['techName']);
+        $client = htmlspecialchars($_POST['client']);
+        
+        echo($total_quantity);
+        echo($quantity);
+        echo($date_of_delivery);
+        echo($client);
+        echo($machineSerial);
 
-                if($quantity != "" && $quantity != null && $quantity > 0 && $total_quantity >= $quantity) {
 
-                    $sql = "SELECT TOTAL_QUANTITY FROM `{$selectedSupply}` WHERE CODE = ?"; 
-    
-                    $stmnt2 = $con->prepare($sql);
-                    $stmnt2->bind_param("s", $code);
-                    $stmnt2->execute();
-                    $stmnt2->bind_result($currentQuantity);
-    
-                    // Check if a row was found
-                    if ($stmnt2->fetch()) { 
-                        $totalResult = $currentQuantity - $quantity; 
-                        if ($totalResult < 0) {
-                            showAlert("danger", "Quantity exceeds available stock. Current stock: " . htmlspecialchars($currentQuantity));
-                            $stmnt2->close();
-                            exit;
-                        }
-                    } else {
-                        // Handle the case where no row is found 
-                        // (e.g., set $totalResult to a default value)
-                        $totalResult = 0 + $quantity; 
-                    }
-    
-                    $stmnt2->close();
-    
-                    $sql1 = "UPDATE `{$selectedSupply}` SET TOTAL_QUANTITY = ? WHERE CODE = ?";
-                    $stmnt = $con->prepare($sql1);
-                    $stmnt->bind_param("is", $totalResult, $code); // Assuming $totalResult is an integer
-                    $stmnt->execute();
-    
-                    if ($stmnt->affected_rows > 0) {?>
-                    
-                    <div class="alert alert-success alert-dismissible fade show" role="alert">
-                        <strong>Success!</strong> Data Updated!
-                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                    </div>  
-                    <?php
-                        $currentDate = date("Y-m-d"); // Use the SQL date format (YYYY-MM-DD)
-                        $sql2 = "INSERT INTO delivery_out 
-                            (date, model, description, code, date_of_delivery, barcode, quantity, client, machine_model, machine_serial, tech_name, stock_transfer) 
-                            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-                        $stmnt3 = $con->prepare($sql2);
-                        
-                        // Corrected data types and variables
-                        $stmnt3->bind_param(
-                            "ssssssssssss",  // s = string, i = integer
-                            $currentDate, 
-                            $model, 
-                            $description, 
-                            $code, 
-                            $date_of_delivery, 
-                            $barCode,  // Assuming barcode is a string; adjust if necessary
-                            $quantity,  // Assuming quantity is an integer
-                            $client, 
-                            $machineModel, 
-                            $machineSerial, 
-                            $techName, 
-                            $stockTransfer
-                        );
-                        $stmnt3->execute();
-                        $stmnt3->close();
-
-                    } else { ?>
-                    <div class="alert alert-warning alert-dismissible fade show" role="alert">
-                        <strong>Ohhh no!</strong> NO RECORD FOUND
-                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                    </div>  
-                    <?php
-                    }
-    
-                    $stmnt->close();
-                } else { ?>
-                    <div class="alert alert-warning alert-dismissible fade show" role="alert">
-                        <strong>Ohhh no!</strong> Invalid Data, Try again.
-                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                    </div>  
-                    <?php
-                }                
+        // Handle form submission
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            // Validate required fields
+            $requiredFields = ["quantity", "code", "owner", "selectedSupply", "total_quantity"];
+            foreach ($requiredFields as $field) {
+                if (!isset($_POST[$field]) || empty(trim($_POST[$field]))) {
+                    showAlert("danger", "Missing required field: $field");
+                    exit;
+                }
             }
 
-        ?>
+            // Sanitize inputs
+            $selectedSupply = htmlspecialchars($selectedSupply);
+            $total_quantity = (int)$total_quantity;
+            $quantity = (int)$quantity;
+            $code = htmlspecialchars($code);
+            $owner = htmlspecialchars($owner);
+            $model = htmlspecialchars($model);
+            $description = htmlspecialchars($description);
+            $date_of_delivery = date("Y-m-d", strtotime($date_of_delivery));
+            $barCode = htmlspecialchars($barCode);
+            $stockTransfer = htmlspecialchars($stockTransfer);
+            $machineModel = htmlspecialchars($machineModel);
+            $machineSerial = htmlspecialchars($machineSerial);
+            $techName = htmlspecialchars($techName);
+            $client = htmlspecialchars($client);
+
+            // Validate quantity
+            if ($quantity <= 0 || $total_quantity < $quantity) {
+                showAlert("warning", "Invalid quantity. Please check your input.");
+                exit;
+            }
+
+            // Step 1: Check current stock of the item
+            $sql = "SELECT TOTAL_QUANTITY FROM `$selectedSupply` WHERE CODE = ?";
+            $stmt = $con->prepare($sql);
+            if (!$stmt) {
+                showAlert("danger", "Database error: " . $con->error);
+                exit;
+            }
+
+            $stmt->bind_param("s", $code);
+            $stmt->execute();
+            $stmt->bind_result($currentQuantity);
+
+            if ($stmt->fetch()) {
+                $newQuantity = $currentQuantity - $quantity;
+
+                if ($newQuantity < 0) {
+                    showAlert("danger", "Insufficient stock. Current stock: $currentQuantity.");
+                    $stmt->close();
+                    exit;
+                }
+            } else {
+                showAlert("danger", "Item not found in the database.");
+                $stmt->close();
+                exit;
+            }
+
+            $stmt->close();
+
+            // Step 2: Check if the client name exists
+            $sqlCheckClient = "SELECT client_name FROM client_names WHERE client_name = ?";
+            $stmtClient = $con->prepare($sqlCheckClient);
+            if (!$stmtClient) {
+                showAlert("danger", "Database error: " . $con->error);
+                exit;
+            }
+
+            $stmtClient->bind_param("s", $client);
+            $stmtClient->execute();
+            $resultClient = $stmtClient->get_result();
+
+            if ($resultClient->num_rows === 0) {
+                showAlert("danger", "Client name not found. Please check the input.");
+                $stmtClient->close();
+                exit;
+            }
+
+            $stmtClient->close();
+
+            // Step 3: Update the stock in the selected supply table
+            $sqlUpdateStock = "UPDATE `$selectedSupply` SET TOTAL_QUANTITY = ? WHERE CODE = ?";
+            $stmtUpdateStock = $con->prepare($sqlUpdateStock);
+            if (!$stmtUpdateStock) {
+                showAlert("danger", "Error preparing UPDATE statement: " . $con->error);
+                exit;
+            }
+
+            $stmtUpdateStock->bind_param("is", $newQuantity, $code);
+            $stmtUpdateStock->execute();
+
+            if ($stmtUpdateStock->affected_rows > 0) {
+                showAlert("success", "Stock updated successfully.");
+            } else {
+                showAlert("warning", "No rows were updated. Please verify your input.");
+                $stmtUpdateStock->close();
+                exit;
+            }
+
+            $stmtUpdateStock->close();
+
+            // Step 4: Insert the delivery data into the delivery_out table
+            $currentDate = date("Y-m-d");
+            $sqlInsertDelivery = "INSERT INTO delivery_out 
+                (date, model, description, code, date_of_delivery, barcode, quantity, client, machine_model, machine_serial, tech_name, stock_transfer) 
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+
+            $stmtInsertDelivery = $con->prepare($sqlInsertDelivery);
+            if (!$stmtInsertDelivery) {
+                showAlert("danger", "Error preparing INSERT statement: " . $con->error);
+                exit;
+            }
+
+            $stmtInsertDelivery->bind_param(
+                "ssssssssssss",
+                $currentDate,
+                $model,
+                $description,
+                $code,
+                $date_of_delivery,
+                $barCode,
+                $quantity,
+                $client,
+                $machineModel,
+                $machineSerial,
+                $techName,
+                $stockTransfer
+            );
+
+            $stmtInsertDelivery->execute();
+
+            if ($stmtInsertDelivery->affected_rows > 0) {
+                showAlert("success", "Delivery data recorded successfully.");
+            } else {
+                showAlert("warning", "Failed to insert delivery data. Please try again.");
+            }
+
+            $stmtInsertDelivery->close();
+        }
+?>
+
     </body>
 </html>

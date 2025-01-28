@@ -68,186 +68,185 @@
                                 <button class="in" data-bs-toggle="modal" data-bs-target="#staticBackdrop_in" data-id="<?php echo $id; ?>">IN</button>
                                 <button class="out" data-bs-toggle="modal" data-bs-target="#staticBackdrop_out" data-id="<?php echo $id; ?>">OUT</button>
                             </td>
-                        </tr>
-
-                        <!-- Modal IN -->
-                        <div class="modal fade" id="staticBackdrop_in" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel_in" aria-hidden="true">
-                        <div class="modal-dialog modal-xl">
-                            <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="staticBackdropLabel_in">Add Supplies</h5>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                            </div>
-                            <div class="modal-body">
-                                <div id="in-result"></div>
-                                <form class="form_modal">
-                                <div class="row"> 
-                                    <div class="col-md-3">
-                                    <div class="form-group">
-                                        <label> Model</label>
-                                        <input type="text" name="Model" id="model" class="form-control custom-input" disabled>
-                                    </div>
-                                    </div>
-                                    <div class="col-md-3">
-                                        <div class="form-group">
-                                            <label> Description</label>
-                                            <input type="text" name="Description" id="description" class="form-control custom-input" disabled>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-3">
-                                        <div class="form-group">
-                                            <label> Owner</label>
-                                            <input type="text" name="Owner" id="owner" class="form-control custom-input" disabled>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-3">
-                                        <div class="form-group">
-                                            <label> Code</label>
-                                            <input type="text" name="Code" id="code" class="form-control custom-input" disabled>
-                                        </div>
-                                    </div>
+                            <!-- Modal IN -->
+                            <div class="modal fade" id="staticBackdrop_in" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel_in" aria-hidden="true">
+                            <div class="modal-dialog modal-xl">
+                                <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="staticBackdropLabel_in">Add Supplies</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                 </div>
-                                <div class="row"> 
-                                    <div class="col-md-3">
-                                        <div class="form-group">
-                                            <label> Delivery Date</label><br>
-                                            <input type="date" class="date_of_delivery fsorm-control" value="<?php echo date('Y-m-d'); ?>" max="<?php echo date('Y-m-d'); ?>" required>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-3">
-                                        <div class="form-group">
-                                            <label> Invoice or DR </label>
-                                            <input type="text" name="Code" id="invoice" class="form-control custom-input" required>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-3">
-                                        <div class="form-group">
-                                            <label> Quantity</label>
-                                            <input type="number" name="Quantity" id="quantity" class="quantity form-control custom-input" required>
-                                        </div>
-                                    </div>
-                                </div>
-                                </form>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                <button type="button" class="btn btn-primary btn_in">Add Supplies</button>
-                            </div>
-                            </div>
-                        </div>
-                        </div>
-
-                        <!-- Modal OUT -->
-                        <div class="modal fade" id="staticBackdrop_out" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel_out" aria-hidden="true">
-                        <div class="modal-dialog modal-xl">
-                            <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="staticBackdropLabel_out">Remove Supplies</h5>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                            </div>
-                            <div class="modal-body">
-                                <div id="out-result"></div>
-                                <form class="form_modal">
-                                <div class="row"> 
-                                    <div class="col-md-3">
+                                <div class="modal-body">
+                                    <div id="in-result"></div>
+                                    <form class="form_modal">
+                                    <div class="row"> 
+                                        <div class="col-md-3">
                                         <div class="form-group">
                                             <label> Model</label>
-                                            <input type="text" name="Model" id="model_out" class="form-control custom-input" disabled>
+                                            <input type="text" name="Model" id="model" class="form-control custom-input" disabled>
+                                        </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label> Description</label>
+                                                <input type="text" name="Description" id="description" class="form-control custom-input" disabled>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label> Owner</label>
+                                                <input type="text" name="Owner" id="owner" class="form-control custom-input" disabled>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label> Code</label>
+                                                <input type="text" name="Code" id="code" class="form-control custom-input" disabled>
+                                            </div>
                                         </div>
                                     </div>
-                                    <div class="col-md-3">
-                                        <div class="form-group">
-                                            <label> Description</label>
-                                            <input type="text" name="Description" id="description_out" class="form-control custom-input" disabled>
+                                    <div class="row"> 
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label> Delivery Date</label><br>
+                                                <input type="date" class="date_of_delivery fsorm-control" value="<?php echo date('Y-m-d'); ?>" max="<?php echo date('Y-m-d'); ?>" required>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label> Invoice or DR </label>
+                                                <input type="text" name="Code" id="invoice" class="form-control custom-input" required>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label> Quantity</label>
+                                                <input type="number" name="Quantity" id="quantity" class="quantity form-control custom-input" required>
+                                            </div>
                                         </div>
                                     </div>
-                                    <div class="col-md-3">
-                                        <div class="form-group">
-                                            <label> Code</label>
-                                            <input type="text" name="Code" id="code_out" class="form-control custom-input" disabled>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-3">
-                                        <div class="form-group">
-                                            <label> Owner</label>
-                                            <input type="text" name="Owner" id="owner_out" class="form-control custom-input" disabled>
-                                        </div>
-                                    </div>
+                                    </form>
                                 </div>
-                                <div class="row">
-                                    <div class="col-md-3">
-                                        <div class="form-group">
-                                            <label> Current Quantity</label>
-                                            <input type="text" name="Current Quantity" id="current_quantity_out" class="form-control custom-input" disabled>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                    <button type="button" class="btn btn-primary btn_in">Add Supplies</button>
+                                </div>
+                                </div>
+                            </div>
+                            </div>
+    
+                            <!-- Modal OUT -->
+                            <div class="modal fade" id="staticBackdrop_out" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel_out" aria-hidden="true">
+                            <div class="modal-dialog modal-xl">
+                                <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="staticBackdropLabel_out">Remove Supplies</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <div id="out-result"></div>
+                                    <form class="form_modal">
+                                    <div class="row"> 
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label> Model</label>
+                                                <input type="text" name="Model" id="model_out" class="form-control custom-input" disabled>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label> Description</label>
+                                                <input type="text" name="Description" id="description_out" class="form-control custom-input" disabled>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label> Code</label>
+                                                <input type="text" name="Code" id="code_out" class="form-control custom-input" disabled>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label> Owner</label>
+                                                <input type="text" name="Owner" id="owner_out" class="form-control custom-input" disabled>
+                                            </div>
                                         </div>
                                     </div>
-                                </div> 
-                                <div class="space">
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label> Current Quantity</label>
+                                                <input type="text" name="Current Quantity" id="current_quantity_out" class="form-control custom-input" disabled>
+                                            </div>
+                                        </div>
+                                    </div> 
+                                    <div class="space">
+                                        
+                                    </div>
+                                    <div class="row"> 
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label> Delivery Date</label><br>
+                                                <input type="date" class="date_of_delivery_out form-control" value="<?php echo date('Y-m-d'); ?>" max="<?php echo date('Y-m-d'); ?>" required>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label> Quantity</label>
+                                                <input type="number" name="Quantity" id="quantity_out" class="quantity form-control custom-input" required>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3"> 
+                                            <div class="form-group">
+                                                <label> Client</label>
+                                                <input type="text" name="Client_Name" id="client_out" class="client_out form-control custom-input" />
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label> Stock Transfer No.</label>
+                                                <input type="text" name="Stock_Transfer" id="stock_transfer_out" class="form-control custom-input" required>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label> Machine Model</label>
+                                                <input type="text" name="Stock_Transfer" id="machine_model_out" class="form-control custom-input" require>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label> Machine Serial</label>
+                                                <input type="text" name="Stock_Transfer" id="machine_serial_out" class="form-control custom-input" require>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label> Tech Name</label>
+                                                <input type="text" name="Stock_Transfer" id="tech_name_out" class="form-control custom-input" require>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label for="textarea">Barcode</label>
+                                                <!-- <textarea require class="form-control barcode" cols="40" rows="3" id="barcode_out" name="textarea"></textarea> -->
+                                                <input type="text" name="Barcode" id="barcode_out" class="form-control custom-input" require>
+                                            </div>
+                                        </div>
+                                    </div>
                                     
+                                    </form>
                                 </div>
-                                <div class="row"> 
-                                    <div class="col-md-3">
-                                        <div class="form-group">
-                                            <label> Delivery Date</label><br>
-                                            <input type="date" class="date_of_delivery_out form-control" value="<?php echo date('Y-m-d'); ?>" max="<?php echo date('Y-m-d'); ?>" required>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-3">
-                                        <div class="form-group">
-                                            <label> Quantity</label>
-                                            <input type="number" name="Quantity" id="quantity_out" class="quantity form-control custom-input" required>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-3"> 
-                                        <div class="form-group">
-                                            <label> Client</label>
-                                            <input type="text" name="Client_Name" id="searchInput" class="quantity form-control placeholder="Search for names..." />
-                                        </div>
-                                    </div>
-                                    <div class="col-md-3">
-                                        <div class="form-group">
-                                            <label> Stock Transfer No.</label>
-                                            <input type="text" name="Stock_Transfer" id="stock_transfer_out" class="form-control custom-input" require>
-                                        </div>
-                                    </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                    <button type="button" class="btn btn-danger btn_out">OUT</button>
                                 </div>
-                                <div class="row">
-                                    <div class="col-md-3">
-                                        <div class="form-group">
-                                            <label> Machine Model</label>
-                                            <input type="text" name="Stock_Transfer" id="machine_model_out" class="form-control custom-input" require>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-3">
-                                        <div class="form-group">
-                                            <label> Machine Serial</label>
-                                            <input type="text" name="Stock_Transfer" id="machine_serial_out" class="form-control custom-input" require>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-3">
-                                        <div class="form-group">
-                                            <label> Tech Name</label>
-                                            <input type="text" name="Stock_Transfer" id="tech_name_out" class="form-control custom-input" require>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-3">
-                                        <div class="form-group">
-                                            <label for="textarea">Barcode</label>
-                                            <!-- <textarea require class="form-control barcode" cols="40" rows="3" id="barcode_out" name="textarea"></textarea> -->
-                                            <input type="text" name="Barcode" id="barcode_out" class="form-control custom-input" require>
-                                        </div>
-                                    </div>
                                 </div>
-                                
-                                </form>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                <button type="button" class="btn btn-danger btn_out">OUT</button>
                             </div>
                             </div>
-                        </div>
-                        </div>
+                        </tr>
                     <?php } ?>  
                     </tbody>
                 </table>
@@ -286,62 +285,63 @@
             inputInvoice.addEventListener("input", handleInput);
             // stockTransferOut.addEventListener("input", handleInput);
 
-            $("#searchInput").on("keyup", function () {
-    var searchTerm = $(this).val().toLowerCase();
+            $(".client_out").on("keyup", function () {
+                var searchTerm = $(this).val().toLowerCase();
 
-    // AJAX call to fetch matching client names
-    $.ajax({
-        url: "getClientNames.php", // Replace with the actual PHP script
-        type: "POST",
-        data: { searchTerm: searchTerm },
-        success: function (result) {
-            // Clear any previous suggestions
-            $("#suggestions").remove();
+                // Debug search term
+                console.log("Search Term: " + searchTerm);
 
-            // Parse the JSON response
-            var names = JSON.parse(result);
+                $.ajax({
+                    url: "getClientNames.php",
+                    type: "GET",
+                    data: { searchTerm: searchTerm },
+                    success: function (result) {
+                        // Clear any previous suggestions
+                        $("#suggestions").remove();
 
-            // Create a dropdown list for suggestions
-            if (names.length > 0) {
-                var suggestionBox = $("<ul id='suggestions'></ul>").css({
-                    border: "1px solid #ccc",
-                    position: "absolute",
-                    zIndex: "500",
-                    maxHeight: "150px", // Set a maximum height for the dropdown
-                    overflowY: "auto", // Enable vertical scrolling
-                    backgroundColor: "#fff",
-                    width: $("#searchInput").outerWidth(),
-                    listStyleType: "none",
-                    margin: "0",
-                    padding: "0",
+                        try {
+                            var names = JSON.parse(result);
+                            console.log("Result:", result);
+                            console.log("Parsed Names:", names);
+
+                            if (names.length > 0) {
+                                var suggestionBox = $("<ul id='suggestions'></ul>").css({
+                                    border: "1px solid #ccc",
+                                    position: "absolute",
+                                    zIndex: "500",
+                                    maxHeight: "150px",
+                                    overflowY: "auto",
+                                    backgroundColor: "#fff",
+                                    width: $(".client_out").outerWidth(),
+                                    listStyleType: "none",
+                                    margin: "0",
+                                    padding: "0",
+                                });
+
+                                names.forEach(function (name) {
+                                    var suggestionItem = $("<li></li>")
+                                        .text(name)
+                                        .css({ padding: "8px", cursor: "pointer" })
+                                        .on("click", function () {
+                                            $(".client_out").val(name);
+                                            $("#suggestions").remove();
+                                        });
+                                    suggestionBox.append(suggestionItem);
+                                });
+
+                                $(".client_out").after(suggestionBox);
+                            }
+                        } catch (error) {
+                            console.error("Error parsing JSON:", error);
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        console.error("AJAX Error:", status, error);
+                        alert("Error fetching client names.");
+                    },
                 });
-
-                // Append suggestions to the dropdown
-                names.forEach(function (name) {
-                    var suggestionItem = $("<li></li>")
-                        .text(name)
-                        .css({
-                            padding: "8px",
-                            cursor: "pointer",
-                        })
-                        .on("click", function () {
-                            $("#searchInput").val(name); // Set the selected name
-                            $("#suggestions").remove(); // Remove the suggestions
-                        });
-                    suggestionBox.append(suggestionItem);
-                });
-
-                // Append the suggestion box to the DOM
-                $("#searchInput").after(suggestionBox);
-            }
-        },
-        error: function () {
-            console.error("Error fetching client names.");
-        },
-    });
-});
-
-
+            });
+                                  
         // When the "IN" button is clicked
         $('button.in').click(function() {
             var id = $(this).data('id'); // Get the data-id attribute
@@ -435,13 +435,13 @@
         });
         
          
-        // OUT REMOVE SUPPLIES
-        $('.btn_out').click(function() {
+
+        $('.btn_out').click(function () {
             var id = $('#staticBackdrop_out').data('id'); // Get the item ID stored in the modal's data-id
             var quantity = $('#quantity_out').val(); // Get the entered quantity
             var deliveryDate = $('.date_of_delivery_out').val(); // Get the delivery date
-            
-            // Get other item details from the modal (for example, the model, description, etc.)
+
+            // Get other item details from the modal
             var model = $('#model_out').val();
             var description = $('#description_out').val();
             var owner = $('#owner_out').val();
@@ -451,30 +451,29 @@
             var stockTransfer = $('#stock_transfer_out').val();
             var machineModel = $('#machine_model_out').val();
             var machineSerial = $('#machine_serial_out').val();
-            var techName = $('#machine_serial_out').val();
+            var techName = $('#tech_name_out').val();
             var barcode = $('#barcode_out').val();
-
             var selectedSupply = '<?php echo $selectedSupply; ?>'; 
-            var $row = $('tr[data-id="' + id + '"]');
-            var total_quantity = $row.find('.total_quantity').text(); // Get the total quantity from the table
 
+            var $row = $('tr[data-id="' + id + '"]'); // Select the specific row
+            var total_quantity = parseInt($row.find('.total_quantity').text()); // Get the total quantity from the table
 
             // Validation to check if quantity is a valid number greater than 0
-            if (quantity > 0) {
+            if (quantity > 0 && quantity <= total_quantity) {
                 var isTrue = confirm("Are you sure you want to remove this quantity?");
                 if (isTrue) {
                     // AJAX request to update the database
                     $.ajax({
                         type: "POST",
-                        url: "out.php",  // PHP file to handle the request
+                        url: "out.php", // PHP file to handle the request
                         data: {
-                            id: id,  // Pass the item ID
+                            id: id,
                             quantity: quantity,
-                            selectedSupply: selectedSupply,
-                            total_quantity: total_quantity,
                             barcode: barcode,
                             code: code,
                             client: client,
+                            total_quantity: total_quantity,
+                            selectedSupply: selectedSupply,
                             stockTransfer: stockTransfer,
                             machineModel: machineModel,
                             machineSerial: machineSerial,
@@ -482,19 +481,17 @@
                             owner: owner,
                             model: model,
                             description: description,
-                            date_of_delivery: deliveryDate
+                            date_of_delivery: deliveryDate,
                         },
-                        success: function(response) {
-                            // Display the server's response in the 'out-result' div
+                        success: function (response) {
+                            // Assuming the server returns the updated total_quantity as plain text
+                            var newTotalQuantity = parseInt(response.trim());
                             $('#out-result').html(response);
-    
-                            // Check if the total quantity is greater than or equal to the quantity to be removed
-                            if (total_quantity >= quantity) {
-                                // Calculate the new total quantity after removal
-                                var newTotalQuantity = parseInt($row.find('.total_quantity').text()) - parseInt(quantity);
-                                $row.find('.total_quantity').text(newTotalQuantity); // Update the quantity column in the table
+                            if (!isNaN(newTotalQuantity)) {
+                                // Update the total quantity in the table
+                                $row.find('.total_quantity').text(newTotalQuantity);
 
-                                // Clear the input field in the modal after successful removal
+                                // Clear and reset modal fields
                                 $('#quantity_out').val('');
                                 $('#client_out').val('');
                                 $('#stock_transfer_out').val('');
@@ -502,18 +499,24 @@
                                 $('#machine_serial_out').val('');
                                 $('#barcode_out').val('');
                                 $('#tech_name_out').val('');
-                                
-                            } 
+
+                                // Close the modal
+                                $('#staticBackdrop_out').modal('hide');
+                            } else {
+                                alert("Invalid server response. Please try again.");
+                            }
                         },
-                        error: function() {
-                            alert("There was an error updating the quantity.");
-                        }
+                        error: function () {
+                            alert("An error occurred during the AJAX request.");
+                        },
                     });
                 }
             } else {
                 alert("Please enter a valid quantity.");
             }
         });
+
+
     });
     </script>
 </body>
