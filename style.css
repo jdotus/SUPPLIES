@@ -21,6 +21,10 @@ form, .align_center{
     text-transform: uppercase;
 }
 
+.dt-layout-row label{
+    display: none;
+}
+
 
 .space {
     padding: 30px 0;
