@@ -129,7 +129,7 @@
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                    <button type="button" class="btn btn-primary btn_in" >Add Supplies</button>
+                                    <button type="button" class="btn btn-primary btn_in" >IN</button>
                                 </div>
                                 </div>
                             </div>
@@ -258,8 +258,7 @@
     }
     ?>
 
-    <script>  
-        
+    <script>         
         $(document).ready(function() {
             const barcodeInput = document.getElementById('barcode_out');
 

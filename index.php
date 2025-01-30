@@ -12,7 +12,7 @@
 
     <div class="search_container">
         <form class="search">
-            <label for="supplies">Select Supply</label><br>
+            <label for="supplies">SELECT SUPPLY</label><br>
             <select name="supplies" id="supplies" required>
                 <option value="default">SELECT</option>
                 <option value="toner">Toner</option>
@@ -120,21 +120,6 @@
                 }
             });
 
-            // $('#addSupplyBtn').on('click', function() {
-            //     $.ajax({
-            //         type: "POST",
-            //         url: "addsupplies.php",
-            //         data: $('#addSupplyForm').serialize(),
-            //         success: function(response) {
-            //             alert(response); // Display success/error message from server
-            //             $('#staticBackdrop').modal('hide'); 
-            //             $('#addSupplyForm')[0].reset(); 
-            //         },
-            //         error: function() {
-            //             alert('An error occurred while adding the supply.');
-            //         }
-            //     });
-            // });
 
             $('#addSupplyBtn').on('click', function (event) {
     event.preventDefault(); // Prevent default form submission behavior

@@ -35,21 +35,42 @@
                     </select>
                     <input id="filter" type="text">
                 </div>
+                <div class="view-table" id="view-table"></div>
             </div>
         </div>
     <script>
         $(document).ready(function() {
+            function viewDefaultTable() {
+                $.ajax({
+                    type: "GET",
+                    url: "record_table.php",
+                    success: function (response) {
+                        $('view-table').html(response)
+                    },
+                    error: function() {
+
+                    }
+                });
+            }
+            
             $('#filter').prop('disabled', true);
 
             $('#supplies').on('change', function() {
                 var selectedvalue = $(this).val();
                 
-                if (selectedvalue == 'default') {
-                    $('#filter').prop('disabled', true); // Disable the filter button if "default" is selected
-                } else {
+                if (selectedvalue != 'default') {
                     $('#filter').prop('disabled', false); // Enable the filter button for other options
+
+
+
+                } else {
+                    $('#filter').prop('disabled', true); // Disable the filter button if "default" is selected
                 }
             });
+
+            
+
+
         });
     </script>
     </body>
