@@ -13,15 +13,17 @@
         $selectedSupply = htmlspecialchars($_GET['selectedSupply']);
         $filter = htmlspecialchars($_GET['filter']);
         
-        echo $filter;
-        echo $selectedSupply;
+        
+        
+
+
         if($selectedSupply == "delivery_in") {
             if (empty($filter) && $selectedSupply == "delivery_in") {
                 $stmnt = $con->prepare("SELECT * FROM delivery_in");
             } else if (!empty($filter) && $selectedSupply == "delivery_in") {
-                $stmnt = $con->prepare("SELECT * FROM delivery_in WHERE invoice LIKE ? OR code LIKE ? OR model LIKE ?");
+                $stmnt = $con->prepare("SELECT * FROM delivery_in WHERE invoice LIKE ? OR code LIKE ? OR model LIKE ? OR owner LIKE ?");
                 $filter = $filter . '%'; // Add wildcard for LIKE search
-                $stmnt->bind_param("sss", $filter, $filter, $filter);
+                $stmnt->bind_param("ssss", $filter, $filter, $filter, $filter);
             } else {
                 die("Invalid selection.");
             }
@@ -37,6 +39,7 @@
                                 <th class="h6 fw-bold" scope="col">MODEL</th>
                                 <th class="h6 fw-bold" scope="col">DESCRIPTION</th>
                                 <th class="h6 fw-bold" scope="col">CODE</th>
+                                <th class="h6 fw-bold" scope="col">OWNER</th>
                                 <th class="h6 fw-bold" scope="col">DATE OF DELIVERY</th>
                                 <th class="h6 fw-bold" scope="col">QUANTITY</th>
                                 <th class="h6 fw-bold" scope="col">INVOICE No.</th>
@@ -48,6 +51,7 @@
                                     <td><?php echo htmlspecialchars($row['model']); ?></td>
                                     <td><?php echo htmlspecialchars($row['description']); ?></td>
                                     <td><?php echo htmlspecialchars($row['code']); ?></td>
+                                    <td><?php echo htmlspecialchars($row['owner']); ?></td>
                                     <td><?php echo htmlspecialchars($row['date_of_delivery']); ?></td>
                                     <td><?php echo htmlspecialchars($row['quantity']); ?></td>
                                     <td><?php echo htmlspecialchars($row['invoice']); ?></td>
@@ -59,13 +63,14 @@
                     <?php } else {
                         echo "<p>No records found.</p>";
                 }
-            }else if($selectedSupply == "delivery_out") {
+            }
+            else if($selectedSupply = "delivery_out") {
                 if (empty($filter) && $selectedSupply == "delivery_out") {
                     $stmnt = $con->prepare("SELECT * FROM delivery_out");
                 } else if (!empty($filter) && $selectedSupply == "delivery_out") {
-                    $stmnt = $con->prepare("SELECT * FROM delivery_out WHERE stock_transfer LIKE ? OR code LIKE ? OR model LIKE ?");
+                    $stmnt = $con->prepare("SELECT * FROM delivery_out WHERE stock_transfer LIKE ? OR code LIKE ? OR model LIKE ? OR owner LIKE ?");
                     $filter = $filter . '%'; // Add wildcard for LIKE search
-                    $stmnt->bind_param("sss", $filter, $filter, $filter);
+                    $stmnt->bind_param("ssss", $filter, $filter, $filter, $filter);
                 } else {
                     die("Invalid selection.");
                 }
@@ -81,6 +86,7 @@
                                 <th class="h6 fw-bold" scope="col">MODEL</th>
                                 <th class="h6 fw-bold" scope="col">DESCRIPTION</th>
                                 <th class="h6 fw-bold" scope="col">CODE</th>
+                                <th class="h6 fw-bold" scope="col">OWNER</th>
                                 <th class="h6 fw-bold" scope="col">DATE OF DELIVERY</th>
                                 <th class="h6 fw-bold" scope="col">QUANTITY</th>
                                 <th class="h6 fw-bold" scope="col">STOCK TRANSFER No.</th>
@@ -97,6 +103,7 @@
                                     <td><?php echo htmlspecialchars($row['model']); ?></td>
                                     <td><?php echo htmlspecialchars($row['description']); ?></td>
                                     <td><?php echo htmlspecialchars($row['code']); ?></td>
+                                    <td><?php echo htmlspecialchars($row['owner']); ?></td>
                                     <td><?php echo htmlspecialchars($row['date_of_delivery']); ?></td>
                                     <td><?php echo htmlspecialchars($row['quantity']); ?></td>
                                     <td><?php echo htmlspecialchars($row['stock_transfer']); ?></td>

@@ -86,8 +86,8 @@ $stmtUpdateStock->close();
 
 // Insert into delivery_out table
 $sqlInsertDelivery = "INSERT INTO delivery_out 
-    (date, model, description, code, date_of_delivery, barcode, quantity, client, machine_model, machine_serial, tech_name, stock_transfer) 
-    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+    (date, model, description, code, owner, date_of_delivery, barcode, quantity, client, machine_model, machine_serial, tech_name, stock_transfer) 
+    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
 $stmtInsertDelivery = $con->prepare($sqlInsertDelivery);
 
@@ -98,11 +98,12 @@ if (!$stmtInsertDelivery) {
 $currentDate = date("Y-m-d");
 
 $stmtInsertDelivery->bind_param(
-    "ssssssssssss",
+    "sssssssssssss",
     $currentDate,
     $model,
     $description,
     $code,
+    $owner,
     $date_of_delivery,
     $barcode,
     $quantity,

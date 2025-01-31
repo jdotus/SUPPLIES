@@ -41,10 +41,10 @@
                     if ($stmnt1->affected_rows > 0) {
                         // Record the delivery
                         $currentDate = date("m-d-Y");
-                        $sql2 = "INSERT INTO delivery_in (date, model, description, code, invoice, date_of_delivery, quantity) 
-                                 VALUES (?, ?, ?, ?, ?, ?, ?)";
+                        $sql2 = "INSERT INTO delivery_in (date, model, description, code, owner, invoice, date_of_delivery, quantity) 
+                                 VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
                         $stmnt3 = $con->prepare($sql2);
-                        $stmnt3->bind_param("sssssss", $currentDate, $model, $description, $code, $invoice, $date_of_delivery, $quantity);
+                        $stmnt3->bind_param("ssssssss", $currentDate, $model, $description, $code, $owner, $invoice, $date_of_delivery, $quantity);
                         $stmnt3->execute();
                         $stmnt3->close();
             
