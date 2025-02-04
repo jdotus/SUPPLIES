@@ -80,7 +80,8 @@
                     viewDefaultTable(selectedValue, filter); // Fetch data
                 } else {
                     $('#filter').prop('disabled', true); // Disable filter
-                    $('#view-table').html(''); // Clear table
+                    // $('#view-table').html(''); // Clear table
+                    viewDefaultTable("default", filter);
                     $('#no-record').hide(); // Hide "No Record"
                 }
             });

@@ -8,9 +8,8 @@
     <title>Supplies</title>
     
     <!-- Include jQuery -->
-    <link rel="stylesheet" type="text/css" href="//cdn.datatables.net/2.2.1/css/dataTables.dataTables.min.css">
     <link rel="stylesheet" href="style.css">
-
+    
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
     
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
@@ -23,9 +22,10 @@
     
     
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-
+    
     <!-- Data Tables -->
-    <script src="//cdn.datatables.net/2.2.1/js/dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/2.2.1/js/dataTables.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/2.2.1/css/dataTables.dataTables.min.css">
     
 </head>
 <body>
@@ -265,36 +265,6 @@
     
     <script>         
         $(document).ready(function() {
-            $('.table').DataTable( {
-                searching: false
-            });
-            $('.dataTables_length label').contents().filter(function(){
-                return this.nodeType === 3; //Node.TEXT_NODE
-            }).remove();
-
-            const barcodeInput = document.getElementById('barcode_out');
-
-            barcodeInput.addEventListener('input', () => {
-            let inputValue = barcodeInput.value;
-            inputValue = inputValue.replace(/[^0-9]/g, ''); // Remove non-numeric characters
-
-            // Add commas and spaces every 8 characters
-            const formattedValue = inputValue.match(/.{1,8}/g).join(', '); 
-            barcodeInput.value = formattedValue;
-            });
-
-            const inputQuantity = document.getElementById("quantity");
-            const inputInvoice = document.getElementById("invoice");
-            // const stockTransferOut = document.getElementById("stock_transfer_out");
-            const numberOnlyRegex = /[^0-9.-]/g; 
-
-            const handleInput = (event) => {
-                event.target.value = event.target.value.replace(numberOnlyRegex, '');
-            };
-
-            inputQuantity.addEventListener("input", handleInput);
-            inputInvoice.addEventListener("input", handleInput);
-            // stockTransferOut.addEventListener("input", handleInput);
 
             $(".client_out").on("keyup", function () {
                 var searchTerm = $(this).val().toLowerCase();
@@ -351,6 +321,38 @@
                     },
                 });
             });
+
+            $('.table').DataTable( {
+                searching: false
+            });
+            $('.dataTables_length label').contents().filter(function(){
+                return this.nodeType === 3; //Node.TEXT_NODE
+            }).remove();
+
+            const barcodeInput = document.getElementById('barcode_out');
+
+            barcodeInput.addEventListener('input', () => {
+            let inputValue = barcodeInput.value;
+            inputValue = inputValue.replace(/[^0-9]/g, ''); // Remove non-numeric characters
+
+            // Add commas and spaces every 8 characters
+            const formattedValue = inputValue.match(/.{1,8}/g).join(', '); 
+            barcodeInput.value = formattedValue;
+            });
+
+            const inputQuantity = document.getElementById("quantity");
+            const inputInvoice = document.getElementById("invoice");
+            // const stockTransferOut = document.getElementById("stock_transfer_out");
+            const numberOnlyRegex = /[^0-9.-]/g; 
+
+            const handleInput = (event) => {
+                event.target.value = event.target.value.replace(numberOnlyRegex, '');
+            };
+
+            inputQuantity.addEventListener("input", handleInput);
+            inputInvoice.addEventListener("input", handleInput);
+            // stockTransferOut.addEventListener("input", handleInput);
+
                                   
         // When the "IN" button is clicked
         $('button.in').click(function() {
@@ -375,7 +377,7 @@
             // Populate the modal with the current values of the row
             $('#model_out').val(row.find('.model').text());
             $('#description_out').val(row.find('.description').text());
-            $('#wner_out').val(row.find('.owner').text());
+            $('#owner_out').val(row.find('.owner').text());
             $('#code_out').val(row.find('.code').text());
             $('#current_quantity_out').val(row.find('.total_quantity').text());
 
@@ -496,7 +498,7 @@
             var $row = $('tr[data-id="' + id + '"]'); // Select the specific row
             var total_quantity = parseInt($row.find('.total_quantity').text()); // Get the total quantity from the table
 
-            // Perform client-side validation
+            // Perform client-side validation 
             var errors = [];
             alert(client);
             alert(total_quantity);
