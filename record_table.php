@@ -12,46 +12,8 @@
     if (isset($_GET['selectedSupply']) && isset($_GET['filter'])) {
         $selectedSupply = htmlspecialchars($_GET['selectedSupply']);
         $filter = htmlspecialchars($_GET['filter']);
-        
-        if($selectedSupply == "default") {
-            $stmnt1 =  $con->prepare("SELECT * FROM delivery_in ORDER BY date_of_delivery LIMIT 10");
-            $stmnt1->execute();
-            $result = $stmnt1->get_result();  
-            
-            if($result->num_rows > 0) {?>
-                <div class="table-responsive bg-white">
-                    <h3>IN History</h3>
-                    <table class="table table-hover table-responsive-md mb-0" id="dataTable">
-                        <thead>
-                            <tr>
-                                <th class="h6 fw-bold" scope="col">MODEL</th>
-                                <th class="h6 fw-bold" scope="col">DESCRIPTION</th>
-                                <th class="h6 fw-bold" scope="col">CODE</th>
-                                <th class="h6 fw-bold" scope="col">OWNER</th>
-                                <th class="h6 fw-bold" scope="col">DATE OF DELIVERY</th>
-                                <th class="h6 fw-bold" scope="col">QUANTITY</th>
-                                <th class="h6 fw-bold" scope="col">INVOICE No.</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <?php while ($row = $result->fetch_assoc()) { ?>
-                                <tr data-id="<?php echo $row['id']; ?>">
-                                    <td><?php echo htmlspecialchars($row['model']); ?></td>
-                                    <td><?php echo htmlspecialchars($row['description']); ?></td>
-                                    <td><?php echo htmlspecialchars($row['code']); ?></td>
-                                    <td><?php echo htmlspecialchars($row['owner']); ?></td>
-                                    <td><?php echo htmlspecialchars($row['date_of_delivery']); ?></td>
-                                    <td><?php echo htmlspecialchars($row['quantity']); ?></td>
-                                    <td><?php echo htmlspecialchars($row['invoice']); ?></td>
-                                </tr>
-                                <?php } ?>
-                        </tbody>
-                    </table>
-                </div>
-                <?php } ?>
-            <?php    
-        }
 
+        echo($selectedSupply);
         if($selectedSupply == "delivery_in") {
             if (empty($filter) && $selectedSupply == "delivery_in") {
                 $stmnt = $con->prepare("SELECT * FROM delivery_in");
@@ -98,8 +60,8 @@
                     <?php } else {
                         echo "<p>No records found.</p>";
                 }
-            }
-            else if($selectedSupply == "delivery_out") {
+            }else if($selectedSupply == "delivery_out"){
+
                 if (empty($filter) && $selectedSupply == "delivery_out") {
                     $stmnt = $con->prepare("SELECT * FROM delivery_out");
                 } else if (!empty($filter) && $selectedSupply == "delivery_out") {
@@ -109,7 +71,7 @@
                 } else {
                     die("Invalid selection.");
                 }
-
+                
                 $stmnt->execute();
                 $result = $stmnt->get_result();
 
@@ -152,9 +114,9 @@
                             </tbody>
                         </table>
                     </div>
-                    <?php } else {
-                        echo "<p>No records found.</p>";
-                    }
+                <?php } else {
+                    echo "<p>No records found.</p>";
+                }
             }
         }
     ?>

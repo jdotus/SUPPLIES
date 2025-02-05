@@ -34,7 +34,7 @@
                     <select name="supplies" id="supplies" require>
                         <option value="default">SELECT</option>
                         <option value="delivery_in">Delivery IN</option>
-                        <option value="delivery_out ">Delivery OUT</option>
+                        <option value="delivery_out">Delivery OUT</option>
                         <!-- <option value="fillament">Fillament</option> -->
                     </select>
                     <input id="filter" type="text">
@@ -42,6 +42,46 @@
             </div>
             <div class="no-record" id="no-record">NO RECORD</div>
             <div class="view-table" id="view-table"></div>
+          
+            <div class="main-table" id="main-table">
+                
+                <?php
+                    $stmnt1 =  $con->prepare("SELECT * FROM delivery_in ORDER BY date_of_delivery LIMIT 10");
+                    $stmnt1->execute();
+                    $result = $stmnt1->get_result();  
+                    
+                    if($result->num_rows > 0) {?>
+                        <div class="table-responsive bg-white">
+                            <h3>IN HISTORY</h3>
+                            <table class="table table-hover table-responsive-md mb-0" id="dataTable">
+                                <thead>
+                                    <tr>
+                                        <th class="h6 fw-bold" scope="col">MODEL</th>
+                                        <th class="h6 fw-bold" scope="col">DESCRIPTION</th>
+                                        <th class="h6 fw-bold" scope="col">CODE</th>
+                                        <th class="h6 fw-bold" scope="col">OWNER</th>
+                                        <th class="h6 fw-bold" scope="col">DATE OF DELIVERY</th>
+                                        <th class="h6 fw-bold" scope="col">QUANTITY</th>
+                                        <th class="h6 fw-bold" scope="col">INVOICE No.</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <?php while ($row = $result->fetch_assoc()) { ?>
+                                        <tr data-id="<?php echo $row['id']; ?>">
+                                            <td><?php echo htmlspecialchars($row['model']); ?></td>
+                                            <td><?php echo htmlspecialchars($row['description']); ?></td>
+                                            <td><?php echo htmlspecialchars($row['code']); ?></td>
+                                            <td><?php echo htmlspecialchars($row['owner']); ?></td>
+                                            <td><?php echo htmlspecialchars($row['date_of_delivery']); ?></td>
+                                            <td><?php echo htmlspecialchars($row['quantity']); ?></td>
+                                            <td><?php echo htmlspecialchars($row['invoice']); ?></td>
+                                        </tr>
+                                        <?php } ?>
+                                </tbody>
+                            </table>
+                        </div>
+                <?php } ?>  
+            </div>
         </div>
     <script>
         $(document).ready(function() {
@@ -70,7 +110,8 @@
             // Initially disable filter and hide "No Record" message
             $('#filter').prop('disabled', true);
             $('#no-record').hide();
-
+            $('#main-table').show();
+            
             $('#supplies').on('change', function() {
                 var selectedValue = $(this).val();
                 var filter = $('#filter').val() || ""; // Ensure filter has a value
@@ -78,10 +119,11 @@
                 if (selectedValue !== 'default') {
                     $('#filter').prop('disabled', false); // Enable filter
                     viewDefaultTable(selectedValue, filter); // Fetch data
+                    $('#main-table').hide();
                 } else {
                     $('#filter').prop('disabled', true); // Disable filter
-                    // $('#view-table').html(''); // Clear table
-                    viewDefaultTable("default", filter);
+                    $('#view-table').html(''); // Clear table
+                    $('#main-table').show();
                     $('#no-record').hide(); // Hide "No Record"
                 }
             });
