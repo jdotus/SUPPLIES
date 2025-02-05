@@ -508,7 +508,7 @@
             if (!barcode || isNaN(barcode) || parseInt(barcode) <= 0) {
                 errors.push("Please enter a valid barcode number greater than 0.");
             }
-            if (!techName || isNaN(techName) || techName == "") {
+            if (!techName || techName == "") {
                 errors.push("Please enter a valid Technician Name ");
             }
             if (!machineSerial || isNaN(machineSerial) || machineSerial == "") {

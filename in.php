@@ -1,62 +1,79 @@
 <?php
-    include('dbcon.php');
-?>
+include('dbcon.php');
 
-        <?php
-            if (
-                isset($_POST["id"], $_POST["quantity"], $_POST["code"], $_POST["owner"], 
-                $_POST["selectedSupply"], $_POST["invoice"], $_POST["date_of_delivery"])
-            ) {
-                $id = htmlspecialchars($_POST['id']);
-                $quantity = intval($_POST['quantity']);
-                $code = htmlspecialchars($_POST['code']);
-                $owner = htmlspecialchars($_POST['owner']);
-                $selectedSupply = htmlspecialchars($_POST['selectedSupply']);
-                $invoice = intval($_POST['invoice']);
-                $date_of_delivery = date("m-d-Y", strtotime($_POST['date_of_delivery']));
-                $model = htmlspecialchars($_POST['model']);
-                $description = htmlspecialchars($_POST['description']);
-            
-                // Validate input
-                if ($quantity > 0 && $invoice > 0) {
-                    $sql = "SELECT TOTAL_QUANTITY FROM `{$selectedSupply}` WHERE CODE = ?";
-                    $stmnt2 = $con->prepare($sql);
-                    $stmnt2->bind_param("s", $code);
-                    $stmnt2->execute();
-                    $stmnt2->bind_result($currentQuantity);
-            
-                    if ($stmnt2->fetch()) {
-                        $totalResult = $currentQuantity + $quantity;
-                    } else {
-                        $totalResult = $quantity;
-                    }
-                    $stmnt2->close();
-            
-                    // Update total quantity
-                    $sql1 = "UPDATE `{$selectedSupply}` SET TOTAL_QUANTITY = ? WHERE CODE = ?";
-                    $stmnt1 = $con->prepare($sql1);
-                    $stmnt1->bind_param("is", $totalResult, $code);
-                    $stmnt1->execute();
-            
-                    if ($stmnt1->affected_rows > 0) {
-                        // Record the delivery
-                        $currentDate = date("m-d-Y");
-                        $sql2 = "INSERT INTO delivery_in (date, model, description, code, owner, invoice, date_of_delivery, quantity) 
-                                 VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
-                        $stmnt3 = $con->prepare($sql2);
-                        $stmnt3->bind_param("ssssssss", $currentDate, $model, $description, $code, $owner, $invoice, $date_of_delivery, $quantity);
-                        $stmnt3->execute();
-                        $stmnt3->close();
-            
-                        echo "success";
-                    } else {
-                        echo "Failed to update quantity.";
-                    }
-                    $stmnt1->close();
-                } else {
-                    echo "Invalid data. Quantity and invoice must be greater than 0.";
-                }
-            } else {
-                echo "Required fields are missing.";
-            }
-        ?>
+if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+    echo "Invalid request method.";
+    exit;
+}
+
+// Retrieve and sanitize POST data
+$id = $_POST['id'] ?? null;
+$quantity = isset($_POST['quantity']) ? (int)$_POST['quantity'] : 0;
+$code = $_POST['code'] ?? null;
+$owner = $_POST['owner'] ?? null;
+$selectedSupply = $_POST['selectedSupply'] ?? null;
+$invoice = isset($_POST['invoice']) ? (int)$_POST['invoice'] : 0;
+$date_of_delivery = $_POST['date_of_delivery'] ?? null;
+$model = $_POST['model'] ?? null;
+$description = $_POST['description'] ?? null;
+
+// Validate input
+if ($quantity <= 0 || $invoice <= 0) {
+    echo "Invalid data. Quantity and invoice must be greater than 0.";
+    exit;
+}
+
+// Check if item exists in the database
+$sqlCheckStock = "SELECT TOTAL_QUANTITY FROM `$selectedSupply` WHERE CODE = ?";
+$stmtCheckStock = $con->prepare($sqlCheckStock);
+$stmtCheckStock->bind_param("s", $code);
+$stmtCheckStock->execute();
+$result = $stmtCheckStock->get_result();
+$row = $result->fetch_assoc();
+$stmtCheckStock->close();
+
+$totalResult = $row ? $row['TOTAL_QUANTITY'] + $quantity : $quantity;
+
+// Update or Insert stock
+$sqlUpdateStock = "UPDATE `$selectedSupply` SET TOTAL_QUANTITY = ? WHERE CODE = ?";
+$stmtUpdateStock = $con->prepare($sqlUpdateStock);
+$stmtUpdateStock->bind_param("is", $totalResult, $code);
+$stmtUpdateStock->execute();
+
+if ($stmtUpdateStock->affected_rows <= 0) {
+    echo "Failed to update stock.";
+    exit;
+}
+
+$stmtUpdateStock->close();
+
+// Insert into `delivery_in` table
+$sqlInsertDelivery = "INSERT INTO delivery_in 
+    (date, model, description, code, owner, invoice, date_of_delivery, quantity) 
+    VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+
+$stmtInsertDelivery = $con->prepare($sqlInsertDelivery);
+$currentDate = date("Y-m-d");
+
+$stmtInsertDelivery->bind_param(
+    "ssssssss",
+    $currentDate,
+    $model,
+    $description,
+    $code,
+    $owner,
+    $invoice,
+    $date_of_delivery,
+    $quantity
+);
+
+$stmtInsertDelivery->execute();
+
+if ($stmtInsertDelivery->affected_rows > 0) {
+    $stmtInsertDelivery->close();
+    echo "success";
+} else {
+    $stmtInsertDelivery->close();
+    echo "Failed to record delivery data.";
+}
+?>
