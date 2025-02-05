@@ -63,38 +63,19 @@
                 });
             }
 
-<<<<<<< HEAD
             // Load default data on page load
             viewDefaultTable("default", ""); 
 
-=======
-            // Initially disable filter and hide "No Record" message
-            $('#filter').prop('disabled', true);
-            $('#no-record').hide();
-            $('#main-table').show();
-            
->>>>>>> 7e7272f668e66f666d349384c96722b167ac040a
             $('#supplies').on('change', function() {
                 var selectedValue = $(this).val();
                 var filter = $('#filter').val().trim();
 
                 if (selectedValue !== 'default') {
-<<<<<<< HEAD
                     $('#filter').prop('disabled', false);
                     viewDefaultTable(selectedValue, filter);
                 } else {
                     $('#filter').prop('disabled', true);
                     viewDefaultTable("default", "");
-=======
-                    $('#filter').prop('disabled', false); // Enable filter
-                    viewDefaultTable(selectedValue, filter); // Fetch data
-                    $('#main-table').hide();
-                } else {
-                    $('#filter').prop('disabled', true); // Disable filter
-                    $('#view-table').html(''); // Clear table
-                    $('#main-table').show();
-                    $('#no-record').hide(); // Hide "No Record"
->>>>>>> 7e7272f668e66f666d349384c96722b167ac040a
                 }
             });
 
