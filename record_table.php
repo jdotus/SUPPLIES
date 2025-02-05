@@ -7,131 +7,94 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
 </head>
-    <body>
-        <?php
-    if (isset($_GET['selectedSupply']) && isset($_GET['filter'])) {
-        $selectedSupply = htmlspecialchars($_GET['selectedSupply']);
-        $filter = htmlspecialchars($_GET['filter']);
+<body>
 
-        echo($selectedSupply);
-        if($selectedSupply == "delivery_in") {
-            if (empty($filter) && $selectedSupply == "delivery_in") {
-                $stmnt = $con->prepare("SELECT * FROM delivery_in");
-            } else if (!empty($filter) && $selectedSupply == "delivery_in") {
-                $stmnt = $con->prepare("SELECT * FROM delivery_in WHERE invoice LIKE ? OR code LIKE ? OR model LIKE ? OR owner LIKE ?");
-                $filter = $filter . '%'; // Add wildcard for LIKE search
-                $stmnt->bind_param("ssss", $filter, $filter, $filter, $filter);
-            } else {
-                die("Invalid selection.");
-            }
+<?php
+if (isset($_GET['selectedSupply']) && isset($_GET['filter'])) {
+    $selectedSupply = htmlspecialchars($_GET['selectedSupply']);
+    $filter = htmlspecialchars($_GET['filter']);
+
+    if ($selectedSupply == "default") {
+        // Query for both delivery_in and delivery_out when "SELECT" is chosen
+        $sql = "
+            SELECT 'IN' AS type, model, description, code, owner, date_of_delivery, quantity, 
+                   invoice, NULL AS stock_transfer, NULL AS barcode, NULL AS client, 
+                   NULL AS tech_name, NULL AS machine_model, NULL AS machine_serial
+            FROM delivery_in
+            WHERE model LIKE '%$filter%' OR code LIKE '%$filter%' OR owner LIKE '%$filter%' OR invoice LIKE '%$filter%'
             
-            $stmnt->execute();
-            $result = $stmnt->get_result();
+            UNION
             
-            if ($result->num_rows > 0) { ?>
-                <div class="table-responsive bg-white">
-                    <table class="table table-hover table-responsive-md mb-0" id="dataTable">
-                        <thead>
-                            <tr>
-                                <th class="h6 fw-bold" scope="col">MODEL</th>
-                                <th class="h6 fw-bold" scope="col">DESCRIPTION</th>
-                                <th class="h6 fw-bold" scope="col">CODE</th>
-                                <th class="h6 fw-bold" scope="col">OWNER</th>
-                                <th class="h6 fw-bold" scope="col">DATE OF DELIVERY</th>
-                                <th class="h6 fw-bold" scope="col">QUANTITY</th>
-                                <th class="h6 fw-bold" scope="col">INVOICE No.</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <?php while ($row = $result->fetch_assoc()) { ?>
-                                <tr data-id="<?php echo $row['id']; ?>">
-                                    <td><?php echo htmlspecialchars($row['model']); ?></td>
-                                    <td><?php echo htmlspecialchars($row['description']); ?></td>
-                                    <td><?php echo htmlspecialchars($row['code']); ?></td>
-                                    <td><?php echo htmlspecialchars($row['owner']); ?></td>
-                                    <td><?php echo htmlspecialchars($row['date_of_delivery']); ?></td>
-                                    <td><?php echo htmlspecialchars($row['quantity']); ?></td>
-                                    <td><?php echo htmlspecialchars($row['invoice']); ?></td>
-                                </tr>
-                                <?php } ?>
-                        </tbody>
-                    </table>
-                </div>
-                    <?php } else {
-                        echo "<p>No records found.</p>";
-                }
-            }else if($selectedSupply == "delivery_out"){
+            SELECT 'OUT' AS type, model, description, code, owner, date_of_delivery, quantity, 
+                   NULL AS invoice, stock_transfer, barcode, client, tech_name, machine_model, machine_serial
+            FROM delivery_out
+            WHERE model LIKE '%$filter%' OR code LIKE '%$filter%' OR owner LIKE '%$filter%' OR stock_transfer LIKE '%$filter%'
+            
+            ORDER BY date_of_delivery DESC
+            LIMIT 20;
+        ";
+    } else {
+        // Query for a specific supply type
+        $table = ($selectedSupply == "delivery_in") ? "delivery_in" : "delivery_out";
+        $sql = "SELECT * FROM $table WHERE model LIKE '%$filter%' OR code LIKE '%$filter%' OR owner LIKE '%$filter%' 
+                OR " . ($selectedSupply == "delivery_in" ? "invoice" : "stock_transfer") . " LIKE '%$filter%'";
+    }
 
-                if (empty($filter) && $selectedSupply == "delivery_out") {
-                    $stmnt = $con->prepare("SELECT * FROM delivery_out");
-                } else if (!empty($filter) && $selectedSupply == "delivery_out") {
-                    $stmnt = $con->prepare("SELECT * FROM delivery_out WHERE stock_transfer LIKE ? OR code LIKE ? OR model LIKE ? OR owner LIKE ?");
-                    $filter = $filter . '%'; // Add wildcard for LIKE search
-                    $stmnt->bind_param("ssss", $filter, $filter, $filter, $filter);
-                } else {
-                    die("Invalid selection.");
-                }
-                
-                $stmnt->execute();
-                $result = $stmnt->get_result();
+    $result = $con->query($sql);
 
-                if ($result->num_rows > 0) { ?>
-                <div class="table-responsive bg-white">
-                    <table class="table table-hover table-responsive-md mb-0" id="dataTable">
-                        <thead>
-                            <tr>
-                                <th class="h6 fw-bold" scope="col">MODEL</th>
-                                <th class="h6 fw-bold" scope="col">DESCRIPTION</th>
-                                <th class="h6 fw-bold" scope="col">CODE</th>
-                                <th class="h6 fw-bold" scope="col">OWNER</th>
-                                <th class="h6 fw-bold" scope="col">DATE OF DELIVERY</th>
-                                <th class="h6 fw-bold" scope="col">QUANTITY</th>
-                                <th class="h6 fw-bold" scope="col">STOCK<br>TRANSFER No.</th>
-                                <th class="h6 fw-bold" scope="col">BARCODE</th>
-                                <th class="h6 fw-bold" scope="col">CLIENT</th>
-                                <th class="h6 fw-bold" scope="col">TECH NAME</th>
-                                <th class="h6 fw-bold" scope="col">MACHINE MODEL</th>
-                                <th class="h6 fw-bold" scope="col">MACHINE SERIAL</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <?php while ($row = $result->fetch_assoc()) { ?>
-                                <tr data-id="<?php echo $row['id']; ?>">
-                                    <td><?php echo htmlspecialchars($row['model']); ?></td>
-                                    <td><?php echo htmlspecialchars($row['description']); ?></td>
-                                    <td><?php echo htmlspecialchars($row['code']); ?></td>
-                                    <td><?php echo htmlspecialchars($row['owner']); ?></td>
-                                    <td><?php echo htmlspecialchars($row['date_of_delivery']); ?></td>
-                                    <td><?php echo htmlspecialchars($row['quantity']); ?></td>
-                                    <td><?php echo htmlspecialchars($row['stock_transfer']); ?></td>
-                                    <td><?php echo htmlspecialchars($row['barcode']); ?></td>
-                                    <td><?php echo htmlspecialchars($row['client']); ?></td>
-                                    <td><?php echo htmlspecialchars($row['tech_name']); ?></td>
-                                    <td><?php echo htmlspecialchars($row['machine_model']); ?></td>
-                                    <td><?php echo htmlspecialchars($row['machine_serial']); ?></td>
-                                </tr>
-                                <?php } ?>
-                            </tbody>
-                        </table>
-                    </div>
-                <?php } else {
-                    echo "<p>No records found.</p>";
-                }
-            }
-        }
-    ?>
+    if ($result && $result->num_rows > 0) { ?>
+        <div class="table-responsive bg-white">
+            <table class="table table-hover table-responsive-md mb-0" id="dataTable">
+                <thead>
+                    <tr>
+                        <th class="h6 fw-bold">TYPE</th>
+                        <th class="h6 fw-bold">MODEL</th>
+                        <th class="h6 fw-bold">DESCRIPTION</th>
+                        <th class="h6 fw-bold">CODE</th>
+                        <th class="h6 fw-bold">OWNER</th>
+                        <th class="h6 fw-bold">DATE OF DELIVERY</th>
+                        <th class="h6 fw-bold">QUANTITY</th>
+                        <th class="h6 fw-bold">INVOICE/STOCK TRANSFER</th>
+                        <th class="h6 fw-bold">BARCODE</th>
+                        <th class="h6 fw-bold">CLIENT</th>
+                        <th class="h6 fw-bold">TECH NAME</th>
+                        <th class="h6 fw-bold">MACHINE MODEL</th>
+                        <th class="h6 fw-bold">MACHINE SERIAL</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php while ($row = $result->fetch_assoc()) { ?>
+                        <tr>
+                            <td><?php echo htmlspecialchars($row['type'] ?? ''); ?></td>
+                            <td><?php echo htmlspecialchars($row['model']); ?></td>
+                            <td><?php echo htmlspecialchars($row['description']); ?></td>
+                            <td><?php echo htmlspecialchars($row['code']); ?></td>
+                            <td><?php echo htmlspecialchars($row['owner']); ?></td>
+                            <td><?php echo htmlspecialchars($row['date_of_delivery']); ?></td>
+                            <td><?php echo htmlspecialchars($row['quantity']); ?></td>
+                            <td><?php echo htmlspecialchars($row['invoice'] ?? $row['stock_transfer'] ?? ''); ?></td>
+                            <td><?php echo htmlspecialchars($row['barcode'] ?? ''); ?></td>
+                            <td><?php echo htmlspecialchars($row['client'] ?? ''); ?></td>
+                            <td><?php echo htmlspecialchars($row['tech_name'] ?? ''); ?></td>
+                            <td><?php echo htmlspecialchars($row['machine_model'] ?? ''); ?></td>
+                            <td><?php echo htmlspecialchars($row['machine_serial'] ?? ''); ?></td>
+                        </tr>
+                    <?php } ?>
+                </tbody>
+            </table>
+        </div>
+    <?php } else {
+        echo "<p>No records found.</p>";
+    }
+}
+?>
 
 <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
 <script>
     $(document).ready(function() {
-        $('#dataTable').DataTable({ 
-                searching: false
-            });
-
-        $('.dataTables_length label').contents().filter(function(){
-            return this.nodeType === 3; //Node.TEXT_NODE
-        }).remove();
-
+        $('#dataTable').DataTable({
+            searching: false
+        });
     });
 </script>
 </body>
