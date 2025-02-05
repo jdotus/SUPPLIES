@@ -30,6 +30,11 @@ form, .align_center{
     padding: 30px 0;
 }
 
+.main-table h3 {
+    font-weight: 700;
+    margin: 0 0 30px 0;
+}
+
 .search_container {
     width: 90%;
     margin: 150px auto 100px auto;
