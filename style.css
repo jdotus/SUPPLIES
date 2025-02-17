@@ -226,3 +226,10 @@ label {
         height: 45px; /* Slightly smaller height for smaller screens */
     }
 }
+
+/* Scrolable Table */
+.table-responsive {
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
+}

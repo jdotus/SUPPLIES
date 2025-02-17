@@ -43,8 +43,8 @@ if (isset($_GET['selectedSupply']) && isset($_GET['filter'])) {
     $result = $con->query($sql);
 
     if ($result && $result->num_rows > 0) { ?>
-        <div class="table-responsive bg-white">
-            <table class="table table-hover table-responsive-md mb-0" id="dataTable">
+        <div class="  bg-white">
+            <table class="table table-responsive table-hover table-responsive-md mb-0" id="dataTable">
                 <thead>
                     <tr>
                         <th class="h6 fw-bold">TYPE</th>
