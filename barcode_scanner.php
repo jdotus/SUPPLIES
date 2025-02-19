@@ -461,7 +461,7 @@
 
                             $('#in-result').html(
                             '<div class="alert alert-success alert-dismissible fade show" role="alert">' +
-                            '<strong>Success!</strong> Data Inserted,    Quantity: ' + quantity + ' Invoice: ' + invoice +
+                            '<strong>Success!</strong> Data Inserted to <strong>Model: ' + model + '</strong>, <strong>Quantity: ' + quantity + '</strong>, <strong>Invoice: ' + invoice + '</strong>' +
                             '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>' +
                             '</div>' 
                             );
@@ -508,7 +508,7 @@
             if (!barcode || isNaN(barcode) || parseInt(barcode) <= 0) {
                 errors.push("Please enter a valid barcode number greater than 0.");
             }
-            if (!techName || isNaN(techName) || techName == "") {
+            if (!techName ||techName == "") {
                 errors.push("Please enter a valid Technician Name ");
             }
             if (!machineSerial || isNaN(machineSerial) || machineSerial == "") {
@@ -520,7 +520,7 @@
             if (client == "") {
                 errors.push("Please enter a valid Client Name.");
             }
-            if (!stockTransfer || isNaN(stockTransfer) || stockTransfer == "") {
+            if (!stockTransfer || stockTransfer == "") {
                 errors.push("Please enter a valid Stock Transfer.");
             }
             if (!deliveryDate) {

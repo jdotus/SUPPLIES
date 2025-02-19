@@ -17,7 +17,7 @@ if (isset($_GET['selectedSupply']) && isset($_GET['filter'])) {
     if ($selectedSupply == "default") {
         // Query for both delivery_in and delivery_out when "SELECT" is chosen
         $sql = "
-            SELECT 'IN' AS type, model, description, code, owner, date_of_delivery, quantity, 
+            SELECT 'IN' AS type, model, description, code, date, owner, date_of_delivery, quantity, 
                    invoice, NULL AS stock_transfer, NULL AS barcode, NULL AS client, 
                    NULL AS tech_name, NULL AS machine_model, NULL AS machine_serial
             FROM delivery_in
@@ -25,12 +25,12 @@ if (isset($_GET['selectedSupply']) && isset($_GET['filter'])) {
             
             UNION
             
-            SELECT 'OUT' AS type, model, description, code, owner, date_of_delivery, quantity, 
+            SELECT 'OUT' AS type, model, description, code, date, owner, date_of_delivery, quantity, 
                    NULL AS invoice, stock_transfer, barcode, client, tech_name, machine_model, machine_serial
             FROM delivery_out
             WHERE model LIKE '%$filter%' OR code LIKE '%$filter%' OR owner LIKE '%$filter%' OR stock_transfer LIKE '%$filter%'
             
-            ORDER BY date_of_delivery DESC
+            ORDER BY date DESC
             LIMIT 20;
         ";
     } else {
@@ -92,9 +92,16 @@ if (isset($_GET['selectedSupply']) && isset($_GET['filter'])) {
 <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
 <script>
     $(document).ready(function() {
-        $('#dataTable').DataTable({
+        var table = $('#dataTable').DataTable({
             searching: false
+            // ordering: false
+            // paging: false
         });
+
+        table
+            .column('.status')
+            .order('desc')
+            .draw();
     });
 </script>
 </body>

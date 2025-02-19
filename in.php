@@ -53,7 +53,9 @@ $sqlInsertDelivery = "INSERT INTO delivery_in
     VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 
 $stmtInsertDelivery = $con->prepare($sqlInsertDelivery);
-$currentDate = date("Y-m-d");
+date_default_timezone_set('Asia/Manila');
+$currentDate = date("Y-m-d H:i:s");
+// $currentDate = new DateTime("now", new DateTimeZone("Asia/Manila"));
 
 $stmtInsertDelivery->bind_param(
     "ssssssss",
