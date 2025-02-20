@@ -21,14 +21,14 @@ if (isset($_GET['selectedSupply']) && isset($_GET['filter'])) {
                    invoice, NULL AS stock_transfer, NULL AS barcode, NULL AS client, 
                    NULL AS tech_name, NULL AS machine_model, NULL AS machine_serial
             FROM delivery_in
-            WHERE model LIKE '%$filter%' OR code LIKE '%$filter%' OR owner LIKE '%$filter%' OR invoice LIKE '%$filter%'
+            WHERE model LIKE '%$filter%' OR code LIKE '%$filter%' OR owner LIKE '%$filter%' OR invoice LIKE '%$filter%' OR description LIKE '%$filter%'
             
             UNION
             
             SELECT 'OUT' AS type, model, description, code, date, owner, date_of_delivery, quantity, 
                    NULL AS invoice, stock_transfer, barcode, client, tech_name, machine_model, machine_serial
             FROM delivery_out
-            WHERE model LIKE '%$filter%' OR code LIKE '%$filter%' OR owner LIKE '%$filter%' OR stock_transfer LIKE '%$filter%'
+            WHERE model LIKE '%$filter%' OR code LIKE '%$filter%' OR owner LIKE '%$filter%' OR stock_transfer LIKE '%$filter%' OR description LIKE '%$filter%'
             
             ORDER BY date DESC
             LIMIT 20;
@@ -36,7 +36,7 @@ if (isset($_GET['selectedSupply']) && isset($_GET['filter'])) {
     } else {
         // Query for a specific supply type
         $table = ($selectedSupply == "delivery_in") ? "delivery_in" : "delivery_out";
-        $sql = "SELECT * FROM $table WHERE model LIKE '%$filter%' OR code LIKE '%$filter%' OR owner LIKE '%$filter%' 
+        $sql = "SELECT * FROM $table WHERE model LIKE '%$filter%' OR code LIKE '%$filter%' OR owner LIKE '%$filter%' OR description LIKE '%$filter%'
                 OR " . ($selectedSupply == "delivery_in" ? "invoice" : "stock_transfer") . " LIKE '%$filter%'";
     }
 

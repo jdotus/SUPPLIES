@@ -511,10 +511,10 @@
             if (!techName ||techName == "") {
                 errors.push("Please enter a valid Technician Name ");
             }
-            if (!machineSerial || isNaN(machineSerial) || machineSerial == "") {
+            if (!machineSerial || machineSerial == "") {
                 errors.push("Please enter a valid Machine Serial number greater than 0.");
             }
-            if (!machineModel || isNaN(machineModel) || machineModel == "") {
+            if (!machineModel || machineModel == "") {
                 errors.push("Please enter a valid Machine Model.");
             }
             if (client == "") {
