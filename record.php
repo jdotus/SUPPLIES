@@ -17,7 +17,6 @@
     <!-- DataTables -->
     <link rel="stylesheet" type="text/css" href="//cdn.datatables.net/2.2.1/css/dataTables.dataTables.min.css">
     <script src="//cdn.datatables.net/2.2.1/js/dataTables.min.js"></script>
-
 </head>
 <body>
     <div class="records">
@@ -55,6 +54,29 @@
                         } else {
                             $('#no-record').hide();
                             $('#view-table').html(response);
+                            
+                            setTimeout(function() {
+                                var table = $('#example').DataTable({
+                                    searching: false,
+                                    // ordering: false
+                                    // paging: true,
+    
+                                    dom: '<"d-flex justify-content-between"lfB>rtip', // Flexbox for alignment
+                                    buttons: [
+                                        {
+                                            extend: 'excel',
+                                            title: 'Record: ' + selectedValue + '',
+                                            filename: 'Record',
+                                        }, 
+                                        'csv', 'print'
+                                    ],
+                                    lengthMenu: [ 10, 25, 50, 100 ],
+                                });
+                                table
+                                    .column('.status')
+                                    .order('desc')
+                                    .draw();
+                            }, 100)
                         }
                     },
                     error: function() {

@@ -6,6 +6,10 @@
     <link rel="stylesheet" href="style.css">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
+    
+    <!-- Datatables button -->
+    <link rel="stylesheet" href="https://cdn.datatables.net/buttons/3.2.2/css/buttons.dataTables.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/2.2.2/css/dataTables.dataTables.css">
 </head>
 <body>
 
@@ -44,7 +48,7 @@ if (isset($_GET['selectedSupply']) && isset($_GET['filter'])) {
 
     if ($result && $result->num_rows > 0) { ?>
         <div class="  bg-white">
-            <table class="table table-responsive table-hover table-responsive-md mb-0" id="dataTable">
+            <table class="table table-responsive table-hover table-responsive-md mb-0" id="example">
                 <thead>
                     <tr>
                         <th class="h6 fw-bold">TYPE</th>
@@ -90,19 +94,17 @@ if (isset($_GET['selectedSupply']) && isset($_GET['filter'])) {
 ?>
 
 <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
-<script>
-    $(document).ready(function() {
-        var table = $('#dataTable').DataTable({
-            searching: false
-            // ordering: false
-            // paging: false
-        });
 
-        table
-            .column('.status')
-            .order('desc')
-            .draw();
-    });
-</script>
+<!-- Data Tables BuiltIn Buttons-->
+<script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+<script src="https://cdn.datatables.net/2.2.2/js/dataTables.js"></script>
+<script src="https://cdn.datatables.net/buttons/3.2.2/js/dataTables.buttons.js"></script>
+<script src="https://cdn.datatables.net/buttons/3.2.2/js/buttons.dataTables.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
+<script src="https://cdn.datatables.net/buttons/3.2.2/js/buttons.html5.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/3.2.2/js/buttons.print.min.js"></script>
+
 </body>
 </html>
