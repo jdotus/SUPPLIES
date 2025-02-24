@@ -40,7 +40,7 @@ if (isset($_GET['selectedSupply']) && isset($_GET['filter'])) {
     } else {
         // Query for a specific supply type
         $table = ($selectedSupply == "delivery_in") ? "delivery_in" : "delivery_out";
-        $sql = "SELECT * FROM $table WHERE model LIKE '%$filter%' OR code LIKE '%$filter%' OR owner LIKE '%$filter%' OR description LIKE '%$filter%'
+        $sql = "SELECT * FROM $table WHERE model LIKE '%$filter%' OR code LIKE '%$filter%' OR owner LIKE '%$filter%' OR description LIKE '%$filter%' OR date_of_delivery LIKE '%$filter%' 
                 OR " . ($selectedSupply == "delivery_in" ? "invoice" : "stock_transfer") . " LIKE '%$filter%'";
     }
 
