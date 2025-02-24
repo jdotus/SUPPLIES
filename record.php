@@ -56,6 +56,12 @@
                             $('#view-table').html(response);
                             
                             setTimeout(function() {
+
+                                // Destroy existing DataTable instance
+                                if ($.fn.DataTable.isDataTable("#example")) {
+                                 $("#example").DataTable().destroy();
+                                 }
+
                                 var table = $('#example').DataTable({
                                     searching: false,
                                     // ordering: false
