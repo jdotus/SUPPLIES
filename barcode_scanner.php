@@ -114,13 +114,13 @@
                                         <div class="col-md-3">
                                             <div class="form-group">
                                                 <label> Delivery Date</label><br>
-                                                <input type="date" class="date_of_delivery fsorm-control" value="<?php echo date('Y-m-d'); ?>" max="<?php echo date('Y-m-d'); ?>" required>
+                                                <input type="date" class="date_of_delivery fsorm-control" value="<?php echo date('Y-m-d'); ?>"required>
                                             </div>
                                         </div>
                                         <div class="col-md-3">
                                             <div class="form-group">
                                                 <label> Invoice or DR </label>
-                                                <input type="text" name="Code" id="invoice" class="form-control custom-input" required>
+                                                <input type="text" name="Code" id="invoice" class="form-control custom-input">
                                             </div>
                                         </div>
                                         <div class="col-md-3">
@@ -192,7 +192,7 @@
                                         <div class="col-md-3">
                                             <div class="form-group">
                                                 <label> Delivery Date</label><br>
-                                                <input type="date" class="date_of_delivery_out form-control" value="<?php echo date('Y-m-d'); ?>" max="<?php echo date('Y-m-d'); ?>" required>
+                                                <input type="date" class="date_of_delivery_out form-control" value="<?php echo date('Y-m-d'); ?>" required>
                                             </div>
                                         </div>
                                         <div class="col-md-3">
@@ -405,9 +405,9 @@
             if (!quantity || isNaN(quantity) || parseInt(quantity) <= 0) {
                 errors.push("Please enter a valid quantity greater than 0.");
             }
-            if (!invoice || isNaN(invoice) || parseInt(invoice) <= 0) {
-                errors.push("Please enter a valid invoice number greater than 0.");
-            }
+            // if (!invoice || isNaN(invoice) || parseInt(invoice) <= 0) {
+            //     errors.push("Please enter a valid invoice number greater than 0.");
+            // }
             if (!deliveryDate) {
                 errors.push("Please select a delivery date.");
             }
@@ -461,7 +461,7 @@
 
                             $('#in-result').html(
                             '<div class="alert alert-success alert-dismissible fade show" role="alert">' +
-                            '<strong>Success!</strong> Data Inserted to <strong>Model: ' + model + '</strong>, <strong>Quantity: ' + quantity + '</strong>, <strong>Invoice: ' + invoice + '</strong>' +
+                            '<strong>Success!</strong> Data Inserted to <strong>Model: ' + model + '</strong>, <strong>Quantity: ' + quantity  +
                             '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>' +
                             '</div>' 
                             );

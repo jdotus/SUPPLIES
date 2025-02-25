@@ -12,14 +12,14 @@ $quantity = isset($_POST['quantity']) ? (int)$_POST['quantity'] : 0;
 $code = $_POST['code'] ?? null;
 $owner = $_POST['owner'] ?? null;
 $selectedSupply = $_POST['selectedSupply'] ?? null;
-$invoice = isset($_POST['invoice']) ? (int)$_POST['invoice'] : 0;
+$invoice = $_POST['invoice'] ?? null;
 $date_of_delivery = $_POST['date_of_delivery'] ?? null;
 $model = $_POST['model'] ?? null;
 $description = $_POST['description'] ?? null;
 
 // Validate input
-if ($quantity <= 0 || $invoice <= 0) {
-    echo "Invalid data. Quantity and invoice must be greater than 0.";
+if ($quantity <= 0) {
+    echo "Invalid data. Quantity must be greater than 0.";
     exit;
 }
 
