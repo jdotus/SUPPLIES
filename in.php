@@ -49,8 +49,8 @@ $stmtUpdateStock->close();
 
 // Insert into `delivery_in` table
 $sqlInsertDelivery = "INSERT INTO delivery_in 
-    (date, model, description, code, owner, invoice, date_of_delivery, quantity) 
-    VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+    (date, model, description, code, owner, invoice, date_of_delivery, quantity,type) 
+    VALUES (?, ?, ?, ?, ?, ?, ?, ?,'IN')";
 
 $stmtInsertDelivery = $con->prepare($sqlInsertDelivery);
 date_default_timezone_set('Asia/Manila');
