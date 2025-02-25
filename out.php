@@ -80,8 +80,8 @@ $stmtUpdateStock->close();
 
 // Insert into `delivery_out` table
 $sqlInsertDelivery = "INSERT INTO delivery_out 
-    (date, model, description, code, owner, date_of_delivery, barcode, quantity, client, machine_model, machine_serial, tech_name, stock_transfer) 
-    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+    (date, model, description, code, owner, date_of_delivery, barcode, quantity, client, machine_model, machine_serial, tech_name, stock_transfer,type) 
+    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,'OUT')";
 
 $stmtInsertDelivery = $con->prepare($sqlInsertDelivery);
 date_default_timezone_set('Asia/Manila');
