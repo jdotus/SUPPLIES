@@ -12,7 +12,7 @@ $quantity = isset($_POST['quantity']) ? (int)$_POST['quantity'] : 0;
 $code = $_POST['code'] ?? null;
 $owner = $_POST['owner'] ?? null;
 $selectedSupply = $_POST['selectedSupply'] ?? null;
-$invoice = $_POST['invoice'] ?? null;
+$invoice = $_POST['invoice'];
 $date_of_delivery = $_POST['date_of_delivery'] ?? null;
 $model = $_POST['model'] ?? null;
 $description = $_POST['description'] ?? null;
@@ -52,10 +52,29 @@ $sqlInsertDelivery = "INSERT INTO delivery_in
     (date, model, description, code, owner, invoice, date_of_delivery, quantity,type) 
     VALUES (?, ?, ?, ?, ?, ?, ?, ?,'IN')";
 
-$stmtInsertDelivery = $con->prepare($sqlInsertDelivery);
+// Insert into `record` table
+$sqlInsertRecord = "INSERT INTO record 
+    (date, model, description, code, owner, invoice, date_of_delivery, quantity,type) 
+    VALUES (?, ?, ?, ?, ?, ?, ?, ?,'IN')";
+
 date_default_timezone_set('Asia/Manila');
 $currentDate = date("Y-m-d H:i:s");
+
+$stmtInsertRecord = $con->prepare($sqlInsertRecord);
+$stmtInsertDelivery = $con->prepare($sqlInsertDelivery);
 // $currentDate = new DateTime("now", new DateTimeZone("Asia/Manila"));
+
+$stmtInsertRecord->bind_param( 
+    "ssssssss",
+    $currentDate,
+    $model,
+    $description,
+    $code,
+    $owner,
+    $invoice,
+    $date_of_delivery,
+    $quantity
+ );
 
 $stmtInsertDelivery->bind_param(
     "ssssssss",
@@ -69,13 +88,16 @@ $stmtInsertDelivery->bind_param(
     $quantity
 );
 
+$stmtInsertRecord->execute();
 $stmtInsertDelivery->execute();
 
-if ($stmtInsertDelivery->affected_rows > 0) {
+if ($stmtInsertDelivery->affected_rows > 0 && $stmtInsertRecord->affected_rows > 0) {
     $stmtInsertDelivery->close();
+    $stmtInsertRecord->close();
     echo "success";
 } else {
     $stmtInsertDelivery->close();
+    $stmtInsertRecord->close();
     echo "Failed to record delivery data.";
 }
 ?>

@@ -83,9 +83,34 @@ $sqlInsertDelivery = "INSERT INTO delivery_out
     (date, model, description, code, owner, date_of_delivery, barcode, quantity, client, machine_model, machine_serial, tech_name, stock_transfer,type) 
     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,'OUT')";
 
-$stmtInsertDelivery = $con->prepare($sqlInsertDelivery);
+// Insert into `record` table
+$sqlInsertRecord = "INSERT INTO record 
+    (date, model, description, code, owner, date_of_delivery, barcode, quantity, client, machine_model, machine_serial, tech_name, stock_transfer,type) 
+    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,'OUT')";
+
 date_default_timezone_set('Asia/Manila');
 $currentDate = date("Y-m-d H:i:s");
+
+$stmtInsertRecord = $con->prepare($sqlInsertRecord);
+
+$stmtInsertDelivery = $con->prepare($sqlInsertDelivery);
+
+$stmtInsertRecord->bind_param(
+    "sssssssssssss",
+    $currentDate,
+    $model,
+    $description,
+    $code,
+    $owner,
+    $date_of_delivery,
+    $barcode,
+    $quantity,
+    $client,
+    $machineModel,
+    $machineSerial,
+    $techName,
+    $stockTransfer
+);
 
 $stmtInsertDelivery->bind_param(
     "sssssssssssss",
@@ -104,13 +129,17 @@ $stmtInsertDelivery->bind_param(
     $stockTransfer
 );
 
+$stmtInsertRecord->execute();
 $stmtInsertDelivery->execute();
 
-if ($stmtInsertDelivery->affected_rows > 0) {
+if ($stmtInsertDelivery->affected_rows > 0 && $stmtInsertRecord->affected_rows > 0) {
     $stmtInsertDelivery->close();
+    $stmtInsertRecord->close();
+
     respond("success", "Stock updated and delivery data recorded.");
 } else {
     $stmtInsertDelivery->close();
+    $stmtInsertRecord->close();
     respond("error", "Failed to record delivery data.");
 }
 ?>

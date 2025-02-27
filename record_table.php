@@ -19,24 +19,8 @@ if (isset($_GET['selectedSupply']) && isset($_GET['filter'])) {
     $filter = htmlspecialchars($_GET['filter']);
 
     if ($selectedSupply == "default") {
-        // Query for both delivery_in and delivery_out when "SELECT" is chosen
-        $sql = "
-            SELECT 'IN' AS type, model, description, code, date, owner, date_of_delivery, quantity, 
-                   invoice, NULL AS stock_transfer, NULL AS barcode, NULL AS client, 
-                   NULL AS tech_name, NULL AS machine_model, NULL AS machine_serial
-            FROM delivery_in
-            WHERE model LIKE '%$filter%' OR code LIKE '%$filter%' OR owner LIKE '%$filter%' OR invoice LIKE '%$filter%' OR description LIKE '%$filter%'
-            
-            UNION
-            
-            SELECT 'OUT' AS type, model, description, code, date, owner, date_of_delivery, quantity, 
-                   NULL AS invoice, stock_transfer, barcode, client, tech_name, machine_model, machine_serial
-            FROM delivery_out
-            WHERE model LIKE '%$filter%' OR code LIKE '%$filter%' OR owner LIKE '%$filter%' OR stock_transfer LIKE '%$filter%' OR description LIKE '%$filter%'
-            
-            ORDER BY date DESC
-            LIMIT 20;
-        ";
+         $sql = "SELECT * FROM record WHERE model LIKE '%$filter%' OR code LIKE '%$filter%' OR owner LIKE '%$filter%' OR description LIKE '%$filter%' OR date_of_delivery LIKE '%$filter%' ORDER BY date DESC";
+
     } else {
         // Query for a specific supply type
         $table = ($selectedSupply == "delivery_in") ? "delivery_in" : "delivery_out";
@@ -58,7 +42,7 @@ if (isset($_GET['selectedSupply']) && isset($_GET['filter'])) {
                         <th class="h6 fw-bold">OWNER</th>
                         <th class="h6 fw-bold">DATE OF DELIVERY</th>
                         <th class="h6 fw-bold">QUANTITY</th>
-                        <th class="h6 fw-bold">INVOICE/STOCK TRANSFER</th>
+                        <th class="h6 fw-bold">INVOICE or <BR>STOCK TRANSFER</th>
                         <th class="h6 fw-bold">BARCODE</th>
                         <th class="h6 fw-bold">CLIENT</th>
                         <th class="h6 fw-bold">TECH NAME</th>

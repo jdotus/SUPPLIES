@@ -12,7 +12,7 @@
 
     <div class="search_container">
         <form class="search">
-            <label for="supplies">SELECT SUPPLY</label><br>
+            <label for="supplies">SELECT OFFICE SUPPLY</label><br>
             <select name="supplies" id="supplies" required>
                 <option value="default">SELECT</option>
                 <option value="toner">Toner</option>

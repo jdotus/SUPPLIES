@@ -22,7 +22,7 @@
     <div class="records">
         <div class="search_container">
             <div class="align_center">
-                <label for="record">RECORDS</label>
+                <label for="record">OFFICE RECORDS</label>
             </div>
             <div class="align_center">
                 <select name="supplies" id="supplies">
@@ -30,7 +30,7 @@
                     <option value="delivery_in">Delivery IN</option>
                     <option value="delivery_out">Delivery OUT</option>
                 </select>
-                <input id="filter" type="text" disabled>
+                <input id="filter" type="text">
             </div>
         </div>
         <div class="no-record" id="no-record">NO RECORD</div>
@@ -99,11 +99,11 @@
                 var filter = $('#filter').val().trim();
 
                 if (selectedValue !== 'default') {
-                    $('#filter').prop('disabled', false);
+                    // $('#filter').prop('disabled', false);
                     viewDefaultTable(selectedValue, filter);
                 } else {
-                    $('#filter').prop('disabled', true);
-                    viewDefaultTable("default", "");
+                    // $('#filter').prop('disabled', false);
+                    viewDefaultTable("default", filter);
                 }
             });
 
@@ -111,9 +111,9 @@
                 var selectedValue = $('#supplies').val();
                 var filter = $(this).val().trim();
 
-                if (selectedValue !== 'default') {
-                    viewDefaultTable(selectedValue, filter);
-                }
+                
+                viewDefaultTable(selectedValue, filter);
+                
             });
         });
     </script>
