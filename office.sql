@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 25, 2025 at 03:11 AM
+-- Generation Time: Feb 27, 2025 at 03:30 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -18,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `barcode`
+-- Database: `office`
 --
 
 -- --------------------------------------------------------
@@ -179,6 +179,7 @@ INSERT INTO `client_names` (`id`, `client_name`) VALUES
 CREATE TABLE `delivery_in` (
   `id` int(11) NOT NULL,
   `date` datetime(6) NOT NULL,
+  `type` varchar(50) NOT NULL,
   `model` varchar(150) NOT NULL,
   `description` varchar(200) NOT NULL,
   `code` varchar(200) NOT NULL,
@@ -192,23 +193,9 @@ CREATE TABLE `delivery_in` (
 -- Dumping data for table `delivery_in`
 --
 
-INSERT INTO `delivery_in` (`id`, `date`, `model`, `description`, `code`, `owner`, `date_of_delivery`, `quantity`, `invoice`) VALUES
-(75, '2025-02-19 06:20:57.000000', 'PHASER 3200', 'TONER HIGH CAP', '113R00730', 'FUJI', '2025-02-19', 40, '202'),
-(76, '2025-02-19 13:26:45.000000', 'PHASER 3200', 'TONER HIGH CAP', '113R00730', 'FUJI', '2025-02-19', 50, '1212'),
-(77, '2025-02-19 13:48:23.000000', 'PHASER 3200', 'TONER HIGH CAP', '113R00730', 'FUJI', '2025-02-19', 100, '2020'),
-(78, '2025-02-20 08:56:41.000000', 'PHASER 4600', 'MAINTENANCE KIT', '115R00070', 'FUJI', '2025-02-20', 100, '1111'),
-(79, '2025-02-20 08:56:54.000000', 'PHASER 5550', 'TONER CARTRIDGE', '113R00684', 'FUJI', '2025-02-20', 50, '22222'),
-(80, '2025-02-20 08:57:06.000000', 'PHASER 5550', 'TONER CARTRIDGE', '113R00684', 'FUJI', '2025-02-20', 150, '88888'),
-(81, '2025-02-21 15:25:46.000000', 'TONER SAMPLE 2', 'TONER SAMPLE 2', '9999999', 'FUJI', '2025-02-21', 10, '212121'),
-(82, '2025-02-25 09:48:09.000000', 'TONER SAMPLE 2', 'TONER SAMPLE 2', '9999999', 'FUJI', '2025-02-26', 100, '1'),
-(83, '2025-02-25 09:49:33.000000', 'TONER SAMPLE 2', 'TONER SAMPLE 2', '9999999', 'FUJI', '2025-02-28', 40, '1'),
-(84, '2025-02-25 09:50:34.000000', 'TONER SAMPLE 2', 'TONER SAMPLE 2', '9999999', 'FUJI', '2025-02-27', 50, '1'),
-(85, '2025-02-25 09:51:56.000000', 'TONER SAMPLE 2', 'TONER SAMPLE 2', '9999999', 'FUJI', '2025-03-13', 20, '1'),
-(86, '2025-02-25 09:56:53.000000', 'TONER SAMPLE 2', 'TONER SAMPLE 2', '9999999', 'FUJI', '2025-03-27', 50, '1'),
-(87, '2025-02-25 09:58:54.000000', 'TONER SAMPLE 2', 'TONER SAMPLE 2', '9999999', 'FUJI', '2025-02-25', 30, '0'),
-(88, '2025-02-25 09:59:18.000000', 'TONER SAMPLE 2', 'TONER SAMPLE 2', '9999999', 'FUJI', '2025-02-25', 50, '0'),
-(89, '2025-02-25 10:00:18.000000', 'TONER SAMPLE 2', 'TONER SAMPLE 2', '9999999', 'FUJI', '2025-02-25', 50, ''),
-(90, '2025-02-25 10:02:38.000000', 'TONER SAMPLE 2', 'TONER SAMPLE 2', '9999999', 'FUJI', '2025-02-14', 50, '');
+INSERT INTO `delivery_in` (`id`, `date`, `type`, `model`, `description`, `code`, `owner`, `date_of_delivery`, `quantity`, `invoice`) VALUES
+(98, '2025-02-27 10:21:46.000000', 'IN', 'TONER SAMPLE 2', 'TONER SAMPLE 2', '9999999', 'FUJI', '2025-02-27', 100, ''),
+(99, '2025-02-27 10:22:53.000000', 'IN', 'TONER SAMPLE 2', 'TONER SAMPLE 2', '9999999', 'FUJI', '2025-02-27', 50, '');
 
 -- --------------------------------------------------------
 
@@ -219,6 +206,7 @@ INSERT INTO `delivery_in` (`id`, `date`, `model`, `description`, `code`, `owner`
 CREATE TABLE `delivery_out` (
   `id` int(11) NOT NULL,
   `date` datetime(6) NOT NULL,
+  `type` varchar(50) NOT NULL,
   `model` varchar(200) NOT NULL,
   `description` varchar(200) NOT NULL,
   `code` varchar(100) NOT NULL,
@@ -237,11 +225,8 @@ CREATE TABLE `delivery_out` (
 -- Dumping data for table `delivery_out`
 --
 
-INSERT INTO `delivery_out` (`id`, `date`, `model`, `description`, `code`, `owner`, `date_of_delivery`, `barcode`, `quantity`, `client`, `machine_model`, `machine_serial`, `tech_name`, `stock_transfer`) VALUES
-(36, '2025-02-19 13:27:52.000000', 'PHASER 3200', 'TONER HIGH CAP', '113R00730', 'FUJI', '2025-02-19', '12312312', 100, 'PICC', '123123', '1234256', 'JD', '2024-9963'),
-(37, '2025-02-19 13:48:51.000000', 'PHASER 3200', 'TONER HIGH CAP', '113R00730', 'FUJI', '2025-02-19', '123', 50, 'OFFICE OF BAM AQUINO', '123', '123', 'JD', '123'),
-(38, '2025-02-20 09:12:32.000000', 'PHASER 5550', 'TONER CARTRIDGE', '113R00684', 'FUJI', '2025-02-20', '12312312', 20, 'LBP (LAND BANK OF THE PHILS.)', 'adsasdasd', '123sdadas', 'JD ', '15982'),
-(39, '2025-02-20 09:13:24.000000', 'PHASER 4600', 'MAINTENANCE KIT', '115R00070', 'FUJI', '2025-02-20', '98765432', 10, 'GOOD SHEPHERD CATHEDRAL                                                                                             ( DONATION PRINTER)', 'APV 5576', '123asdqwe123', 'JD', '159852');
+INSERT INTO `delivery_out` (`id`, `date`, `type`, `model`, `description`, `code`, `owner`, `date_of_delivery`, `barcode`, `quantity`, `client`, `machine_model`, `machine_serial`, `tech_name`, `stock_transfer`) VALUES
+(47, '2025-02-27 10:24:16.000000', 'OUT', 'TONER SAMPLE 2', 'TONER SAMPLE 2', '9999999', 'FUJI', '2025-02-27', '9', 500, 'OTS (OFFICE FOR TRANSPORTATION SECURITY)', '9', '9', 'JDC', '9999999');
 
 -- --------------------------------------------------------
 
@@ -355,6 +340,40 @@ INSERT INTO `drum` (`ID`, `MODEL`, `DESCRIPTION`, `CODE`, `TOTAL_QUANTITY`, `OWN
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `record`
+--
+
+CREATE TABLE `record` (
+  `id` int(11) NOT NULL,
+  `date` datetime DEFAULT NULL,
+  `type` varchar(50) DEFAULT NULL,
+  `model` varchar(200) DEFAULT NULL,
+  `description` varchar(200) DEFAULT NULL,
+  `code` varchar(150) DEFAULT NULL,
+  `owner` varchar(150) DEFAULT NULL,
+  `date_of_delivery` varchar(200) DEFAULT NULL,
+  `barcode` text DEFAULT NULL,
+  `quantity` int(11) DEFAULT NULL,
+  `invoice` varchar(200) DEFAULT NULL,
+  `client` varchar(200) DEFAULT NULL,
+  `machine_model` varchar(200) DEFAULT NULL,
+  `machine_serial` varchar(200) DEFAULT NULL,
+  `tech_name` varchar(150) DEFAULT NULL,
+  `stock_transfer` varchar(200) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `record`
+--
+
+INSERT INTO `record` (`id`, `date`, `type`, `model`, `description`, `code`, `owner`, `date_of_delivery`, `barcode`, `quantity`, `invoice`, `client`, `machine_model`, `machine_serial`, `tech_name`, `stock_transfer`) VALUES
+(8, '2025-02-27 10:21:46', 'IN', 'TONER SAMPLE 2', 'TONER SAMPLE 2', '9999999', 'FUJI', '2025-02-27', NULL, 100, '', NULL, NULL, NULL, NULL, NULL),
+(9, '2025-02-27 10:22:53', 'IN', 'TONER SAMPLE 2', 'TONER SAMPLE 2', '9999999', 'FUJI', '2025-02-27', NULL, 50, '', NULL, NULL, NULL, NULL, NULL),
+(10, '2025-02-27 10:24:16', 'OUT', 'TONER SAMPLE 2', 'TONER SAMPLE 2', '9999999', 'FUJI', '2025-02-27', '9', 500, NULL, 'OTS (OFFICE FOR TRANSPORTATION SECURITY)', '9', '9', 'JDC', '9999999');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `toner`
 --
 
@@ -451,8 +470,8 @@ INSERT INTO `toner` (`ID`, `MODEL`, `DESCRIPTION`, `CODE`, `TOTAL_QUANTITY`, `OW
 ('77', 'DP-P255 dw', 'PRINT CARTRIDGE', 'CT201918', '12', 'FUJI'),
 ('78', 'DP-P255 dw', 'TWIN PACK PRINT CART.', 'CT201919', '0', 'FUJI'),
 ('79', 'PHASER 4600', 'TONER CARTRIDGE', '106R02625', '0', 'FUJI'),
-('80', 'PHASER 4510', 'TONER CARTRIDGE', '113R00711', '949', 'FUJI'),
-('81', 'PHASER 5550', 'TONER CARTRIDGE', '113R00684', '180', 'FUJI'),
+('80', 'PHASER 4510', 'TONER CARTRIDGE', '113R00711', '449', 'FUJI'),
+('81', 'PHASER 5550', 'TONER CARTRIDGE', '113R00684', '100', 'FUJI'),
 ('82', 'DP-5105 d', 'TONER CARTRIDGE', 'CT202337', '0', 'FUJI'),
 ('83', 'DP-CM415', 'TONER CARTRIDGE-BLACK  HIGH CAP', 'CT202352', '7', 'FUJI'),
 ('84', 'DP-CM415', 'TONER CARTRIDGE-CYAN HIGH CAP', 'CT202353', '7', 'FUJI'),
@@ -511,7 +530,7 @@ INSERT INTO `toner` (`ID`, `MODEL`, `DESCRIPTION`, `CODE`, `TOTAL_QUANTITY`, `OW
 ('137', 'DP - CP405', 'FUSER UNIT', 'EL500270', '4', 'FUJI'),
 ('138', 'DP - C2200', 'FUSER UNIT', 'EL300729', '0', 'FUJI'),
 ('139', 'PHASER 4600', 'MAINTENANCE KIT', '115R00070', '90', 'FUJI'),
-('140', 'PHASER 3200', 'TONER HIGH CAP', '113R00730', '550', 'FUJI'),
+('140', 'PHASER 3200', 'TONER HIGH CAP', '113R00730', '150', 'FUJI'),
 ('141', 'DP-M455', 'MAINTENANCE KIT', 'EL300846', '0', 'FUJI'),
 ('142', 'DP - CM405 / CP405', 'MAINTENANCE KIT', 'EL500267', '0', 'FUJI'),
 ('143', 'DP-C2255', 'FUSER UNIT', 'EL300708', '0', 'FUJI'),
@@ -591,7 +610,7 @@ INSERT INTO `toner` (`ID`, `MODEL`, `DESCRIPTION`, `CODE`, `TOTAL_QUANTITY`, `OW
 ('217', 'APEOS-C2450S', 'WASTE TONER', 'CWAA1068', '2', 'FUJI'),
 ('', '', '', '', '', ''),
 (NULL, 'toner sample 1', 'toner sample 1', '12345678', '100', 'FUJI'),
-(NULL, 'TONER SAMPLE 2', 'TONER SAMPLE 2', '9999999', '550', 'FUJI'),
+(NULL, 'TONER SAMPLE 2', 'TONER SAMPLE 2', '9999999', '160', 'FUJI'),
 (NULL, 'TONER SAMPLE 3', 'TONER SAMPLE 3', '88888888', '100', 'FUJI');
 
 --
@@ -617,6 +636,12 @@ ALTER TABLE `delivery_out`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `record`
+--
+ALTER TABLE `record`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- AUTO_INCREMENT for dumped tables
 --
 
@@ -630,13 +655,19 @@ ALTER TABLE `client_names`
 -- AUTO_INCREMENT for table `delivery_in`
 --
 ALTER TABLE `delivery_in`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=91;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=100;
 
 --
 -- AUTO_INCREMENT for table `delivery_out`
 --
 ALTER TABLE `delivery_out`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=40;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=48;
+
+--
+-- AUTO_INCREMENT for table `record`
+--
+ALTER TABLE `record`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
