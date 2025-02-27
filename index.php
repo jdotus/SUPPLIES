@@ -17,6 +17,8 @@
                 <option value="default">SELECT</option>
                 <option value="toner">Toner</option>
                 <option value="drum">Drum</option>
+                <option value="waste">Waste Toner</option>
+                <option value="maintenance">Maintenance Kit</option>
             </select>
             <input type="text" id="barcode" required onkeypress="return (event.charCode != 13);" autocomplete="off"> 
         </form>
@@ -45,6 +47,8 @@
             <select name="addsupply" id="addsupply" required>
                 <option value="toner">Toner</option>
                 <option value="drum">Drum</option>
+                <option value="waste">Waste Toner</option>
+                <option value="maintenance">Maintenance Kit</option>
             </select>
         </div>
         <div class="form-group ">

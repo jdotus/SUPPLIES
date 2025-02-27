@@ -22,6 +22,12 @@ if (isset($_POST["addsupply"]) && isset($_POST["addModel"]) && isset($_POST["add
         case "drum":
             $table = "drum";
             break;
+        case "waste":
+            $table = "waste";
+            break;
+        case "maintenance":
+            $table = "maintenance";
+            break;
         default:
             echo "Invalid supply type.";
             exit;
