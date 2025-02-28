@@ -33,7 +33,7 @@
                 <input id="filter" type="text">
             </div>
         </div>
-        <div class="no-record" id="no-record">NO RECORD</div>
+        <!-- <div class="no-record" id="no-record">NO RECORD</div> -->
         <div class="view-table" id="view-table"></div>
     </div>
 
@@ -49,10 +49,10 @@
                     },
                     success: function(response) {
                         if ($.trim(response) === '') {
-                            $('#no-record').show();
+                            // $('#no-record').show();
                             $('#view-table').html('');
                         } else {
-                            $('#no-record').hide();
+                            // $('#no-record').hide();
                             $('#view-table').html(response);
                             
                             setTimeout(function() {

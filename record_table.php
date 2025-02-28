@@ -72,7 +72,7 @@ if (isset($_GET['selectedSupply']) && isset($_GET['filter'])) {
             </table>
         </div>
     <?php } else {
-        echo "<p>No records found.</p>";
+        echo "<div class='no-record' id='no-record'>NO RECORD</div>";
     }
 }
 ?>
