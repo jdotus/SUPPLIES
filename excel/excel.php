@@ -57,6 +57,8 @@
                         <select name="supplies" id="supplies" required>
                             <option value="toner">Toner</option>
                             <option value="drum">Drum</option>
+                            <option value="waste">Waste Toner</option>
+                            <option value="maintenance">Maintenance Kit</option>
                         </select>
 
                         <input type="file" name="import_file" class="form-control" />
