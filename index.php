@@ -164,7 +164,7 @@ $('#staticBackdrop').on('hidden.bs.modal', function () {
         });
 
         document.getElementById("importexcel").addEventListener("click", function() {
-            window.open("/dashboard/supplies/excel/excel.php", "_blank"); 
+            window.open("/supplies/excel/excel.php", "_blank"); 
         });
 
     </script>

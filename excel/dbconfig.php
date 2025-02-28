@@ -2,7 +2,7 @@
     $host = "localhost";
     $username = "root";
     $password = "";
-    $database = "barcode";
+    $database = "office";
 
     // Create DB Connection
     $conn = mysqli_connect($host, $username, $password, $database);

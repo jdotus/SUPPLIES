@@ -39,7 +39,12 @@ if (isset($_POST['save_excel_data'])) {
                 $OWNER = trim($row[4]);
 
                 // Determine the table based on the selected supply
-                $table = ($selectedSupply === 'toner') ? 'toner' : 'drum';
+                // $table = ($selectedSupply === 'toner') ? 'toner' : 'drum';
+                $table = ($selectedSupply === 'toner') ? 'toner' : 
+                (($selectedSupply === 'drum') ? 'drum' : 
+                (($selectedSupply === 'waste') ? 'waste' : 
+                (($selectedSupply === 'maintenance') ? 'maintenance' : 'default_table')));
+
 
                 // Check if CODE already exists in the selected table
                 $checkQuery = "SELECT COUNT(*) AS count FROM $table WHERE CODE = '$CODE'";
