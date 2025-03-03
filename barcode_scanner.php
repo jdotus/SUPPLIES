@@ -505,7 +505,7 @@
             if (!quantity || isNaN(quantity) || parseInt(quantity) <= 0) {
                 errors.push("Please enter a valid quantity greater than 0.");
             }
-            if (!barcode || isNaN(barcode) || parseInt(barcode) <= 0) {
+            if (!barcode  || parseInt(barcode) <= 0) {
                 errors.push("Please enter a valid barcode number greater than 0.");
             }
             if (!techName ||techName == "") {
